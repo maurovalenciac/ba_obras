@@ -1,0 +1,24 @@
+<!doctype html> <html> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.a9187340.css"> <link rel="stylesheet" href="styles/main.d5d46344.css"> <style type="text/css">textarea{resize: none;}
+        .row-preview{background-color: #dadada;display: none;}
+        .row-selectores{display: none;}</style> </head> <body> <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]--> <!-- CONTENIDO --> <div class="container"> <h1 id="loading" class="text-center">Cargando...</h1> <div class="row row-selectores"> <div class="col-md-12"> <h1>¡Hola, Buenos Aires!</h1> <p>Esta es la página de prueba para visualizar las obras de MDUYT de GCBA</p> </div> <div class="col-md-12"> <a class="btn btn-primary btn-block" href="#home">Home</a> </div> <div class="col-md-6"> <a class="btn btn-primary btn-block" href="#obra/1">Obra 1</a> </div> <div class="col-md-6"> <a class="btn btn-primary btn-block" href="#entorno/2016">Entorno 2016</a> </div> </div> <div class="row row-preview"> <div class="col-md-12"> <h3>Ejemplo de iframe con <span class="selected"></span>:</h3> <hr> <div id="pym-container"></div> </div> </div> </div> <script src="scripts/vendor.56e88f26.js"></script> <script>var pymParent;
+        var $container,$selected,$rows,$textarea;
+        $(document).ready(function(){
+            var embed = $('#template').val();
+            $container = $('#pym-container');
+            $selected = $('.selected');
+            $rows = $('.row-preview');
+            $selectores = $('.row-selectores');
+            $loading = $('#loading');
+            $loading.hide();
+            $selectores.show();
+            $('a.btn-primary').on('click',function(){
+                $rows.show();
+                $container.empty();
+                $selected.html($(this).html());
+                var server = location.origin + location.pathname;
+                var url = server +'app.html'+$(this).attr('href');
+                pymParent = new pym.Parent('pym-container', url, {});
+            });
+        });</script> </body> </html>
