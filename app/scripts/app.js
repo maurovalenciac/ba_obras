@@ -20,7 +20,8 @@ $.urlParam = function(url,name){
 angular
   .module('obrasMduytApp', [
     'ngRoute',
-    'ngSanitize'
+    'ngSanitize',
+    'slugifier'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,13 +32,28 @@ angular
         redirectTo: '/home'
       });
   })
-  .service('DataService', function ($http, $q) {
+  .service('DataService', function ($http, $q, Slug) {
  
     var data = undefined;
 
     var cleanData = function(reg){
-      reg.cumplimiento = parseInt(reg.cumplimiento);
-      reg.numero = parseInt(reg.numero);
+      //slug
+      reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
+
+      //arrays
+      reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
+      reg.comuna = (reg.comuna)?reg.comuna.split('|'):[];
+      reg.barrio = (reg.barrio)?reg.barrio.split('|'):[];
+      reg.licitacion_oferta_empresas = (reg.licitacion_oferta_empresas)?reg.licitacion_oferta_empresas.split('|'):[];
+
+      //numbers
+      reg.id = parseInt(reg.id);
+      reg.licitacion_anio = (reg.licitacion_anio)?parseInt(reg.licitacion_anio):null;
+      reg.monto_contrato = (reg.monto_contrato)?parseFloat(reg.monto_contrato):null;
+      reg.licitacion_presupuesto_oficial = (reg.licitacion_presupuesto_oficial)?parseFloat(reg.licitacion_presupuesto_oficial):null;
+      reg.plazo_meses = (reg.plazo_meses)?parseInt(reg.plazo_meses):null;
+      reg.porcentaje_avance = (reg.porcentaje_avance)?parseFloat(reg.porcentaje_avance):null;
+
       return reg;
     };
 
@@ -46,7 +62,7 @@ angular
         console.error('Archivo de configuración inexistente, utilizando configuración default de desarrollo.');
         window.MDUYT_CONFIG = {
           BASE_URL: 'http://api.topranking.link/',
-          HOME_CSV: 'https://goo.gl/w0wnOj'
+          HOME_CSV: 'https://goo.gl/vcb6oX'
         };
 
       }
@@ -59,9 +75,8 @@ angular
       this.retrieveAll()
         .then(function(all){
           result = all.filter(function(a){
-            return a.numero==parseInt(id);
+            return a.id==parseInt(id);
           });
-          result = result.map(cleanData);
           deferred.resolve(result[0]);
         });
       result = deferred.promise;
@@ -74,22 +89,20 @@ angular
       this.retrieveAll()
         .then(function(all){
           result = all.filter(function(a){
-            return a.cumplimiento==parseInt(entorno);
+            return a.entorno_slug==entorno;
           });
-          result = result.map(cleanData);
           deferred.resolve(result);
         });
       result = deferred.promise;
       return $q.when(result);
     };
 
-    this.getAll = function(entorno) {
+    this.getAll = function() {
       var result = undefined;
       var deferred = $q.defer();
       this.retrieveAll()
         .then(function(all){
-          result = all.map(cleanData);
-          deferred.resolve(result);
+          deferred.resolve(all);
         });
       result = deferred.promise;
       return $q.when(result);
@@ -102,7 +115,7 @@ angular
         var deferred = $q.defer();
         $http.jsonp(getUrl())
         .then(function(result) {
-          data = result.data;
+          data = result.data.map(cleanData);
           deferred.resolve(data);
         }, function(error) {
           data = error;
@@ -115,26 +128,6 @@ angular
       return $q.when(data);
     };
  
-  })
-  .service('UrlService', function () {
-      if(!window.MDUYT_CONFIG){
-        console.error('Archivo de configuración inexistente, utilizando configuración default de desarrollo.');
-        window.MDUYT_CONFIG = {
-          BASE_URL: 'http://api.topranking.link/',
-          HOME_CSV: 'https://goo.gl/w0wnOj'
-        };
-
-      }
-      this.baseUrl = window.MDUYT_CONFIG.BASE_URL;
-      this.urls = {
-        'home': this.baseUrl + '?source_format=csv&source='+window.MDUYT_CONFIG.HOME_CSV
-      };
-      this.getUrlByPage = function(page) {
-          return this.urls[page] + '&callback=JSON_CALLBACK';
-      };
-      this.getUrlByCsv = function(csv) {
-          return this.baseUrl + '?source_format=csv&source='+csv+ '&callback=JSON_CALLBACK';
-      };
   })
   .run(function($rootScope,$interval) {
 

@@ -9,7 +9,7 @@ angular.module('obrasMduytApp')
     DataService.getAll()
     .then(function(data){
     	console.log(data);
-    	$scope.data = data;
+		$scope.obras = data;
     });
 
   });

@@ -1,4 +1,15 @@
 <div class="row">
+  	<div class="col-md-12">
+		<h1>Entorno: {{entorno}}</h1>
+		<p>Obras: {{obras.length}}</p>
+		<p ng-repeat="obra in obras">
+			Obra: {{$index+1}} -> {{obra}}
+		</p>
+	</div>
+</div>
+
+
+<div class="row">
   <div class="col-md-12">
     <h4>[Galería]</h4>
   </div>

@@ -8,8 +8,9 @@ angular.module('obrasMduytApp')
 
     DataService.getByEntorno($routeParams.entorno)
     .then(function(data){
+	    $scope.entorno = $routeParams.entorno;
     	console.log(data);
-    	$scope.data = data;
+    	$scope.obras = data;
     });
 
   });
