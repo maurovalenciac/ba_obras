@@ -404,6 +404,12 @@ module.exports = function (grunt) {
           cwd: 'bower_components/pym.js/dist',
           src: 'pym.min.js',
           dest: '<%= yeoman.dist %>/scripts'
+        },
+        {
+          expand: true,
+          cwd: '<%= yeoman.app %>/geo',
+          src: '*.geojson',
+          dest: '<%= yeoman.dist %>/geo'
         }]
       },
       styles: {
