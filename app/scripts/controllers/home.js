@@ -7,6 +7,9 @@ angular.module('obrasMduytApp')
     $scope.pymChild.sendHeight();
     $scope.timeoutId;
     var chart = {};
+    var bubbles = {
+
+    };
     $scope.isSmallDevice;
     $scope.selectedGroup = 'comunas';
 
@@ -47,6 +50,14 @@ angular.module('obrasMduytApp')
             chart.svg = d3.select('#home-chart-container').append('svg');
             chart.mainGroup = chart.svg.append('g').classed('main-group',true);
             chart.mainGroup.append('rect').attr('fill','white');
+            
+            chart.svg.append('g').attr('id','comunas-group');
+            chart.svg.append('g').attr('id','map-group');
+            chart.svg.append('g').attr('id','etapas-group');
+
+            bubbles.group = chart.svg
+				.append('g')
+				.attr('id','bubbles-group');
         }
         
         //Update
@@ -59,8 +70,10 @@ angular.module('obrasMduytApp')
             .attr('width',chart.w)
 			.attr('height',chart.h);
 
+			renderPelotas();
+
 		//default, comunas
-        $scope.showGroup($scope.selectedGroup);
+        //$scope.showGroup($scope.selectedGroup);
 	}
 
 	function renderMapGroup(){
@@ -76,8 +89,7 @@ angular.module('obrasMduytApp')
 		if(!chart.mapGroup) {
 
 			chart.mapGroup = chart.svg
-				.append('g')
-				.attr('id','map-group');
+				.select('#map-group');
 
 		    d3.json("geo/comunas.simple.geojson", function(data) {
 		    	
@@ -121,8 +133,7 @@ angular.module('obrasMduytApp')
 		if(!chart.comunasGroup) {
 
 			chart.comunasGroup = chart.svg
-				.append('g')
-				.attr('id','comunas-group');
+				.select('#comunas-group');
 
 			chart.comunasGroup.selectAll('g.comunas-item')
 		    	.data(comunas)
@@ -195,8 +206,7 @@ angular.module('obrasMduytApp')
 		if(!chart.etapasGroup) {
 
 			chart.etapasGroup = chart.svg
-				.append('g')
-				.attr('id','etapas-group');
+				.select('#etapas-group');
 
 			chart.etapasGroup.selectAll('g.etapas-item')
 		    	.data(etapas)
@@ -304,5 +314,124 @@ angular.module('obrasMduytApp')
           });
 
       }
+
+      	function renderPelotas(){
+
+
+      		bubbles.clusters = new Array(15);
+
+            bubbles.nodes = $scope.obras.map(function(d) {
+              var i = d.sector,
+                  r = 10,
+                  d = {cluster: i, radius: r, data:d};
+                  
+                  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
+                    bubbles.clusters[i] = d;
+                  }
+
+              return d;
+            });
+
+            bubbles.colors = d3.scale.category20();
+
+      		bubbles.force = d3.layout.force()
+	            .nodes(bubbles.nodes)
+	            .size([chart.w, chart.h])
+	            .gravity(0)
+	            .charge(1)
+	            .on('tick', tick)
+	            .start();
+
+            bubbles.circles = bubbles.group.selectAll('circle.obra')
+            	.data(bubbles.nodes);
+
+            bubbles.circles
+	            .enter()
+	            .append('circle')
+	            .classed('obra',true);
+
+            bubbles.circles
+	            .attr('id',function(d){return 'e'+d.data.id})
+	            .attr('r', function(d) {
+	              return d.radius; 
+	            })
+	            .style('fill', function(d) { 
+	              return bubbles.colors(d.data.id); 
+	            })
+	            .call(bubbles.force.drag);
+
+        };
+
+        function tick(e) {
+          bubbles.circles
+              .each(cluster(10 * e.alpha * e.alpha))
+              .each(collide(.5))
+              .attr('cx', function(d) { return d.x; })
+              .attr('cy', function(d) { return d.y; });
+        };
+
+        // Move d to be adjacent to the cluster node.
+        function cluster(alpha) {
+          return function(d) {
+
+            var cluster = bubbles.clusters[d.cluster];
+            var k = 1;
+
+            if(cluster){
+                // For cluster nodes, apply custom gravity.
+                if (cluster === d) {
+                /*  if(clusterPoints){
+                    cluster = clusterPoints[d.cluster];
+                    cluster = {x: cluster.x, y: cluster.y, radius: -cluster.radius};
+                    k = .5 * Math.sqrt(d.radius);
+                  } else {*/
+                    cluster = {x: chart.w / 2, y: chart.h / 3, radius: -d.radius};
+                    k = .1 * Math.sqrt(d.radius);
+                  //}
+                }
+
+                var x = d.x - cluster.x,
+                    y = d.y - cluster.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = d.radius + cluster.radius;
+                if (l != r) {
+                  l = (l - r) / l * alpha * k;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  cluster.x += x;
+                  cluster.y += y;
+                }
+            }
+
+          };
+        };
+
+        // Resolves collisions between d and all other circles.
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(bubbles.nodes);
+          return function(d) {
+            var r = d.radius + 10,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = d.radius + quad.point.radius + 5;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+          };
+        };
 
   });
