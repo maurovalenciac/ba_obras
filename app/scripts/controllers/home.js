@@ -73,7 +73,7 @@ angular.module('obrasMduytApp')
 			renderPelotas();
 
 		//default, comunas
-        //$scope.showGroup($scope.selectedGroup);
+        $scope.showGroup($scope.selectedGroup);
 	}
 
 	function renderMapGroup(){
