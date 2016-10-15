@@ -5,109 +5,304 @@ angular.module('obrasMduytApp')
 
   	$scope.pymChild = new pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
+    $scope.timeoutId;
+    var chart = {};
+    $scope.isSmallDevice;
+    $scope.selectedGroup = 'comunas';
 
     DataService.getAll()
     .then(function(data){
     	console.log(data);
 		$scope.obras = data;
+		renderChart();
+		$(window).resize(function() {
+            clearTimeout($scope.timeoutId);
+		    $scope.timeoutId = setTimeout(renderChart, 1000);
+		});
     });
 
-	var projection = d3.geo.mercator()
-	    .center([ -58.381592,-34.603722])
-	    .scale(70*1000);
+    function renderChart(){
 
-    var svg = d3.select("#home-mapa-container")
-    	.append("svg")
-	    .attr("width", 600)
-	    .attr("height", 400);
+		//chart.w = $('#home-chart-container').width();
+		chart.w = d3.select('#home-chart-container').node().getBoundingClientRect().width;
 
-	function circle(coordinates) {
-	  var circle = [],
-	      length = 0,
-	      lengths = [length],
-	      polygon = d3.geom.polygon(coordinates),
-	      p0 = coordinates[0],
-	      p1,
-	      x,
-	      y,
-	      i = 0,
-	      n = coordinates.length;
+		chart.w = (!chart.svg ||  (chart.w<500) )?chart.w-15:chart.w;
+		//console.log('ancho! ',chart.w);
+		$scope.isSmallDevice = (chart.w<500)?true:false;
+		
+		if($scope.isSmallDevice){
 
-	  // Compute the distances of each coordinate.
-	  while (++i < n) {
-	    p1 = coordinates[i];
-	    x = p1[0] - p0[0];
-	    y = p1[1] - p0[1];
-	    lengths.push(length += Math.sqrt(x * x + y * y));
-	    p0 = p1;
-	  }
+			chart.h = chart.w
+			chart.margin = chart.w/100;
 
-	  var area = polygon.area(),
-	      radius = Math.sqrt(Math.abs(area) / Math.PI),
-	      centroid = polygon.centroid(-1 / (6 * area)),
-	      angleOffset = -Math.PI / 2, // TODO compute automatically
-	      angle,
-	      i = -1,
-	      k = 2 * Math.PI / lengths[lengths.length - 1];
+		} else {
 
-	  // Compute points along the circle’s circumference at equivalent distances.
-	  while (++i < n) {
-	    angle = angleOffset + lengths[i] * k;
-	    circle.push([
-	      centroid[0] + radius * Math.cos(angle),
-	      centroid[1] + radius * Math.sin(angle)
-	    ]);
-	  }
+			chart.h = (3*chart.w)/4;
+			chart.margin = chart.w/200;
 
-	  return circle;
+		}
+
+		if(!chart.svg) {
+            //Create
+            chart.svg = d3.select('#home-chart-container').append('svg');
+            chart.mainGroup = chart.svg.append('g').classed('main-group',true);
+            chart.mainGroup.append('rect').attr('fill','white');
+        }
+        
+        //Update
+        chart.svg
+            .attr('width',chart.w)
+            .attr('height',chart.h);
+
+        chart.mainGroup
+            .select('rect')
+            .attr('width',chart.w)
+			.attr('height',chart.h);
+
+		//default, comunas
+        $scope.showGroup($scope.selectedGroup);
 	}
 
-	var comunasGeometries = [];
-	var paths;
+	function renderMapGroup(){
 
-    d3.json("geo/comunas.simple.geojson", function(data) {
-    	_.each(data.features,function(f){
+		chart.mapProjection = d3.geo.mercator()
+		    .center([ -58.43992,-34.618])
+		    .translate([chart.w / 2, chart.h / 2])		    
+		    .scale(190*chart.w);
 
-    		var geoProjection = f.geometry.coordinates[0].map(projection);
-    		var id = 'c'+f.properties.comuna;
+		chart.mapPath = d3.geo.path()
+		    .projection(chart.mapProjection);
 
-    		comunasGeometries.push({
-    			id: id,
-    			data: f.properties,
-    			coordinatesGeo: "M" + geoProjection.join("L") + "Z",
-    			coordinatesSquare: "M" + circle(geoProjection).join("L") + "Z"
-    		});
+		if(!chart.mapGroup) {
 
-    	});
+			chart.mapGroup = chart.svg
+				.append('g')
+				.attr('id','map-group');
 
-	    paths = svg.selectAll('path.shape')
-	    	.data(comunasGeometries)
-	    	.enter()
-			.append("path")
-			.classed('shape',true)
-			.attr('id',function(d){
-				return d.id;
+		    d3.json("geo/comunas.simple.geojson", function(data) {
+		    	
+		    	chart.mapFeatures = data.features;
+
+				chart.mapGroup.selectAll('path.map-item')
+			    	.data(chart.mapFeatures)
+			    	.enter()
+					.append("path")
+					.classed('child',true)
+					.classed('map-item',true)
+					.attr('id',function(d){
+						return d.id;
+					})
+					.classed('shape',true);
+
+		    	updateMap();
 			});
 
-     	loop();
-
-		function loop() {
-			paths
-				.attr("d", function(d){
-					return d.coordinatesGeo;
-				})
-				.transition()
-				.duration(5000)
-				.attr("d", function(d){
-					return d.coordinatesSquare;
-				})
-				.transition()
-				.delay(5000)
-				.attr("d", function(d){
-					return d.coordinatesGeo;
-				})
-				.each("end", loop);
+		} else {
+		    	updateMap();
 		}
-	});
+
+		function updateMap(){
+			if($scope.isSmallDevice){
+				chart.svg.attr('height',chart.w);
+			}
+
+			chart.mapGroup.selectAll('path.map-item')
+				.transition()
+				.attr("d", chart.mapPath)
+				.style('opacity',1);
+		}
+
+	}
+
+	function renderComunasGroup(){
+
+		var comunas = d3.range(1,16);
+		
+		if(!chart.comunasGroup) {
+
+			chart.comunasGroup = chart.svg
+				.append('g')
+				.attr('id','comunas-group');
+
+			chart.comunasGroup.selectAll('g.comunas-item')
+		    	.data(comunas)
+		    	.enter()
+				.append("g")
+				.classed('child',true)
+				.classed('comunas-item',true)
+				.attr('id',function(d){return 'comunas-item-'+d;})
+				.each(function(d) {
+
+		            var group = d3.select(this);
+
+		            group
+		                .append('rect')
+		                .classed('comunas-item-frame',true)
+		                .attr('fill','#ccc');
+
+		            group
+		                .append('text')
+		                .classed('comunas-item-text',true)
+		                .attr('fill','#000')
+		                .text(function(d){
+							return 'Comuna '+d;
+						});
+
+		        });
+
+
+		}
+
+		//update
+
+		if($scope.isSmallDevice){
+			var itemH = chart.w;
+			var itemW = chart.w;
+			chart.svg.attr('height',comunas.length*chart.w);
+			chart.mainGroup
+	            .select('rect')
+				.attr('height',comunas.length*chart.w);
+		} else {
+			var itemH = chart.h/3;
+			var itemW = chart.w/5;
+		}
+
+		chart.comunasGroup
+			.selectAll('rect.comunas-item-frame')
+			.transition()
+		    .attr('x',chart.margin)
+            .attr('y',chart.margin)
+			.attr('height',itemH-chart.margin*2)
+		    .attr('width',itemW-chart.margin*2);
+
+		chart.comunasGroup
+			.selectAll('text.comunas-item-text')
+			.transition()
+			.attr('x',15)
+			.attr('y',25);
+
+		sortItems(chart.comunasGroup
+			.selectAll('g.comunas-item')
+			.transition()
+			.style('opacity',1),itemW,itemH);
+
+	}
+
+	function renderEtapasGroup(){
+
+		var etapas = d3.range(1,5);
+		
+		if(!chart.etapasGroup) {
+
+			chart.etapasGroup = chart.svg
+				.append('g')
+				.attr('id','etapas-group');
+
+			chart.etapasGroup.selectAll('g.etapas-item')
+		    	.data(etapas)
+		    	.enter()
+				.append("g")
+				.classed('child',true)
+				.classed('etapas-item',true)
+				.attr('id',function(d){return 'etapas-item-'+d;})
+				.each(function(d) {
+
+		            var group = d3.select(this);
+
+		            group
+		                .append('rect')
+		                .classed('etapas-item-frame',true)
+		                .attr('fill','#ccc');
+
+		            group
+		                .append('text')
+		                .classed('etapas-item-text',true)
+		                .attr('fill','#000')
+		                .text(function(d){
+							return 'Etapa '+d;
+						});
+
+		        });
+
+
+		}
+
+		//update
+
+		if($scope.isSmallDevice){
+			var itemH = chart.w;
+			var itemW = chart.w;
+			chart.svg.attr('height',etapas.length*chart.w);
+			chart.mainGroup
+	            .select('rect')
+				.attr('height',etapas.length*chart.w);
+		} else {
+			var itemH = chart.h/2;
+			var itemW = chart.w/2;
+		}
+
+		chart.etapasGroup
+			.selectAll('rect.etapas-item-frame')
+			.transition()
+		    .attr('x',chart.margin)
+            .attr('y',chart.margin)
+			.attr('height',itemH-chart.margin*2)
+		    .attr('width',itemW-chart.margin*2);
+
+		chart.etapasGroup
+			.selectAll('text.etapas-item-text')
+			.transition()
+			.attr('x',15)
+			.attr('y',25);
+
+		sortItems(chart.etapasGroup
+			.selectAll('g.etapas-item')
+			.transition()
+			.style('opacity',1),itemW,itemH);
+
+
+	}
+
+	var renderFunctions = {
+		'comunas':renderComunasGroup,
+		'etapas':renderEtapasGroup,
+		'map':renderMapGroup
+	}
+
+	$scope.showGroup = function(group){
+
+		if($scope.selectedGroup != group){
+			chart.svg.selectAll('.child').style('opacity',0);
+			$scope.selectedGroup = group;
+		}
+
+		renderFunctions[group]();
+
+	}
+
+	function sortItems($items,itemW,itemH){
+
+        var xLimit = Math.floor(chart.w/itemW),
+            xCount = 0,
+            yCount = 0;
+
+        $items
+          .transition()
+          .duration(1000)
+          .attr("transform", function(d,i) {
+          	
+            var x = xCount*itemW;
+            var y = yCount*itemH;
+            if(xCount<xLimit-1){
+              xCount++;
+            } else if($items[0].length!==i+1) {
+              xCount = 0;
+              yCount++;
+            }
+
+            return "translate(" + x +"," + y + ")";
+          });
+
+      }
 
   });
