@@ -11,3 +11,8 @@ html{
 #home-chart-container{
 	width: 100%;
 }
+
+slick.slider-nav img {
+    max-width: 50%;
+    text-align: center;
+}

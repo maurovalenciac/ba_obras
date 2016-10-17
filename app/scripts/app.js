@@ -21,7 +21,8 @@ angular
   .module('obrasMduytApp', [
     'ngRoute',
     'ngSanitize',
-    'slugifier'
+    'slugifier',
+    'slick'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -33,7 +34,7 @@ angular
       });
   })
   .service('DataService', function ($http, $q, Slug) {
- 
+
     var data = undefined;
 
     var cleanData = function(reg){
@@ -127,7 +128,7 @@ angular
 
       return $q.when(data);
     };
- 
+
   })
   .run(function($rootScope,$interval) {
 

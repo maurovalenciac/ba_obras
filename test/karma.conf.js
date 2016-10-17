@@ -29,6 +29,8 @@ module.exports = function(config) {
       'bower_components/d3/d3.js',
       'bower_components/pym.js/dist/pym.v1.js',
       'bower_components/angular-slugify/angular-slugify.js',
+      'bower_components/slick-carousel/slick/slick.min.js',
+      'bower_components/angular-slick/dist/slick.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
