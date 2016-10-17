@@ -3,7 +3,7 @@ html{
 }
 
 #home-chart-container path {
-  fill: #ccc;
+  fill: #dedede;
   stroke: #FFF;
   stroke-width: 3px;
 }
