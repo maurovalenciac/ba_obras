@@ -1,24 +1,68 @@
 <div class="row">
   	<div class="col-md-12">
-		<h1>Id de Obra: {{obraId}}</h1>
-		<p>Obra: {{obra}}</p>
+          <h1>Obra {{obra.id}}: {{obra.nombre}}</h1>
+          <div class="row">
+           <div class="col-md-8">
+              <slick class=".slider-for" asNavFor=".slider-nav"infinite="true" slides-to-show="1" slides-to-scroll="1">
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+            </slick>
+               <slick class="slider-nav" asNavFor=".slider-nav" infinite="true"  dots="true" centerMode="true"focusOnSelect="true" slides-to-show="3" slides-to-scroll="1">
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
+            </slick>
+             <p> {{obra.descripcion}} </p>
+          </div>
+          <div class="col-md-4 ficha-tecnica">
+              <h4> Ficha técnica de Licitación </h4>
+              <p> Tipo de Obra:
+                <strong ng-repeat="tipo in obra.tipo">{{tipo}}</strong>
+              </p>
+              <p> Area Responsable: <strong> {{obra.area_responsable}}</strong></p>
+              <p> Empresas
+                <ul>
+                  <li ng-repeat="empresa in obra.licitacion_oferta_empresas">
+                    <strong>{{empresa}}
+                      <i class="detalle-frame-icon glyphicon glyphicon-info-sign" data-container="body" title="{{nota}}" data-toggle="popover" data-placement="bottom" data-content="Fuente: {{fuente}}"></i>
+
+                    </strong>
+                  </li>
+                </ul>
+              </p>
+              <p> Etapa: <strong>{{obra.etapa}}  </strong> </p>
+              <p> Estado </p>
+              <div class="progress">
+                <div class="progress-bar bg-color-{{obra.slug}}"
+                  role="progressbar"
+                    ng-style="{ 'width': obra.porcentaje_avance + '%' }">
+                  <div class="progressbar-w" ng-show="!obra.porcentaje_avance"><p></p> </div>
+                  <span class="progressbar-w" ng-hide="obra.porcentaje_avance<22 || !obra.porcentaje_avance">{{obra.porcentaje_avance}}% </span>
+                </div>
+                <div class="progress-w" ng-show="obra.porcentaje_avance<22" ng-style="{ 'width': (100 - obra.porcentaje_avance) + '%' }">{{obra.porcentaje_avance}}% </div>
+              </div>
+              <p> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
+              <p> Inicio : {{obra.fecha_inicio}}  // Fin : {{obra.fecha_fin_inicial}} </p>
+              <p> Beneficiarios <strong> ?????</strong> </p>
+              <p> ¿Alcance? <strong> ???? </strong> </p>
+              <p> Monto Contrato: <strong> {{obra.monto_contrato | currency}} </strong> </p>
+              <p> Monto Actualizado: <strong>  {{obra.licitacion_presupuesto_oficial | currency}} </strong> </p>
+              <p> Monto Ejecutado: <strong>  ????? </strong> </p>
+              <p> <a href=""><i class="detalle-frame-icon glyphicon glyphicon glyphicon-download-alt">
+                        </i> Bajar en Informe </a> </p>
+          </div>
+      </div>
 	</div>
 </div>
-
 <div class="row">
   <div class="col-md-12">
-    <h4>[Galería]</h4>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <h4>[Datos]</h4>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <h4>[Mapa]</h4>
+    <h4> {{obra.direccion}} </h4>
   </div>
 </div>
