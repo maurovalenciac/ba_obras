@@ -10,6 +10,24 @@ angular.module('obrasMduytApp')
     var bubbles = {};
     $scope.selectedGroup = 'comunas';
 
+    var renderFunctions = {
+		'comunas':renderComunasGroup,
+		'etapas':renderEtapasGroup,
+		'map':renderMapGroup
+	};
+
+	var prepareNodesFunctions = {
+		'comunas':prepareNodesComunasGroup,
+		'etapas':prepareNodesEtapasGroup,
+		'map':prepareNodesMapGroup
+	};
+
+	var initialized = {
+		'comunas':false,
+		'etapas':false,
+		'map':false
+	};
+
     DataService.getAll()
     .then(function(data){
     	console.log(data);
@@ -17,7 +35,14 @@ angular.module('obrasMduytApp')
 		renderChart();
 		window.$(window).resize(function() {
             clearTimeout($scope.timeoutId);
-		    $scope.timeoutId = setTimeout(renderChart, 1000);
+		    $scope.timeoutId = setTimeout(function(){
+		    	renderChart();
+		    	initialized = {
+					'comunas':false,
+					'etapas':false,
+					'map':false
+				}
+		    }, 1000);
 		});
     });
 
@@ -87,7 +112,10 @@ angular.module('obrasMduytApp')
 			}
 
 			chart.mapGroup.selectAll('path.map-item')
+				.style('stroke-width',0)
 				.transition()
+				.duration(1000)
+				.style('stroke-width',3)
 				.attr('d', chart.mapPath)
 				.style('opacity',1);
 		}
@@ -125,6 +153,19 @@ angular.module('obrasMduytApp')
 
 		var comunas = d3.range(1,16);
 		
+		var itemH,itemW;
+		if($scope.isSmallDevice){
+			itemH = chart.w;
+			itemW = chart.w;
+			chart.svg.attr('height',comunas.length*chart.w);
+			chart.mainGroup
+	            .select('rect')
+				.attr('height',comunas.length*chart.w);
+		} else {
+			itemH = chart.h/3;
+			itemW = chart.w/5;
+		}
+		
 		if(!chart.comunasGroup) {
 
 			chart.comunasGroup = chart.svg
@@ -136,6 +177,10 @@ angular.module('obrasMduytApp')
 				.append('g')
 				.classed('child',true)
 				.classed('comunas-item',true)
+				.style('opacity',0)
+				.attr('transform', function(d,i) {
+					return 'translate(' + (chart.w/2-itemW/2) +',' + (chart.h/2-itemH/2) + ')';
+				})
 				.attr('id',function(d){return 'comunas-item-'+d;})
 				.each(function() {
 
@@ -160,22 +205,10 @@ angular.module('obrasMduytApp')
 		}
 
 		//update
-		var itemH,itemW;
-		if($scope.isSmallDevice){
-			itemH = chart.w;
-			itemW = chart.w;
-			chart.svg.attr('height',comunas.length*chart.w);
-			chart.mainGroup
-	            .select('rect')
-				.attr('height',comunas.length*chart.w);
-		} else {
-			itemH = chart.h/3;
-			itemW = chart.w/5;
-		}
-
 		chart.comunasGroup
 			.selectAll('rect.comunas-item-frame')
 			.transition()
+			.duration(700)
 		    .attr('x',chart.margin)
             .attr('y',chart.margin)
 			.attr('height',itemH-chart.margin*2)
@@ -184,12 +217,14 @@ angular.module('obrasMduytApp')
 		chart.comunasGroup
 			.selectAll('text.comunas-item-text')
 			.transition()
+			.duration(700)
 			.attr('x',15)
 			.attr('y',25);
 
 		sortItems(chart.comunasGroup
 			.selectAll('g.comunas-item')
 			.transition()
+			.duration(1000)
 			.style('opacity',1),itemW,itemH);
 
 	}
@@ -198,6 +233,19 @@ angular.module('obrasMduytApp')
 
 		var etapas = d3.range(1,5);
 		
+		var itemH,itemW;
+		if($scope.isSmallDevice){
+			itemH = chart.w;
+			itemW = chart.w;
+			chart.svg.attr('height',etapas.length*chart.w);
+			chart.mainGroup
+	            .select('rect')
+				.attr('height',etapas.length*chart.w);
+		} else {
+			itemH = chart.h/2;
+			itemW = chart.w/2;
+		}
+
 		if(!chart.etapasGroup) {
 
 			chart.etapasGroup = chart.svg
@@ -209,6 +257,10 @@ angular.module('obrasMduytApp')
 				.append('g')
 				.classed('child',true)
 				.classed('etapas-item',true)
+				.style('opacity',0)
+				.attr('transform', function(d,i) {
+					return 'translate(' + (chart.w/2-itemW/2) +',' + (chart.h/2-itemH/2) + ')';
+				})
 				.attr('id',function(d){return 'etapas-item-'+d;})
 				.each(function() {
 
@@ -233,22 +285,10 @@ angular.module('obrasMduytApp')
 		}
 
 		//update
-		var itemH,itemW;
-		if($scope.isSmallDevice){
-			itemH = chart.w;
-			itemW = chart.w;
-			chart.svg.attr('height',etapas.length*chart.w);
-			chart.mainGroup
-	            .select('rect')
-				.attr('height',etapas.length*chart.w);
-		} else {
-			itemH = chart.h/2;
-			itemW = chart.w/2;
-		}
-
 		chart.etapasGroup
 			.selectAll('rect.etapas-item-frame')
 			.transition()
+			.duration(700)
 		    .attr('x',chart.margin)
             .attr('y',chart.margin)
 			.attr('height',itemH-chart.margin*2)
@@ -257,12 +297,14 @@ angular.module('obrasMduytApp')
 		chart.etapasGroup
 			.selectAll('text.etapas-item-text')
 			.transition()
+			.duration(700)
 			.attr('x',15)
 			.attr('y',25);
 
 		sortItems(chart.etapasGroup
 			.selectAll('g.etapas-item')
 			.transition()
+			.duration(1000)
 			.style('opacity',1),itemW,itemH);
 
 
@@ -276,7 +318,7 @@ angular.module('obrasMduytApp')
 
         $items
           .transition()
-          .duration(1000)
+          .duration(700)
           .attr('transform', function(d,i) {
           	
             var x = xCount*itemW;
@@ -368,7 +410,7 @@ angular.module('obrasMduytApp')
 
         bubbles.nodes = $scope.obras
         		.filter(function(d){
-        			return (d.id);
+        			return (d.lat && d.lng);
         		})
         		.map(function(d) {
 		          var i = 'i'+d.id,
@@ -380,7 +422,8 @@ angular.module('obrasMduytApp')
 		              var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
 		              var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
 
-		              var point = chart.mapProjection([randLng,randLat]);
+		              var point = chart.mapProjection([parseFloat(d.lng),parseFloat(d.lat)]);
+		              //var point = chart.mapProjection([randLng,randLat]);
 
 		              bubbles.clusterPoints[i] = {
 		        		x: point[0],
@@ -393,34 +436,17 @@ angular.module('obrasMduytApp')
 
     }
 
-    var renderFunctions = {
-		'comunas':renderComunasGroup,
-		'etapas':renderEtapasGroup,
-		'map':renderMapGroup
-	};
-
-	var prepareNodesFunctions = {
-		'comunas':prepareNodesComunasGroup,
-		'etapas':prepareNodesEtapasGroup,
-		'map':prepareNodesMapGroup
-	};
-
-	var initialized = {
-		'comunas':false,
-		'etapas':false,
-		'map':false
-	};
-
 	$scope.showGroup = function(group){
 
 		if($scope.selectedGroup !== group){
 			chart.svg.selectAll('.child').style('opacity',0);
+			chart.svg.selectAll('circle.obra').transition().style('opacity',0.5);
 			$scope.selectedGroup = group;
 		}
 
 		renderFunctions[group]();
 
-		var time = (initialized[group])?100:1100;
+		var time = (initialized[group])?100:2000;
 		initialized[group] = true;
 
 		setTimeout(function(){
@@ -453,12 +479,13 @@ angular.module('obrasMduytApp')
         bubbles.circles
             .attr('id',function(d){return 'e'+d.data.id;})
             .style('fill', function(d) { 
-              return bubbles.colors(d.data.id); 
+              return bubbles.colors(d.data.tipo[0]); 
             })
             .call(bubbles.force.drag);
 
          bubbles.circles
             .transition()
+            .style('opacity',1)
             .attr('r', function(d) {
               return d.radius; 
             });
