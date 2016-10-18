@@ -6,7 +6,6 @@ angular.module('obrasMduytApp')
   	var d3 = window.d3;
 
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
-    $scope.pymChild.sendHeight();
     var chart = {};
     var bubbles = {};
     $scope.selectedGroup = 'comunas';
