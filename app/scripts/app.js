@@ -22,7 +22,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'slugifier',
-    'slick'
+    'slick',
+    'leaflet-directive'
   ])
   .config(function ($routeProvider) {
     $routeProvider

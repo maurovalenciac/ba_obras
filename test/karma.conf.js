@@ -31,6 +31,8 @@ module.exports = function(config) {
       'bower_components/angular-slugify/angular-slugify.js',
       'bower_components/slick-carousel/slick/slick.min.js',
       'bower_components/angular-slick/dist/slick.js',
+      'bower_components/leaflet/dist/leaflet-src.js',
+      'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

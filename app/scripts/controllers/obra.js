@@ -12,5 +12,12 @@ angular.module('obrasMduytApp')
     	console.log(data);
     	$scope.obra = data;
     });
+    angular.extend($scope, {
+      center: {
+          lat: 51.505,
+          lng: -0.09,
+          zoom: 8
+          }
+    });
 
   });
