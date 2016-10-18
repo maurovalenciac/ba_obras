@@ -24,7 +24,7 @@ div.obra .etapa{
     height: 35px;
     margin-bottom: 15px;
 }
-.btn-primary,.progress-bar{
+.progress-bar{
   background-color: #f1662f;
   background-image: linear-gradient(to bottom, #f1662f 0%, #f1662f 100%);
   border-color: #f1662f;

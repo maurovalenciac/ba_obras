@@ -7,15 +7,6 @@ angular.module('obrasMduytApp')
     $scope.pymChild.sendHeight();
     $scope.obraId = $routeParams.id;
 
-    DataService.getById($routeParams.id)
-    .then(function(data){
-    	console.log(data);
-    	$scope.obra = data;
-
-
-    });
-
-
 
     var tilesUSIG = {
                  url: '//tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
@@ -36,9 +27,31 @@ angular.module('obrasMduytApp')
           london: {
               lat: -34.6045645,
               lng:  -58.3828143,
-              zoom: 17
+              zoom: 14
           },
+          markers: {},
           tiles: tilesUSIG,
       });
+
+
+      DataService.getById($routeParams.id)
+    .then(function(data){
+      console.log(data);
+      $scope.obra = data;
+      angular.extend($scope, {
+                    markers: {
+                        m1: {
+                            lat: parseFloat(data.lat),
+                            lng:   parseFloat(data.lng),
+                            focus:true,
+                            message: data.nombre,
+                        }
+                    }
+                });
+
+
+    });
+
+
 
   });
