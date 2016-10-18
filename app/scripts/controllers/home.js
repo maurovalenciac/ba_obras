@@ -24,6 +24,30 @@ angular.module('obrasMduytApp')
 		});
     });
 
+    var tilesUSIG = {
+                 url: '//tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
+                format: 'tms',
+                  builder: 'tms',
+                  baseLayer: true,
+                  options: {
+                      maxZoom: 18,
+                      minZoom: 9,
+                      attribution:'USIG (<a href="http://www.buenosaires.gob.ar" target="_blank">GCBA</a>), © <a href="http://www.openstreetmap.org/copyright/en" target="_blank">OpenStreetMap</a> (ODbL)',
+                      tms: true
+                  },
+              };
+
+
+      $scope.titles = tilesUSIG;
+      angular.extend($scope, {
+          london: {
+              lat: -34.6045645,
+              lng:  -58.3828143,
+              zoom: 17
+          },
+          tiles: tilesUSIG,
+      });
+
     function renderChart(){
 
 		//chart.w = $('#home-chart-container').width();
@@ -32,7 +56,7 @@ angular.module('obrasMduytApp')
 		chart.w = (!chart.svg ||  (chart.w<500) )?chart.w-15:chart.w;
 		//console.log('ancho! ',chart.w);
 		$scope.isSmallDevice = (chart.w<500)?true:false;
-		
+
 		if($scope.isSmallDevice){
 
 			chart.h = chart.w
@@ -50,7 +74,7 @@ angular.module('obrasMduytApp')
             chart.svg = d3.select('#home-chart-container').append('svg');
             chart.mainGroup = chart.svg.append('g').classed('main-group',true);
             chart.mainGroup.append('rect').attr('fill','white');
-            
+
             chart.svg.append('g').attr('id','comunas-group');
             chart.svg.append('g').attr('id','map-group');
             chart.svg.append('g').attr('id','etapas-group');
@@ -59,7 +83,7 @@ angular.module('obrasMduytApp')
 				.append('g')
 				.attr('id','bubbles-group');
         }
-        
+
         //Update
         chart.svg
             .attr('width',chart.w)
@@ -80,7 +104,7 @@ angular.module('obrasMduytApp')
 
 		chart.mapProjection = d3.geo.mercator()
 		    .center([ -58.43992,-34.618])
-		    .translate([chart.w / 2, chart.h / 2])		    
+		    .translate([chart.w / 2, chart.h / 2])
 		    .scale(190*chart.w);
 
 		chart.mapPath = d3.geo.path()
@@ -92,7 +116,7 @@ angular.module('obrasMduytApp')
 				.select('#map-group');
 
 		    d3.json("geo/comunas.simple.geojson", function(data) {
-		    	
+
 		    	chart.mapFeatures = data.features;
 
 				chart.mapGroup.selectAll('path.map-item')
@@ -129,7 +153,7 @@ angular.module('obrasMduytApp')
 	function renderComunasGroup(){
 
 		var comunas = d3.range(1,16);
-		
+
 		if(!chart.comunasGroup) {
 
 			chart.comunasGroup = chart.svg
@@ -202,7 +226,7 @@ angular.module('obrasMduytApp')
 	function renderEtapasGroup(){
 
 		var etapas = d3.range(1,5);
-		
+
 		if(!chart.etapasGroup) {
 
 			chart.etapasGroup = chart.svg
@@ -300,7 +324,7 @@ angular.module('obrasMduytApp')
           .transition()
           .duration(1000)
           .attr("transform", function(d,i) {
-          	
+
             var x = xCount*itemW;
             var y = yCount*itemH;
             if(xCount<xLimit-1){
@@ -324,7 +348,7 @@ angular.module('obrasMduytApp')
               var i = d.sector,
                   r = 10,
                   d = {cluster: i, radius: r, data:d};
-                  
+
                   if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
                     bubbles.clusters[i] = d;
                   }
@@ -353,10 +377,10 @@ angular.module('obrasMduytApp')
             bubbles.circles
 	            .attr('id',function(d){return 'e'+d.data.id})
 	            .attr('r', function(d) {
-	              return d.radius; 
+	              return d.radius;
 	            })
-	            .style('fill', function(d) { 
-	              return bubbles.colors(d.data.id); 
+	            .style('fill', function(d) {
+	              return bubbles.colors(d.data.id);
 	            })
 	            .call(bubbles.force.drag);
 
