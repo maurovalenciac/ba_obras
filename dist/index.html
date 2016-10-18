@@ -7,7 +7,7 @@
           'slugifier'
         ])
         .service('DataService', function ($http, $q, Slug) {
-       
+
           var data = undefined;
 
           var cleanData = function(reg){
@@ -51,7 +51,7 @@
 
             return $q.when(data);
           };
-       
+
         })
         .run(function($rootScope,$interval) {
 
