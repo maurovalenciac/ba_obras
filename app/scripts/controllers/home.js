@@ -45,6 +45,7 @@ angular.module('obrasMduytApp')
               lng:  -58.3828143,
               zoom: 17
           },
+          markers: {},
           tiles: tilesUSIG,
       });
 
