@@ -3,14 +3,12 @@
 angular.module('obrasMduytApp')
   .controller('HomeCtrl', function ($scope,DataService) {
 
-  	$scope.pymChild = new pym.Child({ polling: 1000 });
-    $scope.pymChild.sendHeight();
-    $scope.timeoutId;
-    var chart = {};
-    var bubbles = {
+  	var d3 = window.d3;
 
-    };
-    $scope.isSmallDevice;
+  	$scope.pymChild = new window.pym.Child({ polling: 1000 });
+    $scope.pymChild.sendHeight();
+    var chart = {};
+    var bubbles = {};
     $scope.selectedGroup = 'comunas';
 
     DataService.getAll()
@@ -18,7 +16,7 @@ angular.module('obrasMduytApp')
     	console.log(data);
 		$scope.obras = data;
 		renderChart();
-		$(window).resize(function() {
+		window.$(window).resize(function() {
             clearTimeout($scope.timeoutId);
 		    $scope.timeoutId = setTimeout(renderChart, 1000);
 		});
@@ -30,12 +28,12 @@ angular.module('obrasMduytApp')
 		chart.w = d3.select('#home-chart-container').node().getBoundingClientRect().width;
 
 		chart.w = (!chart.svg ||  (chart.w<500) )?chart.w-15:chart.w;
-		//console.log('ancho! ',chart.w);
+
 		$scope.isSmallDevice = (chart.w<500)?true:false;
 		
 		if($scope.isSmallDevice){
 
-			chart.h = chart.w
+			chart.h = chart.w;
 			chart.margin = chart.w/100;
 
 		} else {
@@ -84,19 +82,30 @@ angular.module('obrasMduytApp')
 		chart.mapPath = d3.geo.path()
 		    .projection(chart.mapProjection);
 
+		function updateMap(){
+			if($scope.isSmallDevice){
+				chart.svg.attr('height',chart.w);
+			}
+
+			chart.mapGroup.selectAll('path.map-item')
+				.transition()
+				.attr('d', chart.mapPath)
+				.style('opacity',1);
+		}
+
 		if(!chart.mapGroup) {
 
 			chart.mapGroup = chart.svg
 				.select('#map-group');
 
-		    d3.json("geo/comunas.simple.geojson", function(data) {
+		    d3.json('geo/comunas.simple.geojson', function(data) {
 		    	
 		    	chart.mapFeatures = data.features;
 
 				chart.mapGroup.selectAll('path.map-item')
 			    	.data(chart.mapFeatures)
 			    	.enter()
-					.append("path")
+					.append('path')
 					.classed('child',true)
 					.classed('map-item',true)
 					.attr('id',function(d){
@@ -109,17 +118,6 @@ angular.module('obrasMduytApp')
 
 		} else {
 		    	updateMap();
-		}
-
-		function updateMap(){
-			if($scope.isSmallDevice){
-				chart.svg.attr('height',chart.w);
-			}
-
-			chart.mapGroup.selectAll('path.map-item')
-				.transition()
-				.attr("d", chart.mapPath)
-				.style('opacity',1);
 		}
 
 	}
@@ -136,11 +134,11 @@ angular.module('obrasMduytApp')
 			chart.comunasGroup.selectAll('g.comunas-item')
 		    	.data(comunas)
 		    	.enter()
-				.append("g")
+				.append('g')
 				.classed('child',true)
 				.classed('comunas-item',true)
 				.attr('id',function(d){return 'comunas-item-'+d;})
-				.each(function(d) {
+				.each(function() {
 
 		            var group = d3.select(this);
 
@@ -163,17 +161,17 @@ angular.module('obrasMduytApp')
 		}
 
 		//update
-
+		var itemH,itemW;
 		if($scope.isSmallDevice){
-			var itemH = chart.w;
-			var itemW = chart.w;
+			itemH = chart.w;
+			itemW = chart.w;
 			chart.svg.attr('height',comunas.length*chart.w);
 			chart.mainGroup
 	            .select('rect')
 				.attr('height',comunas.length*chart.w);
 		} else {
-			var itemH = chart.h/3;
-			var itemW = chart.w/5;
+			itemH = chart.h/3;
+			itemW = chart.w/5;
 		}
 
 		chart.comunasGroup
@@ -209,11 +207,11 @@ angular.module('obrasMduytApp')
 			chart.etapasGroup.selectAll('g.etapas-item')
 		    	.data(etapas)
 		    	.enter()
-				.append("g")
+				.append('g')
 				.classed('child',true)
 				.classed('etapas-item',true)
 				.attr('id',function(d){return 'etapas-item-'+d;})
-				.each(function(d) {
+				.each(function() {
 
 		            var group = d3.select(this);
 
@@ -236,17 +234,17 @@ angular.module('obrasMduytApp')
 		}
 
 		//update
-
+		var itemH,itemW;
 		if($scope.isSmallDevice){
-			var itemH = chart.w;
-			var itemW = chart.w;
+			itemH = chart.w;
+			itemW = chart.w;
 			chart.svg.attr('height',etapas.length*chart.w);
 			chart.mainGroup
 	            .select('rect')
 				.attr('height',etapas.length*chart.w);
 		} else {
-			var itemH = chart.h/2;
-			var itemW = chart.w/2;
+			itemH = chart.h/2;
+			itemW = chart.w/2;
 		}
 
 		chart.etapasGroup
@@ -269,9 +267,134 @@ angular.module('obrasMduytApp')
 			.style('opacity',1),itemW,itemH);
 
 
-	};
+	}
 
-	var renderFunctions = {
+	function sortItems($items,itemW,itemH){
+
+        var xLimit = Math.floor(chart.w/itemW),
+            xCount = 0,
+            yCount = 0;
+
+        $items
+          .transition()
+          .duration(1000)
+          .attr('transform', function(d,i) {
+          	
+            var x = xCount*itemW;
+            var y = yCount*itemH;
+            if(xCount<xLimit-1){
+              xCount++;
+            } else if($items[0].length!==i+1) {
+              xCount = 0;
+              yCount++;
+            }
+
+            return 'translate(' + x +',' + y + ')';
+          });
+
+    }
+
+    function prepareNodesComunasGroup(){
+
+        bubbles.clusters = {};
+  		bubbles.clusterPoints = {};
+
+        bubbles.nodes = $scope.obras
+        		.filter(function(d){
+        			return (d.comuna[0]);
+        		})
+        		.map(function(d) {
+		          var i = 'c'+d.comuna[0],
+		              r = 10,
+		              c = {cluster: i, radius: r, data:d};
+		              
+		              if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
+		                bubbles.clusters[i] = c;
+		              }
+
+		          return c;
+		        });
+
+        d3.selectAll('g.comunas-item').each(function(d){
+        	var g = d3.select(this);
+        	var rect = g.select('rect');
+
+        	bubbles.clusterPoints['c'+d] = {
+        		x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
+        		y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
+        		radius:10
+        	};
+        });
+
+    }
+
+    function prepareNodesEtapasGroup(){
+
+        bubbles.clusters = {};
+  		bubbles.clusterPoints = {};
+
+        bubbles.nodes = $scope.obras
+        		.filter(function(d){
+        			return (d.etapa);
+        		})
+        		.map(function(d) {
+		          var i = 'e'+(Math.floor(Math.random() * 4)+1),
+		              r = 10,
+		              c = {cluster: i, radius: r, data:d};
+		              
+		              if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
+		                bubbles.clusters[i] = c;
+		              }
+
+		          return c;
+		        });
+
+        d3.selectAll('g.etapas-item').each(function(d){
+        	var g = d3.select(this);
+        	var rect = g.select('rect');
+
+        	bubbles.clusterPoints['e'+d] = {
+        		x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
+        		y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
+        		radius:10
+        	};
+        });
+
+    }
+
+    function prepareNodesMapGroup(){
+
+        bubbles.clusters = {};
+  		bubbles.clusterPoints = {};
+
+        bubbles.nodes = $scope.obras
+        		.filter(function(d){
+        			return (d.id);
+        		})
+        		.map(function(d) {
+		          var i = 'i'+d.id,
+		              r = 5,
+		              c = {cluster: i, radius: r, data:d};
+		              
+		              bubbles.clusters[i] = c;
+
+		              var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
+		              var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
+
+		              var point = chart.mapProjection([randLng,randLat]);
+
+		              bubbles.clusterPoints[i] = {
+		        		x: point[0],
+		        		y: point[1],
+		        		radius:5
+		              };
+
+		          return c;
+		        });
+
+    }
+
+    var renderFunctions = {
 		'comunas':renderComunasGroup,
 		'etapas':renderEtapasGroup,
 		'map':renderMapGroup
@@ -287,11 +410,11 @@ angular.module('obrasMduytApp')
 		'comunas':false,
 		'etapas':false,
 		'map':false
-	}
+	};
 
 	$scope.showGroup = function(group){
 
-		if($scope.selectedGroup != group){
+		if($scope.selectedGroup !== group){
 			chart.svg.selectAll('.child').style('opacity',0);
 			$scope.selectedGroup = group;
 		}
@@ -307,131 +430,6 @@ angular.module('obrasMduytApp')
 		},time);
 
 	};
-
-	function sortItems($items,itemW,itemH){
-
-        var xLimit = Math.floor(chart.w/itemW),
-            xCount = 0,
-            yCount = 0;
-
-        $items
-          .transition()
-          .duration(1000)
-          .attr("transform", function(d,i) {
-          	
-            var x = xCount*itemW;
-            var y = yCount*itemH;
-            if(xCount<xLimit-1){
-              xCount++;
-            } else if($items[0].length!==i+1) {
-              xCount = 0;
-              yCount++;
-            }
-
-            return "translate(" + x +"," + y + ")";
-          });
-
-    };
-
-    function prepareNodesComunasGroup(){
-
-        bubbles.clusters = {};
-  		bubbles.clusterPoints = {};
-
-        bubbles.nodes = $scope.obras
-        		.filter(function(d){
-        			return (d.comuna[0])
-        		})
-        		.map(function(d) {
-		          var i = 'c'+d.comuna[0],
-		              r = 10,
-		              d = {cluster: i, radius: r, data:d};
-		              
-		              if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
-		                bubbles.clusters[i] = d;
-		              }
-
-		          return d;
-		        });
-
-        d3.selectAll('g.comunas-item').each(function(d){
-        	var g = d3.select(this);
-        	var rect = g.select('rect');
-
-        	bubbles.clusterPoints['c'+d] = {
-        		x: d3.transform(g.attr("transform")).translate[0]+rect.attr('width')/2,
-        		y: d3.transform(g.attr("transform")).translate[1]+rect.attr('height')/2,
-        		radius:10
-        	}
-        });
-
-    };
-
-    function prepareNodesEtapasGroup(){
-
-        bubbles.clusters = {};
-  		bubbles.clusterPoints = {};
-
-        bubbles.nodes = $scope.obras
-        		.filter(function(d){
-        			return (d.etapa)
-        		})
-        		.map(function(d) {
-		          var i = 'e'+(Math.floor(Math.random() * 4)+1),
-		              r = 10,
-		              d = {cluster: i, radius: r, data:d};
-		              
-		              if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
-		                bubbles.clusters[i] = d;
-		              }
-
-		          return d;
-		        });
-
-        d3.selectAll('g.etapas-item').each(function(d){
-        	var g = d3.select(this);
-        	var rect = g.select('rect');
-
-        	bubbles.clusterPoints['e'+d] = {
-        		x: d3.transform(g.attr("transform")).translate[0]+rect.attr('width')/2,
-        		y: d3.transform(g.attr("transform")).translate[1]+rect.attr('height')/2,
-        		radius:10
-        	}
-        });
-
-    };
-
-    function prepareNodesMapGroup(){
-
-        bubbles.clusters = {};
-  		bubbles.clusterPoints = {};
-
-        bubbles.nodes = $scope.obras
-        		.filter(function(d){
-        			return (d.id)
-        		})
-        		.map(function(d) {
-		          var i = 'i'+d.id,
-		              r = 5,
-		              d = {cluster: i, radius: r, data:d};
-		              
-		              bubbles.clusters[i] = d;
-
-		              var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
-		              var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
-
-		              var point = chart.mapProjection([randLng,randLat]);
-
-		              bubbles.clusterPoints[i] = {
-		        		x: point[0],
-		        		y: point[1],
-		        		radius:5
-		              }
-
-		          return d;
-		        });
-
-    };
 
   	function renderBubbles(){
 
@@ -454,7 +452,7 @@ angular.module('obrasMduytApp')
             .classed('obra',true);
 
         bubbles.circles
-            .attr('id',function(d){return 'e'+d.data.id})
+            .attr('id',function(d){return 'e'+d.data.id;})
             .style('fill', function(d) { 
               return bubbles.colors(d.data.id); 
             })
@@ -468,15 +466,15 @@ angular.module('obrasMduytApp')
 
         bubbles.circles.exit().remove();
 
-    };
+    }
 
     function tick(e) {
       bubbles.circles
           .each(cluster(10 * e.alpha * e.alpha))
-          .each(collide(.5))
+          .each(collide(0.5))
           .attr('cx', function(d) { return d.x; })
           .attr('cy', function(d) { return d.y; });
-    };
+    }
 
     // Move d to be adjacent to the cluster node.
     function cluster(alpha) {
@@ -491,10 +489,10 @@ angular.module('obrasMduytApp')
             	if(bubbles.clusterPoints){
 	                cluster = bubbles.clusterPoints[d.cluster];
 	                cluster = {x: cluster.x, y: cluster.y, radius: -cluster.radius};
-	                k = .5 * Math.sqrt(d.radius);
+	                k = 0.5 * Math.sqrt(d.radius);
 	            } else {
 	                cluster = {x: chart.w / 2, y: chart.h / 2, radius: -d.radius};
-	                k = .1 * Math.sqrt(d.radius);
+	                k = 0.1 * Math.sqrt(d.radius);
 	            }
             }
 
@@ -502,7 +500,7 @@ angular.module('obrasMduytApp')
                 y = d.y - cluster.y,
                 l = Math.sqrt(x * x + y * y),
                 r = d.radius + cluster.radius;
-            if (l != r) {
+            if (l !== r) {
               l = (l - r) / l * alpha * k;
               d.x -= x *= l;
               d.y -= y *= l;
@@ -512,7 +510,7 @@ angular.module('obrasMduytApp')
         }
 
       };
-    };
+    }
 
     // Resolves collisions between d and all other circles.
     function collide(alpha) {
@@ -540,6 +538,6 @@ angular.module('obrasMduytApp')
           return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
         });
       };
-    };
+    }
 
   });

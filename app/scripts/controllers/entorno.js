@@ -3,7 +3,7 @@
 angular.module('obrasMduytApp')
   .controller('EntornoCtrl', function ($scope,DataService,$routeParams) {
 
-  	$scope.pymChild = new pym.Child({ polling: 1000 });
+  	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
 
     DataService.getByEntorno($routeParams.entorno)

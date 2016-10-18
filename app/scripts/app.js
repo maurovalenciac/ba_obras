@@ -1,14 +1,4 @@
 'use strict';
-$.urlParam = function(url,name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
-    if (results===null){
-       return null;
-    }
-    else{
-       return results[1] || 0;
-    }
-};
-
 /**
  * @ngdoc overview
  * @name obrasMduytApp
@@ -36,7 +26,7 @@ angular
   })
   .service('DataService', function ($http, $q, Slug) {
 
-    var data = undefined;
+    var data;
 
     var cleanData = function(reg){
       //slug
@@ -72,12 +62,12 @@ angular
     };
 
     this.getById = function(id) {
-      var result = undefined;
+      var result;
       var deferred = $q.defer();
       this.retrieveAll()
         .then(function(all){
           result = all.filter(function(a){
-            return a.id==parseInt(id);
+            return a.id===parseInt(id);
           });
           deferred.resolve(result[0]);
         });
@@ -86,12 +76,12 @@ angular
     };
 
     this.getByEntorno = function(entorno) {
-      var result = undefined;
+      var result;
       var deferred = $q.defer();
       this.retrieveAll()
         .then(function(all){
           result = all.filter(function(a){
-            return a.entorno_slug==entorno;
+            return a.entorno_slug===entorno;
           });
           deferred.resolve(result);
         });
@@ -100,7 +90,7 @@ angular
     };
 
     this.getAll = function() {
-      var result = undefined;
+      var result;
       var deferred = $q.defer();
       this.retrieveAll()
         .then(function(all){
@@ -131,6 +121,6 @@ angular
     };
 
   })
-  .run(function($rootScope,$interval) {
+  .run(function() {
 
   });

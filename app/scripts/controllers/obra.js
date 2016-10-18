@@ -3,7 +3,7 @@
 angular.module('obrasMduytApp')
   .controller('ObraCtrl', function ($scope,DataService,$routeParams) {
 
-  	$scope.pymChild = new pym.Child({ polling: 1000 });
+  	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
     $scope.obraId = $routeParams.id;
 
@@ -22,19 +22,16 @@ angular.module('obrasMduytApp')
               };
 
 
-      $scope.titles = tilesUSIG;
       angular.extend($scope, {
-          london: {
-              lat: -34.6045645,
-              lng:  -58.3828143,
-              zoom: 14
-          },
           markers: {},
           tiles: tilesUSIG,
+          defaults:{
+               scrollWheelZoom: false
+          }
       });
 
 
-      DataService.getById($routeParams.id)
+    DataService.getById($routeParams.id)
     .then(function(data){
       console.log(data);
       $scope.obra = data;
