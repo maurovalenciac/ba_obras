@@ -20,7 +20,7 @@
         textarea{resize: none;}
         .row-preview{background-color: #dadada;}
         #iframeModal .modal-content{background-color: #dadada;}
-        
+
     </style>
   </head>
   <body ng-app="obrasMduytDemo">
@@ -90,6 +90,10 @@
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/pym.js/dist/pym.v1.js"></script>
     <script src="bower_components/angular-slugify/angular-slugify.js"></script>
+    <script src="bower_components/angular-slick/dist/slick.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -102,7 +106,7 @@
           'slugifier'
         ])
         .service('DataService', function ($http, $q, Slug) {
-       
+
           var data = undefined;
 
           var cleanData = function(reg){
@@ -146,7 +150,7 @@
 
             return $q.when(data);
           };
-       
+
         })
         .run(function($rootScope,$interval) {
 
