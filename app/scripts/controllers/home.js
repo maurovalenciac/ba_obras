@@ -22,6 +22,12 @@ angular.module('obrasMduytApp')
 		'map':prepareNodesMapGroup
 	};
 
+	var resetFunctions = {
+		'comunas':resetComunas,
+		'etapas':resetEtapas,
+		'map':resetMap
+	};
+
 	var initialized = {
 		'comunas':false,
 		'etapas':false,
@@ -45,6 +51,9 @@ angular.module('obrasMduytApp')
 			}, 1000);
 		});
 	});
+
+
+	/** Generic Functions ====================================================== **/
 
 	function renderChart(){
 
@@ -96,6 +105,59 @@ angular.module('obrasMduytApp')
 		$scope.showGroup($scope.selectedGroup);
 	}
 
+
+	function sortItems($items,itemW,itemH){
+
+		var xLimit = Math.floor(chart.w/itemW),
+			xCount = 0,
+			yCount = 0;
+
+		$items
+		  .transition()
+		  .duration(700)
+		  .attr('transform', function(d,i) {
+			
+			var x = xCount*itemW;
+			var y = yCount*itemH;
+			if(xCount<xLimit-1){
+			  xCount++;
+			} else if($items[0].length!==i+1) {
+			  xCount = 0;
+			  yCount++;
+			}
+
+			return 'translate(' + x +',' + y + ')';
+		  });
+
+	}
+
+
+	$scope.showGroup = function(group){
+
+		if($scope.selectedGroup !== group){
+			resetFunctions[$scope.selectedGroup](true);
+			chart.svg.selectAll('.child')
+			.style('opacity',0)
+			.style('display','none');
+			chart.svg.selectAll('circle.obra').transition().style('opacity',0.5);
+			$scope.selectedGroup = group;
+		}
+
+		renderFunctions[group]();
+
+		var time = (initialized[group])?100:2000;
+		initialized[group] = true;
+
+		setTimeout(function(){
+			prepareNodesFunctions[group]();
+			renderBubbles();
+		},time);
+
+	};
+
+	/** MAPA Functions ====================================================== **/
+
+
 	function renderMapGroup(){
 
 		chart.mapProjection = d3.geo.mercator()
@@ -112,6 +174,7 @@ angular.module('obrasMduytApp')
 			}
 
 			chart.mapGroup.selectAll('path.map-item')
+				.style('display','block')
 				.style('stroke-width',0)
 				.transition()
 				.duration(1000)
@@ -149,6 +212,94 @@ angular.module('obrasMduytApp')
 		}
 
 	}
+
+	function prepareNodesMapGroup(){
+
+		bubbles.clusters = {};
+		bubbles.clusterPoints = {};
+
+		bubbles.nodes = $scope.obras
+				.filter(function(d){
+					return (d.lat && d.lng);
+				})
+				.map(function(d) {
+				  var i = 'i'+d.id,
+					  r = 5,
+					  c = {cluster: i, radius: r, data:d};
+					  
+					  bubbles.clusters[i] = c;
+
+					  var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
+					  var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
+
+					  var point = chart.mapProjection([parseFloat(d.lng),parseFloat(d.lat)]);
+					  //var point = chart.mapProjection([randLng,randLat]);
+
+					  bubbles.clusterPoints[i] = {
+						x: point[0],
+						y: point[1],
+						radius:5
+					  };
+
+				  return c;
+				});
+
+	}
+
+
+	var activeMap = d3.select(null);
+	function clickedMap(d) {
+	  if (activeMap.node() === this) return resetMap();
+	  activeMap.classed("active", false);
+	  activeMap = d3.select(this).classed("active", true);
+
+	  var bounds = chart.mapPath.bounds(d),
+		  dx = bounds[1][0] - bounds[0][0],
+		  dy = bounds[1][1] - bounds[0][1],
+		  x = (bounds[0][0] + bounds[1][0]) / 2,
+		  y = (bounds[0][1] + bounds[1][1]) / 2,
+		  scale = .9 / Math.max(dx / chart.w, dy / chart.h),
+		  translate = [chart.w / 2 - scale * x, chart.h / 2 - scale * y];
+
+	  chart.mapGroup.transition()
+		  .duration(750)
+		  .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+	   chart.mapGroup.selectAll('path')
+			.transition()
+			.duration(750)
+			.style("stroke-width", 1 + "px");
+
+	   bubbles.group
+	   		.transition()
+			.duration(750)
+			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+	}
+
+	function resetMap() {
+	  activeMap.classed("active", false);
+	  activeMap = d3.select(null);
+
+	  chart.mapGroup
+	  		.transition()
+		  .duration(750)
+		  .attr("transform", "");
+
+	   chart.mapGroup.selectAll('path')
+	   		.transition()
+		  	.duration(750)
+		  	.style("stroke-width", "3px");
+
+	   bubbles.group
+	   		.transition()
+		  	.duration(750)
+		  	.attr("transform", "");
+
+	}
+
+
+
+	/** COMUNAS Functions ====================================================== **/
 
 	function renderComunasGroup(){
 
@@ -190,7 +341,7 @@ angular.module('obrasMduytApp')
 					group
 						.append('rect')
 						.classed('comunas-item-frame',true)
-						.attr('fill','#dedede');
+						.on('click',clickedComunas);
 
 					group
 						.append('text')
@@ -204,6 +355,9 @@ angular.module('obrasMduytApp')
 
 
 		}
+
+		chart.comunasGroup.selectAll('g.comunas-item')
+			.style('display','block');
 
 		//update
 		chart.comunasGroup
@@ -229,6 +383,95 @@ angular.module('obrasMduytApp')
 			.style('opacity',1),itemW,itemH);
 
 	}
+
+
+	function prepareNodesComunasGroup(){
+
+		bubbles.clusters = {};
+		bubbles.clusterPoints = {};
+
+		bubbles.nodes = $scope.obras
+				.filter(function(d){
+					return (d.comuna[0]);
+				})
+				.map(function(d) {
+				  var i = 'c'+d.comuna[0],
+					  r = 10,
+					  c = {cluster: i, radius: r, data:d};
+					  
+					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
+						bubbles.clusters[i] = c;
+					  }
+
+				  return c;
+				});
+
+		d3.selectAll('g.comunas-item').each(function(d){
+			var g = d3.select(this);
+			var rect = g.select('rect');
+
+			bubbles.clusterPoints['c'+d] = {
+				x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
+				y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
+				radius:10
+			};
+		});
+
+	}
+
+	var activeComuna = d3.select(null);
+	function clickedComunas(d) {
+		if (activeComuna.node() === this) return resetComunas();
+		activeComuna.classed("active", false);
+		activeComuna = d3.select(this)
+			.classed("active", true);
+		
+		var selectedG = activeComuna
+			.node().parentNode;
+
+		d3.selectAll('g.comunas-item')
+			.transition()
+			.style('opacity',function () {
+	        	return (this === selectedG) ? 1.0 : 0;
+	    	})
+	    	.each('end', function () {
+	        	if(this !== selectedG){
+	        		d3.select(this).style('display','none');
+	        	};
+	    	});
+
+		activeComuna.transition()
+			.duration(750)
+			.attr('height',chart.h-chart.margin*2)
+			.attr('width',chart.w-chart.margin*2);
+
+		d3.select(selectedG)
+			.transition()
+			.duration(750)
+			.attr('transform','translate(0,0)');
+	}
+
+	function resetComunas(clear) {
+	  activeComuna.classed("active", false);
+
+	  activeComuna = d3.select(null);
+
+	  d3.selectAll('g.comunas-item')
+	  	.style('display','block');
+
+	  if(!clear){
+		renderComunasGroup();
+	  }
+
+	  /* bubbles.group
+	   		.transition()
+		  	.duration(750)
+		  	.attr("transform", "");*/
+
+	}
+
+
+	/* ETAPAS Functions ====================================================== */
 
 	function renderEtapasGroup(){
 
@@ -270,7 +513,7 @@ angular.module('obrasMduytApp')
 					group
 						.append('rect')
 						.classed('etapas-item-frame',true)
-						.attr('fill','#dedede');
+						.on('click',clickedEtapas);
 
 					group
 						.append('text')
@@ -284,6 +527,9 @@ angular.module('obrasMduytApp')
 
 
 		}
+
+		chart.etapasGroup.selectAll('g.etapas-item')
+			.style('display','block');
 
 		//update
 		chart.etapasGroup
@@ -308,65 +554,6 @@ angular.module('obrasMduytApp')
 			.duration(1000)
 			.style('opacity',1),itemW,itemH);
 
-
-	}
-
-	function sortItems($items,itemW,itemH){
-
-		var xLimit = Math.floor(chart.w/itemW),
-			xCount = 0,
-			yCount = 0;
-
-		$items
-		  .transition()
-		  .duration(700)
-		  .attr('transform', function(d,i) {
-			
-			var x = xCount*itemW;
-			var y = yCount*itemH;
-			if(xCount<xLimit-1){
-			  xCount++;
-			} else if($items[0].length!==i+1) {
-			  xCount = 0;
-			  yCount++;
-			}
-
-			return 'translate(' + x +',' + y + ')';
-		  });
-
-	}
-
-	function prepareNodesComunasGroup(){
-
-		bubbles.clusters = {};
-		bubbles.clusterPoints = {};
-
-		bubbles.nodes = $scope.obras
-				.filter(function(d){
-					return (d.comuna[0]);
-				})
-				.map(function(d) {
-				  var i = 'c'+d.comuna[0],
-					  r = 10,
-					  c = {cluster: i, radius: r, data:d};
-					  
-					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
-						bubbles.clusters[i] = c;
-					  }
-
-				  return c;
-				});
-
-		d3.selectAll('g.comunas-item').each(function(d){
-			var g = d3.select(this);
-			var rect = g.select('rect');
-
-			bubbles.clusterPoints['c'+d] = {
-				x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
-				y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
-				radius:10
-			};
-		});
 
 	}
 
@@ -404,58 +591,59 @@ angular.module('obrasMduytApp')
 
 	}
 
-	function prepareNodesMapGroup(){
+	var activeEtapa = d3.select(null);
+	function clickedEtapas(d) {
+		if (activeEtapa.node() === this) return resetEtapas();
+		activeEtapa.classed("active", false);
+		activeEtapa = d3.select(this)
+			.classed("active", true);
+		
+		var selectedG = activeEtapa
+			.node().parentNode;
 
-		bubbles.clusters = {};
-		bubbles.clusterPoints = {};
+		d3.selectAll('g.etapas-item')
+			.transition()
+			.style('opacity',function () {
+	        	return (this === selectedG) ? 1.0 : 0;
+	    	})
+	    	.each('end', function () {
+	        	if(this !== selectedG){
+	        		d3.select(this).style('display','none');
+	        	};
+	    	});
 
-		bubbles.nodes = $scope.obras
-				.filter(function(d){
-					return (d.lat && d.lng);
-				})
-				.map(function(d) {
-				  var i = 'i'+d.id,
-					  r = 5,
-					  c = {cluster: i, radius: r, data:d};
-					  
-					  bubbles.clusters[i] = c;
+		activeEtapa.transition()
+			.duration(750)
+			.attr('height',chart.h-chart.margin*2)
+			.attr('width',chart.w-chart.margin*2);
 
-					  var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
-					  var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
+		d3.select(selectedG)
+			.transition()
+			.duration(750)
+			.attr('transform','translate(0,0)');
+	}
 
-					  var point = chart.mapProjection([parseFloat(d.lng),parseFloat(d.lat)]);
-					  //var point = chart.mapProjection([randLng,randLat]);
+	function resetEtapas(clear) {
+	  activeEtapa.classed("active", false);
 
-					  bubbles.clusterPoints[i] = {
-						x: point[0],
-						y: point[1],
-						radius:5
-					  };
+	  activeEtapa = d3.select(null);
 
-				  return c;
-				});
+	  d3.selectAll('g.etapas-item')
+	  	.style('display','block');
+
+	  if(!clear){
+		renderEtapasGroup();
+	  }
+
+	  /* bubbles.group
+	   		.transition()
+		  	.duration(750)
+		  	.attr("transform", "");*/
 
 	}
 
-	$scope.showGroup = function(group){
 
-		if($scope.selectedGroup !== group){
-			chart.svg.selectAll('.child').style('opacity',0);
-			chart.svg.selectAll('circle.obra').transition().style('opacity',0.5);
-			$scope.selectedGroup = group;
-		}
-
-		renderFunctions[group]();
-
-		var time = (initialized[group])?100:2000;
-		initialized[group] = true;
-
-		setTimeout(function(){
-			prepareNodesFunctions[group]();
-			renderBubbles();
-		},time);
-
-	};
+	/* Bubble functions ====================================================== */
 
 	function renderBubbles(){
 
@@ -567,54 +755,6 @@ angular.module('obrasMduytApp')
 	  };
 	}
 
-	var activeMap = d3.select(null);
-	function clickedMap(d) {
-	  if (activeMap.node() === this) return resetMap();
-	  activeMap.classed("active", false);
-	  activeMap = d3.select(this).classed("active", true);
 
-	  var bounds = chart.mapPath.bounds(d),
-		  dx = bounds[1][0] - bounds[0][0],
-		  dy = bounds[1][1] - bounds[0][1],
-		  x = (bounds[0][0] + bounds[1][0]) / 2,
-		  y = (bounds[0][1] + bounds[1][1]) / 2,
-		  scale = .9 / Math.max(dx / chart.w, dy / chart.h),
-		  translate = [chart.w / 2 - scale * x, chart.h / 2 - scale * y];
-
-	  chart.mapGroup.transition()
-		  .duration(750)
-		  .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-
-	   chart.mapGroup.selectAll('path')
-			.transition()
-			.duration(750)
-			.style("stroke-width", 1 + "px");
-
-	   bubbles.group
-	   		.transition()
-			.duration(750)
-			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-	}
-
-	function resetMap() {
-	  activeMap.classed("active", false);
-	  activeMap = d3.select(null);
-
-	  chart.mapGroup
-	  		.transition()
-		  .duration(750)
-		  .attr("transform", "");
-
-	   chart.mapGroup.selectAll('path')
-	   		.transition()
-		  	.duration(750)
-		  	.style("stroke-width", "3px");
-
-	   bubbles.group
-	   		.transition()
-		  	.duration(750)
-		  	.attr("transform", "");
-
-	}
 
   });

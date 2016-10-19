@@ -17,7 +17,19 @@ html{
   fill: #ccc;
 }
 
-#home-chart-container path.active:hover {
+rect.comunas-item-frame,
+rect.etapas-item-frame {
+  fill: #dedede;
+  cursor: pointer;
+}
+
+rect.comunas-item-frame:hover,
+rect.etapas-item-frame:hover {
+  fill: #ccc;
+}
+
+rect.comunas-item-frame.active,
+rect.etapas-item-frame.active{
   fill: #ccc;
 }
 
