@@ -145,7 +145,7 @@ angular.module('obrasMduytApp')
 
 		renderFunctions[group]();
 
-		var time = (initialized[group])?100:2000;
+		var time = (initialized[group] || group == 'map')?100:2000;
 		initialized[group] = true;
 
 		setTimeout(function(){
@@ -301,7 +301,7 @@ angular.module('obrasMduytApp')
 
 	/** COMUNAS Functions ====================================================== **/
 
-	function renderComunasGroup(){
+	function renderComunasGroup(clear){
 
 		var comunas = d3.range(1,16);
 		
@@ -356,8 +356,11 @@ angular.module('obrasMduytApp')
 
 		}
 
-		chart.comunasGroup.selectAll('g.comunas-item')
-			.style('display','block');
+		if(!clear){
+			chart.comunasGroup.selectAll('g.comunas-item')
+				.style('display','block');	
+		}
+
 
 		//update
 		chart.comunasGroup
@@ -385,14 +388,16 @@ angular.module('obrasMduytApp')
 	}
 
 
-	function prepareNodesComunasGroup(){
+	function prepareNodesComunasGroup(comunaID){
 
 		bubbles.clusters = {};
 		bubbles.clusterPoints = {};
 
+		var filterId = (comunaID)?comunaID.replace('comunas-item-',''):false;
+
 		bubbles.nodes = $scope.obras
 				.filter(function(d){
-					return (d.comuna[0]);
+					return ( d.comuna[0] && (!filterId || (filterId && d.comuna[0]===filterId ) ) );
 				})
 				.map(function(d) {
 				  var i = 'c'+d.comuna[0],
@@ -448,7 +453,11 @@ angular.module('obrasMduytApp')
 		d3.select(selectedG)
 			.transition()
 			.duration(750)
-			.attr('transform','translate(0,0)');
+			.attr('transform','translate(0,0)')
+			.each('end',function(){
+				prepareNodesComunasGroup(d3.select(selectedG).attr('id'));
+				renderBubbles();
+			});
 	}
 
 	function resetComunas(clear) {
@@ -459,21 +468,19 @@ angular.module('obrasMduytApp')
 	  d3.selectAll('g.comunas-item')
 	  	.style('display','block');
 
-	  if(!clear){
-		renderComunasGroup();
-	  }
+		renderComunasGroup(clear);
 
-	  /* bubbles.group
-	   		.transition()
-		  	.duration(750)
-		  	.attr("transform", "");*/
+		setTimeout(function(){
+			prepareNodesComunasGroup();
+			renderBubbles();
+		},2000);
 
 	}
 
 
 	/* ETAPAS Functions ====================================================== */
 
-	function renderEtapasGroup(){
+	function renderEtapasGroup(clear){
 
 		var etapas = d3.range(1,5);
 		
@@ -528,8 +535,10 @@ angular.module('obrasMduytApp')
 
 		}
 
-		chart.etapasGroup.selectAll('g.etapas-item')
-			.style('display','block');
+		if(!clear){
+			chart.etapasGroup.selectAll('g.etapas-item')
+				.style('display','block');			
+		}
 
 		//update
 		chart.etapasGroup
@@ -557,14 +566,16 @@ angular.module('obrasMduytApp')
 
 	}
 
-	function prepareNodesEtapasGroup(){
+	function prepareNodesEtapasGroup(etapaID){
 
 		bubbles.clusters = {};
 		bubbles.clusterPoints = {};
 
+		var filterId = (etapaID)?etapaID.replace('etapas-item-',''):false;
+
 		bubbles.nodes = $scope.obras
 				.filter(function(d){
-					return (d.etapa);
+					return (d.etapa && (!filterId || (filterId && d.etapa===filterId) ));
 				})
 				.map(function(d) {
 				  var i = 'e'+(Math.floor(Math.random() * 4)+1),
@@ -620,7 +631,11 @@ angular.module('obrasMduytApp')
 		d3.select(selectedG)
 			.transition()
 			.duration(750)
-			.attr('transform','translate(0,0)');
+			.attr('transform','translate(0,0)')
+			.each('end',function(){
+				prepareNodesEtapasGroup(d3.select(selectedG).attr('id'));
+				renderBubbles();
+			});
 	}
 
 	function resetEtapas(clear) {
@@ -631,14 +646,12 @@ angular.module('obrasMduytApp')
 	  d3.selectAll('g.etapas-item')
 	  	.style('display','block');
 
-	  if(!clear){
-		renderEtapasGroup();
-	  }
+    	renderEtapasGroup(clear);
 
-	  /* bubbles.group
-	   		.transition()
-		  	.duration(750)
-		  	.attr("transform", "");*/
+		setTimeout(function(){
+			prepareNodesEtapasGroup();
+			renderBubbles();
+		},2000);
 
 	}
 
