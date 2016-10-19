@@ -470,10 +470,12 @@ angular.module('obrasMduytApp')
 
 		renderComunasGroup(clear);
 
-		setTimeout(function(){
-			prepareNodesComunasGroup();
-			renderBubbles();
-		},2000);
+		if(!clear){
+			setTimeout(function(){
+				prepareNodesComunasGroup();
+				renderBubbles();
+			},2000);			
+		}
 
 	}
 
@@ -648,10 +650,12 @@ angular.module('obrasMduytApp')
 
     	renderEtapasGroup(clear);
 
-		setTimeout(function(){
-			prepareNodesEtapasGroup();
-			renderBubbles();
-		},2000);
+    	if(!clear){
+			setTimeout(function(){
+				prepareNodesEtapasGroup();
+				renderBubbles();
+			},2000);    		
+    	}
 
 	}
 
