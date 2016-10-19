@@ -6,7 +6,21 @@ html{
   fill: #dedede;
   stroke: #FFF;
   stroke-width: 3px;
+  cursor: pointer;
 }
+
+#home-chart-container path:hover {
+  fill: #ccc;
+}
+
+#home-chart-container path.active {
+  fill: #ccc;
+}
+
+#home-chart-container path.active:hover {
+  fill: #ccc;
+}
+
 
 #home-chart-container{
 	width: 100%;
