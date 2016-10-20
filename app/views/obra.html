@@ -3,17 +3,11 @@
           <h3>Obra {{obra.id}}: {{obra.nombre}}</h3>
           <div class="row">
            <div class="col-md-8">
-              <slick class=".slider-for" asNavFor=".slider-nav"infinite="true" slides-to-show="1" slides-to-scroll="1">
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-            </slick>
-               <slick class="slider-nav" asNavFor=".slider-nav" infinite="true"  dots="true" centerMode="true"focusOnSelect="true" slides-to-show="4" slides-to-scroll="1">
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-                <div><img src="http://www.eldiariodebuenosaires.com/files/2016/01/Calle.jpg"/></div>
-            </slick>
+           <flex-slider slide="s in slides" animation="slide" control-nav="thumbnails">
+              <li data-thumb="{{s}}">
+                <img ng-src="{{s}}">
+              </li>
+            </flex-slider>
              <p> {{obra.descripcion}} </p>
           </div>
           <div class="col-md-4 ficha-tecnica">
