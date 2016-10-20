@@ -42,12 +42,7 @@ angular.module('obrasMduytApp')
       console.log(data);
       $scope.obra = data;
         //setup slider
-      $scope.slides = [
-        'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg',
-        'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg',
-        'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg',
-        'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg'
-      ];
+      $scope.slides = data.fotos;
       //Setup Map
       angular.extend($scope, {
                     markers: {

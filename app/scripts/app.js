@@ -50,7 +50,7 @@ angular
       for (var i = 1; i <= 4; i++) {
         var key = 'imagen_'+i;
         if (reg[key]){
-          reg.fotos.push(reg[key]);
+          reg.fotos[i-1] = reg[key];
         }
       };
 
