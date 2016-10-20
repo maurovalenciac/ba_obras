@@ -1,5 +1,9 @@
 html{
-  background-color: #fff;
+  background-color: #f9f9f9;
+}
+
+body{
+  background-color: #f9f9f9;
 }
 
 #home-chart-container path {
@@ -42,15 +46,35 @@ slick.slider-nav img {
     max-width: 50%;
     text-align: center;
 }
-
-div.obra .etapa{
-  border-color: #f1662f;
+div.obra .ficha-tecnica{
+    background: #fff;
+    border-radius: 4px;
+    position: relative;
+    -ms-behavior: url(../bastrap3/pie.htc);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: 0 0 4px #aaa;
+    box-shadow: 0 0 4px #aaa;
+    padding: 1em;
 }
-.progress{
+div.obra .etapa{
+  border:2px solid #f1662f;
+  padding: 3px;
+}
+div.obra .ficha-tecnica p{
+    margin: 4px 0;
+}
+div.obra .ficha-tecnica .fechas{
+  font-size: 0.5em;
+}
+div.obra .ficha-tecnica .fechas .right{
+  text-align: right;
+}
+div.obra .ficha-tecnica .progress{
     height: 35px;
     margin-bottom: 15px;
 }
-.progress-bar{
+div.obra .ficha-tecnica .progress-bar{
   background-color: #f1662f;
   background-image: linear-gradient(to bottom, #f1662f 0%, #f1662f 100%);
   border-color: #f1662f;
