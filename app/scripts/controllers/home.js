@@ -7,7 +7,9 @@ angular.module('obrasMduytApp')
 
 	$scope.pymChild = new window.pym.Child({ polling: 1000 });
 	var chart = {};
-	var bubbles = {};
+	var bubbles = {
+		colors: d3.scale.category20()
+	};
 	$scope.selectedGroup = 'comunas';
 
 	var renderFunctions = {
@@ -190,7 +192,13 @@ angular.module('obrasMduytApp')
 
 			d3.json('geo/comunas.simple.geojson', function(data) {
 				
+				chart.mapCentroids = {};
+
 				chart.mapFeatures = data.features;
+
+				_.each(chart.mapFeatures,function(f){
+					chart.mapCentroids['mapa-comuna-'+f.properties.comuna] = chart.mapPath.centroid(f);
+				});
 
 				chart.mapGroup.selectAll('path.map-item')
 					.data(chart.mapFeatures)
@@ -199,7 +207,7 @@ angular.module('obrasMduytApp')
 					.classed('child',true)
 					.classed('map-item',true)
 					.attr('id',function(d){
-						return d.id;
+						return 'mapa-comuna-'+d.properties.comuna;
 					})
 					.classed('shape',true)
 					.on('click',clickedMap);
@@ -217,6 +225,8 @@ angular.module('obrasMduytApp')
 
 		bubbles.clusters = {};
 		bubbles.clusterPoints = {};
+
+		bubbles.nodesComuna =[];
 
 		bubbles.nodes = $scope.obras
 				.filter(function(d){
@@ -240,6 +250,14 @@ angular.module('obrasMduytApp')
 						y: point[1],
 						radius:5
 					  };
+
+					  if(d.comuna.length>1){
+					  	_.each(d.comuna,function(cid){
+					  		var clone = _.clone(c);
+					  		clone.comuna = cid;
+						 	bubbles.nodesComuna.push(clone);
+					  	});
+					  }
 
 				  return c;
 				});
@@ -392,6 +410,8 @@ angular.module('obrasMduytApp')
 
 		bubbles.clusters = {};
 		bubbles.clusterPoints = {};
+
+		bubbles.nodesComuna =[];
 
 		var filterId = (comunaID)?comunaID.replace('comunas-item-',''):false;
 
@@ -573,6 +593,8 @@ angular.module('obrasMduytApp')
 		bubbles.clusters = {};
 		bubbles.clusterPoints = {};
 
+		bubbles.nodesComuna =[];
+
 		var filterId = (etapaID)?etapaID.replace('etapas-item-',''):false;
 
 		bubbles.nodes = $scope.obras
@@ -664,8 +686,6 @@ angular.module('obrasMduytApp')
 
 	function renderBubbles(){
 
-		bubbles.colors = d3.scale.category20();
-
 		bubbles.force = d3.layout.force()
 			.nodes(bubbles.nodes)
 			.size([chart.w, chart.h])
@@ -680,12 +700,15 @@ angular.module('obrasMduytApp')
 		bubbles.circles
 			.enter()
 			.append('circle')
-			.classed('obra',true);
+			.classed('obra',true)
+			.on("mouseover", function(d) {
+				d3.select('#detalle').html(JSON.stringify(d.data));
+			});
 
 		bubbles.circles
 			.attr('id',function(d){return 'e'+d.data.id;})
 			.style('fill', function(d) { 
-			  return bubbles.colors(d.data.tipo[0]); 
+				return bubbles.colors(d.data.tipo[0]); 
 			})
 			//.call(bubbles.force.drag);
 
@@ -698,6 +721,72 @@ angular.module('obrasMduytApp')
 
 		bubbles.circles.exit().remove();
 
+		if(bubbles.nodesComuna.length){
+
+			bubbles.lines = bubbles.group.selectAll('line.obra-comuna')
+				.data(bubbles.nodesComuna);
+
+			bubbles.lines
+				.enter()
+				.append('line')
+				.classed('obra-comuna',true);
+
+			bubbles.lines
+				.attr('id',function(d){ return 'obra-'+d.data.id+'-comuna-'+d.comuna;})
+				.style('stroke', function(d) { 
+				  return bubbles.colors(d.data.tipo[0]); 
+				})
+				.attr('x1',function(d){
+					var center = chart.mapCentroids['mapa-comuna-'+d.comuna];
+					return center[0];
+				})
+				.attr('y1',function(d){
+					var center = chart.mapCentroids['mapa-comuna-'+d.comuna];
+					return center[1];
+				})
+				.attr('x2',100)
+				.attr('y2',100);
+
+			 bubbles.lines
+				.transition()
+				.style('opacity',1);
+
+			bubbles.lines.exit().remove();
+
+
+		} else {
+			if(bubbles.lines){
+				bubbles.lines.style('opacity',0);
+			}
+		}
+
+		bubbles.circles	
+			.each(function(d){
+
+				/*if(d.data.comuna.length>1 && $scope.selectedGroup=='map'){
+					_.each(d.data.comuna,function(c){
+						var id = 'obra-'+d.data.id+'-comuna-'+c;
+	
+						var center = chart.mapCentroids['mapa-comuna-'+c];
+						
+						bubbles.group.append('line')
+							.attr('id',id)
+							.attr('x1',center[0])
+							.attr('y1',center[1])
+							.attr('x2',0)
+							.attr('y2',0)
+							.style('stroke', function() { 
+							  return bubbles.colors(d.data.tipo[0]); 
+							});
+						
+					})
+
+
+				}*/
+
+
+			});
+
 	}
 
 	function tick(e) {
@@ -705,7 +794,27 @@ angular.module('obrasMduytApp')
 		  .each(cluster(10 * e.alpha * e.alpha))
 		  .each(collide(0.5))
 		  .attr('cx', function(d) { return d.x; })
-		  .attr('cy', function(d) { return d.y; });
+		  .attr('cy', function(d) { return d.y; })
+		  .each(function(d){
+		  	if(d.data.comuna.length>1 && $scope.selectedGroup=='map'){
+					_.each(d.data.comuna,function(c){
+						var id = 'obra-'+d.data.id+'-comuna-'+c;
+							
+						bubbles.group.select('#'+id)
+							.attr('x2',d.x)
+							.attr('y2',d.y);
+						
+					})
+				}
+		  });
+
+		/*if(bubbles.lines && $scope.selectedGroup=='map'){
+			bubbles.lines
+			  .each(cluster(10 * e.alpha * e.alpha))
+			  .each(collide(0.5))
+			  .attr('x2', function(d) { return d.x; })
+			  .attr('y2', function(d) { return d.y; });
+		}*/
 	}
 
 	// Move d to be adjacent to the cluster node.

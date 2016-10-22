@@ -17,6 +17,10 @@ html{
   fill: #ccc;
 }
 
+#home-chart-container line {
+  stroke-width: 1px;
+}
+
 rect.comunas-item-frame,
 rect.etapas-item-frame {
   fill: #dedede;
