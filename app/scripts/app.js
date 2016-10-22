@@ -12,7 +12,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'slugifier',
-    'slick',
+    'angular-flexslider',
     'leaflet-directive'
   ])
   .config(function ($routeProvider) {
@@ -45,6 +45,16 @@ angular
       reg.licitacion_presupuesto_oficial = (reg.licitacion_presupuesto_oficial)?parseFloat(reg.licitacion_presupuesto_oficial):null;
       reg.plazo_meses = (reg.plazo_meses)?parseInt(reg.plazo_meses):null;
       reg.porcentaje_avance = (reg.porcentaje_avance)?parseFloat(reg.porcentaje_avance):null;
+
+      reg.fotos = [];
+      for (var i = 1; i <= 4; i++) {
+        var key = 'imagen_'+i;
+        if (reg[key]){
+          reg.fotos.push(reg[key]);
+        }
+      };
+
+
 
       return reg;
     };
