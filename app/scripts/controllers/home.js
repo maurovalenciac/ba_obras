@@ -7,9 +7,9 @@ angular.module('obrasMduytApp')
 
 	$scope.pymChild = new window.pym.Child({ polling: 1000 });
 	var chart = {};
-	var bubbles = {
-		colors: d3.scale.category20()
-	};
+	var sidechart = {};
+	var bubbles = {};
+	var tipo_colors = d3.scale.category20();
 	$scope.selectedGroup = 'comunas';
 
 	var renderFunctions = {
@@ -42,10 +42,22 @@ angular.module('obrasMduytApp')
 	.then(function(data){
 		console.log(data);
 		$scope.obras = data;
+		
+		$scope.obras_by_tipo = _.groupBy(data,'tipo');
+		$scope.tipo_keys = _.keys($scope.obras_by_tipo);
+		
+		$scope.total_obras_by_tipo = _.reduce($scope.obras_by_tipo, function(result, value, key) {
+		  result.push({'tipo':key,'slug':value[0].tipo_slug,'candidad':value.length});
+		  return result;
+		}, []);
+
+		console.log($scope.total_obras_by_tipo);
+		renderSideChart();
 		renderChart();
 		window.$(window).resize(function() {
 			clearTimeout($scope.timeoutId);
 			$scope.timeoutId = setTimeout(function(){
+				renderSideChart();
 				renderChart();
 				initialized = {
 					'comunas':false,
@@ -109,6 +121,108 @@ angular.module('obrasMduytApp')
 		$scope.showGroup($scope.selectedGroup);
 	}
 
+
+	function renderSideChart(){
+		console.log('renderSideChart');
+		//chart.w = $('#home-chart-container').width();
+		sidechart.w = d3.select('#side-chart-container').node().getBoundingClientRect().width;
+
+		sidechart.h = 400;
+		sidechart.margin = sidechart.w/100;
+
+		sidechart.gap = 2;
+
+		if(!sidechart.svg) {
+
+
+			//Create
+			sidechart.svg = d3.select('#side-chart-container').append('svg');
+			sidechart.mainGroup = sidechart.svg.append('g').classed('main-group',true);
+			sidechart.mainGroup.append('rect').attr('fill','white');
+			
+		}
+		
+		sidechart.scale = d3.scale.linear()
+        	.domain([0,$scope.obras.length])
+        	.range([0,sidechart.h - (($scope.total_obras_by_tipo.length-1)*sidechart.gap) ]);
+		
+        console.log(sidechart.scale(10));
+        console.log(sidechart.scale(80));
+
+		//Update
+		sidechart.svg
+			.attr('width',sidechart.w)
+			.attr('height',sidechart.h);
+
+		sidechart.mainGroup
+			.select('rect')
+			.attr('width',sidechart.w)
+			.attr('height',sidechart.h);
+
+
+		sidechart.groups = sidechart.mainGroup.selectAll('g.tipo-group')
+			.data($scope.total_obras_by_tipo);
+
+		sidechart.groups
+			.enter()
+			.append('g')
+			.attr('id',function (d){
+				return 'tipo-group-'+d.slug;
+			})
+			.classed('tipo-group',true)
+			.each(function(d) {
+
+				var group = d3.select(this);
+
+				group
+					.append('rect')
+					.datum(d)
+					.classed('tipo-rect',true)
+					.on('click',clickedComunas)
+					.attr('fill',function(d){
+						return tipo_colors(d.tipo);
+					})
+					.on("mouseover", function() {
+						console.log(d);
+						//d3.select('#detalle').html(JSON.stringify(d.data));
+					});
+
+				group
+					.append('text')
+					.datum(d)
+					.classed('tipo-text',true)
+					.attr('fill','#000')
+					.attr('x',30)
+					.text(function(){
+						return d.tipo;
+					});
+
+			});
+
+		sidechart.groups
+			.selectAll('rect.tipo-rect')
+			.attr('width',20)
+			.attr('height',function(d){
+				return sidechart.scale(d.candidad);
+			});
+
+		sidechart.groups
+			.selectAll('text.tipo-text')
+			.attr('y',function(d){
+				return sidechart.scale(d.candidad)/2+5;
+			});
+
+		var acum = 0;
+		sidechart.groups
+			.transition()
+			.attr('transform',function(d){
+				var y = acum;
+				acum = acum + sidechart.gap + sidechart.scale(d.candidad);
+				return 'translate(0,' + y + ')';
+			});
+			
+
+	}
 
 	function sortItems($items,itemW,itemH){
 
@@ -265,7 +379,7 @@ angular.module('obrasMduytApp')
 
 	var activeMap = d3.select(null);
 	function clickedMap(d) {
-	  if (activeMap.node() === this) return resetMap();
+	  if (activeMap.node() === this){ return resetMap();}
 	  activeMap.classed("active", false);
 	  activeMap = d3.select(this).classed("active", true);
 
@@ -444,7 +558,7 @@ angular.module('obrasMduytApp')
 
 	var activeComuna = d3.select(null);
 	function clickedComunas(d) {
-		if (activeComuna.node() === this) return resetComunas();
+		if (activeComuna.node() === this){ return resetComunas();}
 		activeComuna.classed("active", false);
 		activeComuna = d3.select(this)
 			.classed("active", true);
@@ -460,7 +574,7 @@ angular.module('obrasMduytApp')
 	    	.each('end', function () {
 	        	if(this !== selectedG){
 	        		d3.select(this).style('display','none');
-	        	};
+	        	}
 	    	});
 
 		activeComuna.transition()
@@ -631,41 +745,6 @@ angular.module('obrasMduytApp')
 	}
 
 	var activeEtapa = d3.select(null);
-	function clickedEtapas(d) {
-		if (activeEtapa.node() === this) return resetEtapas();
-		activeEtapa.classed("active", false);
-		activeEtapa = d3.select(this)
-			.classed("active", true);
-		
-		var selectedG = activeEtapa
-			.node().parentNode;
-
-		d3.selectAll('g.etapas-item')
-			.transition()
-			.style('opacity',function () {
-	        	return (this === selectedG) ? 1.0 : 0;
-	    	})
-	    	.each('end', function () {
-	        	if(this !== selectedG){
-	        		d3.select(this).style('display','none');
-	        	};
-	    	});
-
-		activeEtapa.transition()
-			.duration(750)
-			.attr('height',chart.h-chart.margin*2)
-			.attr('width',chart.w-chart.margin*2);
-
-		d3.select(selectedG)
-			.transition()
-			.duration(750)
-			.attr('transform','translate(0,0)')
-			.each('end',function(){
-				prepareNodesEtapasGroup(d3.select(selectedG).attr('id'));
-				renderBubbles();
-			});
-	}
-
 	function resetEtapas(clear) {
 	  activeEtapa.classed("active", false);
 
@@ -683,6 +762,41 @@ angular.module('obrasMduytApp')
 			},2000);    		
     	}
 
+	}
+
+	function clickedEtapas(d) {
+		if (activeEtapa.node() === this){  return resetEtapas(); }
+		activeEtapa.classed("active", false);
+		activeEtapa = d3.select(this)
+			.classed("active", true);
+		
+		var selectedG = activeEtapa
+			.node().parentNode;
+
+		d3.selectAll('g.etapas-item')
+			.transition()
+			.style('opacity',function () {
+	        	return (this === selectedG) ? 1.0 : 0;
+	    	})
+	    	.each('end', function () {
+	        	if(this !== selectedG){
+	        		d3.select(this).style('display','none');
+	        	}
+	    	});
+
+		activeEtapa.transition()
+			.duration(750)
+			.attr('height',chart.h-chart.margin*2)
+			.attr('width',chart.w-chart.margin*2);
+
+		d3.select(selectedG)
+			.transition()
+			.duration(750)
+			.attr('transform','translate(0,0)')
+			.each('end',function(){
+				prepareNodesEtapasGroup(d3.select(selectedG).attr('id'));
+				renderBubbles();
+			});
 	}
 
 
@@ -706,13 +820,13 @@ angular.module('obrasMduytApp')
 			.append('circle')
 			.classed('obra',true)
 			.on("mouseover", function(d) {
-				d3.select('#detalle').html(JSON.stringify(d.data));
+				//d3.select('#detalle').html(JSON.stringify(d.data));
 			});
 
 		bubbles.circles
 			.attr('id',function(d){return 'e'+d.data.id;})
 			.style('fill', function(d) { 
-				return bubbles.colors(d.data.tipo[0]); 
+				return tipo_colors(d.data.tipo); 
 			});
 			//.call(bubbles.force.drag);
 
@@ -738,7 +852,7 @@ angular.module('obrasMduytApp')
 			bubbles.lines
 				.attr('id',function(d){ return 'obra-'+d.data.id+'-comuna-'+d.comuna;})
 				.style('stroke', function(d) { 
-				  return bubbles.colors(d.data.tipo[0]); 
+				  return tipo_colors(d.data.tipo); 
 				})
 				.attr('x1',function(d){
 					var center = chart.mapCentroids['mapa-comuna-'+d.comuna];
@@ -780,7 +894,7 @@ angular.module('obrasMduytApp')
 							.attr('x2',0)
 							.attr('y2',0)
 							.style('stroke', function() { 
-							  return bubbles.colors(d.data.tipo[0]); 
+							  return tipo_colors(d.data.tipo); 
 							});
 						
 					})
@@ -808,8 +922,8 @@ angular.module('obrasMduytApp')
 							.attr('x2',d.x)
 							.attr('y2',d.y);
 						
-					})
-			};
+					});
+			}
 		  });
 
 		/*if(bubbles.lines && $scope.selectedGroup=='map'){

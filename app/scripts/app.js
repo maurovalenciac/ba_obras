@@ -33,9 +33,11 @@ angular
       reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
       
       reg.etapa_slug = (reg.etapa)?Slug.slugify(reg.etapa):null;
+      
+      reg.tipo_slug = (reg.tipo)?Slug.slugify(reg.tipo):null;
 
       //arrays
-      reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
+      //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
       reg.comuna = (reg.comuna)?reg.comuna.split('|'):[];
       reg.barrio = (reg.barrio)?reg.barrio.split('|'):[];
       reg.licitacion_oferta_empresas = (reg.licitacion_oferta_empresas)?reg.licitacion_oferta_empresas.split('|'):[];

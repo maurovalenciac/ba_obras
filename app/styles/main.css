@@ -1,9 +1,9 @@
 html{
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
 
 body{
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
 
 #home-chart-container path {
@@ -42,7 +42,8 @@ rect.etapas-item-frame.active{
 }
 
 
-#home-chart-container{
+#home-chart-container,
+#side-chart-container{
 	width: 100%;
 }
 
