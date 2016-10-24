@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('obrasMduytApp')
-  .controller('HomeCtrl', function ($scope,DataService) {
+  .controller('HomeCtrl', function ($scope,DataService,$filter) {
 
 	var d3 = window.d3;
 
 	$scope.pymChild = new window.pym.Child({ polling: 1000 });
 	var chart = {};
 	var sidechart = {};
+	var scalechart = {};
 	var bubbles = {};
 	var tipo_colors = d3.scale.category20();
 	$scope.selectedGroup = 'comunas';
@@ -40,7 +41,6 @@ angular.module('obrasMduytApp')
 
 	DataService.getAll()
 	.then(function(data){
-		console.log(data);
 		$scope.obras = data;
 		
 		$scope.obras_by_tipo = _.groupBy(data,'tipo');
@@ -51,7 +51,6 @@ angular.module('obrasMduytApp')
 		  return result;
 		}, []);
 
-		console.log($scope.total_obras_by_tipo);
 		renderSideChart();
 		renderChart();
 		window.$(window).resize(function() {
@@ -173,7 +172,6 @@ angular.module('obrasMduytApp')
 					.append('rect')
 					.datum(d)
 					.classed('tipo-rect',true)
-					.on('click',clickedComunas)
 					.attr('fill',function(d){
 						return tipo_colors(d.tipo);
 					})
@@ -216,6 +214,136 @@ angular.module('obrasMduytApp')
 				return 'translate(0,' + y + ')';
 			});
 			
+
+	}
+
+	function renderScaleChart(){
+
+		scalechart.w = d3.select('#scale-chart-container').node().getBoundingClientRect().width;
+
+		scalechart.h = 300;
+		scalechart.margin = scalechart.w/100;
+
+		scalechart.gap = 5;
+
+		if(!scalechart.svg) {
+
+			//Create
+			scalechart.svg = d3.select('#scale-chart-container').append('svg');
+			scalechart.mainGroup = scalechart.svg.append('g').classed('main-group',true);
+			scalechart.mainGroup.append('rect').attr('fill','white');
+			
+		}
+		
+		var legendData;
+		if(bubbles.scale){
+			var domain = bubbles.scale.domain();
+			var range = bubbles.scale.range();
+
+			legendData = [
+					{legend:$filter('currency')(domain[1], '$', 0).replace(/\,/g,'.'),radius:range[1]},
+					{legend:$filter('currency')((domain[0]+domain[1])/2, '$', 0).replace(/\,/g,'.'),radius:(range[0]+range[1])/2},
+					{legend:$filter('currency')(domain[0], '$', 0).replace(/\,/g,'.'),radius:range[0]}
+				];
+		} else {
+			legendData = [
+					{legend:'Obra',radius:10}
+			];
+		}
+
+		//Update
+
+		scalechart.groups = scalechart.mainGroup.selectAll('g.legend-group')
+			.data(legendData);
+
+		scalechart.groups
+			.enter()
+			.append('g')
+			.attr('id',function (d,i){
+				return 'legend-group-'+i;
+			})
+			.classed('legend-group',true)
+			.each(function(d) {
+
+				var group = d3.select(this);
+
+				group
+					.append('circle')
+					.datum(d)
+					.classed('legend-circle',true)
+					.attr('fill','ccc');
+
+				group
+					.append('text')
+					.datum(d)
+					.classed('legend-text',true)
+					.attr('fill','#000');
+
+			});
+
+		scalechart.groups
+			.each(function(d) {
+
+					var group = d3.select(this);
+
+					group
+						.select('circle')
+						.datum(d);
+
+					group
+						.select('text')
+						.datum(d);
+
+				});
+
+		scalechart.groups
+			.exit()
+			.remove();
+
+		var acum = 0;
+
+		scalechart.groups
+			.transition()
+			.attr('transform',function(d){
+				var y = acum;
+				acum += scalechart.gap + (d.radius*2);
+				return 'translate(0,' + y + ')';
+			});
+
+		var maxRadius = d3.max(legendData,function(d){return d.radius;})
+
+		scalechart.groups
+			.selectAll('circle.legend-circle')
+			.attr('cy',function(d){
+				return d.radius;
+			})
+			.attr('cx',function(d){
+				return maxRadius;
+			})
+			.attr('r',function(d){
+				return d.radius;
+			});
+
+		scalechart.groups
+			.selectAll('text.legend-text')
+			.attr('x',function(d){
+				return (maxRadius*2)+10;
+			})
+			.attr('y',function(d){
+				return d.radius+5;
+			})
+			.text(function(d){
+				return d.legend;
+			});
+
+		scalechart.svg
+			.attr('width',scalechart.w)
+			.attr('height',acum);
+
+		scalechart.mainGroup
+			.select('rect')
+			.attr('width',scalechart.w)
+			.attr('height',acum);
 
 	}
 
@@ -368,6 +496,9 @@ angular.module('obrasMduytApp')
 
 				  return c;
 				});
+
+		bubbles.scale = false;
+		renderScaleChart();
 
 	}
 
@@ -533,6 +664,8 @@ angular.module('obrasMduytApp')
 		bubbles.scale = d3.scale.linear()
         	.domain([parseInt(min),parseInt(max)])
         	.range([10,(filterId)?100:50]);
+
+		renderScaleChart();
 
 		bubbles.nodes = filtered
 				.filter(function(d){
@@ -734,6 +867,8 @@ angular.module('obrasMduytApp')
 		bubbles.scale = d3.scale.linear()
         	.domain([parseInt(min),parseInt(max)])
         	.range([10,(filterId)?100:50]);
+
+        renderScaleChart();
 
 		bubbles.nodes = filtered
 				.map(function(d) {
