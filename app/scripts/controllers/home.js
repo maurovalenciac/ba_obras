@@ -36,6 +36,8 @@ angular.module('obrasMduytApp')
 		'map':false
 	};
 
+	var _ = window._;
+
 	DataService.getAll()
 	.then(function(data){
 		console.log(data);
@@ -49,7 +51,7 @@ angular.module('obrasMduytApp')
 					'comunas':false,
 					'etapas':false,
 					'map':false
-				}
+				};
 			}, 1000);
 		});
 	});
@@ -147,7 +149,7 @@ angular.module('obrasMduytApp')
 
 		renderFunctions[group]();
 
-		var time = (initialized[group] || group == 'map')?100:2000;
+		var time = (initialized[group] || group === 'map')?100:2000;
 		initialized[group] = true;
 
 		setTimeout(function(){
@@ -239,11 +241,7 @@ angular.module('obrasMduytApp')
 					  
 					  bubbles.clusters[i] = c;
 
-					  var randLat = -1*(Math.random() * (34.50001 - 34.70001) + 34.70001).toFixed(5);
-					  var randLng = -1*(Math.random() * (58.30001 - 58.50001) + 58.50001).toFixed(5);
-
 					  var point = chart.mapProjection([parseFloat(d.lng),parseFloat(d.lat)]);
-					  //var point = chart.mapProjection([randLng,randLat]);
 
 					  bubbles.clusterPoints[i] = {
 						x: point[0],
@@ -504,7 +502,13 @@ angular.module('obrasMduytApp')
 
 	function renderEtapasGroup(clear){
 
-		var etapas = d3.range(1,5);
+		var etapas = ['en-proyecto','en-licitacion','en-ejecucion','finalizada'];
+		var etapas_string = {
+			'en-proyecto':'En Proyecto',
+			'en-licitacion':'En Licitación',
+			'en-ejecucion':'En Ejecución',
+			'finalizada':'Finalizada'
+		};
 		
 		var itemH,itemW;
 		if($scope.isSmallDevice){
@@ -549,7 +553,7 @@ angular.module('obrasMduytApp')
 						.classed('etapas-item-text',true)
 						.attr('fill','#000')
 						.text(function(d){
-							return 'Etapa '+d;
+							return etapas_string[d];
 						});
 
 				});
@@ -599,10 +603,10 @@ angular.module('obrasMduytApp')
 
 		bubbles.nodes = $scope.obras
 				.filter(function(d){
-					return (d.etapa && (!filterId || (filterId && d.etapa===filterId) ));
+					return (d.etapa && (!filterId || (filterId && d.etapa_slug===filterId) ));
 				})
 				.map(function(d) {
-				  var i = 'e'+(Math.floor(Math.random() * 4)+1),
+				  var i = 'e-'+d.etapa_slug,
 					  r = 10,
 					  c = {cluster: i, radius: r, data:d};
 					  
@@ -617,7 +621,7 @@ angular.module('obrasMduytApp')
 			var g = d3.select(this);
 			var rect = g.select('rect');
 
-			bubbles.clusterPoints['e'+d] = {
+			bubbles.clusterPoints['e-'+d] = {
 				x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
 				y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
 				radius:10
@@ -709,7 +713,7 @@ angular.module('obrasMduytApp')
 			.attr('id',function(d){return 'e'+d.data.id;})
 			.style('fill', function(d) { 
 				return bubbles.colors(d.data.tipo[0]); 
-			})
+			});
 			//.call(bubbles.force.drag);
 
 		 bubbles.circles
@@ -805,7 +809,7 @@ angular.module('obrasMduytApp')
 							.attr('y2',d.y);
 						
 					})
-				}
+			};
 		  });
 
 		/*if(bubbles.lines && $scope.selectedGroup=='map'){

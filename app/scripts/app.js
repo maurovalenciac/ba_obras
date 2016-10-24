@@ -31,6 +31,8 @@ angular
     var cleanData = function(reg){
       //slug
       reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
+      
+      reg.etapa_slug = (reg.etapa)?Slug.slugify(reg.etapa):null;
 
       //arrays
       reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
@@ -52,11 +54,16 @@ angular
         if (reg[key]){
           reg.fotos.push(reg[key]);
         }
-      };
-
-
+      }
 
       return reg;
+    };
+
+    var etapas_validas = ['en-proyecto','en-licitacion','en-ejecucion','finalizada'];
+
+    var filterData = function(reg){
+      var cond1 = (etapas_validas.indexOf(reg.etapa_slug)>-1);
+      return cond1;
     };
 
     var getUrl = function(){
@@ -117,7 +124,9 @@ angular
         var deferred = $q.defer();
         $http.jsonp(getUrl())
         .then(function(result) {
-          data = result.data.map(cleanData);
+          data = result.data
+            .map(cleanData)
+            .filter(filterData);
           deferred.resolve(data);
         }, function(error) {
           data = error;
