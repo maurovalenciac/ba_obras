@@ -123,8 +123,7 @@ angular.module('obrasMduytApp')
 
 
 	function renderSideChart(){
-		console.log('renderSideChart');
-		//chart.w = $('#home-chart-container').width();
+
 		sidechart.w = d3.select('#side-chart-container').node().getBoundingClientRect().width;
 
 		sidechart.h = 400;
@@ -133,7 +132,6 @@ angular.module('obrasMduytApp')
 		sidechart.gap = 2;
 
 		if(!sidechart.svg) {
-
 
 			//Create
 			sidechart.svg = d3.select('#side-chart-container').append('svg');
@@ -146,9 +144,6 @@ angular.module('obrasMduytApp')
         	.domain([0,$scope.obras.length])
         	.range([0,sidechart.h - (($scope.total_obras_by_tipo.length-1)*sidechart.gap) ]);
 		
-        console.log(sidechart.scale(10));
-        console.log(sidechart.scale(80));
-
 		//Update
 		sidechart.svg
 			.attr('width',sidechart.w)
@@ -527,13 +522,26 @@ angular.module('obrasMduytApp')
 
 		var filterId = (comunaID)?comunaID.replace('comunas-item-',''):false;
 
-		bubbles.nodes = $scope.obras
+		var filtered = $scope.obras
+				.filter(function(d){
+					return ( d.comuna[0] && (!filterId || (filterId && d.comuna[0]===filterId ) ) );
+				});
+
+		var max = Math.ceil(d3.max(filtered,function(d){return d.monto_contrato;}));
+		var min = Math.floor(d3.min(filtered,function(d){return d.monto_contrato;}));
+
+		bubbles.scale = d3.scale.linear()
+        	.domain([parseInt(min),parseInt(max)])
+        	.range([10,(filterId)?100:50]);
+
+		bubbles.nodes = filtered
 				.filter(function(d){
 					return ( d.comuna[0] && (!filterId || (filterId && d.comuna[0]===filterId ) ) );
 				})
 				.map(function(d) {
 				  var i = 'c'+d.comuna[0],
-					  r = 10,
+					  //r = 10,
+					  r = bubbles.scale((d.monto_contrato)?d.monto_contrato:0),
 					  c = {cluster: i, radius: r, data:d};
 					  
 					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
@@ -550,7 +558,7 @@ angular.module('obrasMduytApp')
 			bubbles.clusterPoints['c'+d] = {
 				x: d3.transform(g.attr('transform')).translate[0]+rect.attr('width')/2,
 				y: d3.transform(g.attr('transform')).translate[1]+rect.attr('height')/2,
-				radius:10
+				radius:20
 			};
 		});
 
@@ -715,13 +723,22 @@ angular.module('obrasMduytApp')
 
 		var filterId = (etapaID)?etapaID.replace('etapas-item-',''):false;
 
-		bubbles.nodes = $scope.obras
+		var filtered = $scope.obras
 				.filter(function(d){
 					return (d.etapa && (!filterId || (filterId && d.etapa_slug===filterId) ));
-				})
+				});
+
+		var max = Math.ceil(d3.max(filtered,function(d){return d.monto_contrato;}));
+		var min = Math.floor(d3.min(filtered,function(d){return d.monto_contrato;}));
+
+		bubbles.scale = d3.scale.linear()
+        	.domain([parseInt(min),parseInt(max)])
+        	.range([10,(filterId)?100:50]);
+
+		bubbles.nodes = filtered
 				.map(function(d) {
 				  var i = 'e-'+d.etapa_slug,
-					  r = 10,
+					  r = bubbles.scale((d.monto_contrato)?d.monto_contrato:0),
 					  c = {cluster: i, radius: r, data:d};
 					  
 					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
@@ -975,7 +992,7 @@ angular.module('obrasMduytApp')
 	function collide(alpha) {
 	  var quadtree = d3.geom.quadtree(bubbles.nodes);
 	  return function(d) {
-		var r = d.radius + 10,
+		var r = d.radius + 2,
 			nx1 = d.x - r,
 			nx2 = d.x + r,
 			ny1 = d.y - r,
@@ -985,7 +1002,7 @@ angular.module('obrasMduytApp')
 			var x = d.x - quad.point.x,
 				y = d.y - quad.point.y,
 				l = Math.sqrt(x * x + y * y),
-				r = d.radius + quad.point.radius + 5;
+				r = d.radius + quad.point.radius + 2;
 			if (l < r) {
 			  l = (l - r) / l * alpha;
 			  d.x -= x *= l;
