@@ -13,6 +13,32 @@ body{
   cursor: pointer;
 }
 
+#tooltip-home-chart{
+  position: absolute;
+  width: 200px;
+  background-color: white;
+  -webkit-box-shadow: 2px 4px 11px 0px rgba(50, 50, 50, 1);
+  -moz-box-shadow:    2px 4px 11px 0px rgba(50, 50, 50, 1);
+  box-shadow:         2px 4px 11px 0px rgba(50, 50, 50, 1);
+  opacity: 0;
+  padding: 10px;
+}
+
+#tooltip-home-chart span.title{
+  display: block;
+  font-size: 12px;
+}
+
+#tooltip-home-chart span.desc{
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#home-chart-container circle.obra{
+  cursor: pointer;
+}
+
 #home-chart-container path:hover {
   fill: #ccc;
 }
@@ -28,7 +54,9 @@ body{
 rect.comunas-item-frame,
 rect.etapas-item-frame {
   fill: #dedede;
-  cursor: pointer;
+  cursor: -moz-zoom-in; 
+  cursor: -webkit-zoom-in; 
+  cursor: zoom-in;
 }
 
 rect.comunas-item-frame:hover,

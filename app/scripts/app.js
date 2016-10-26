@@ -44,11 +44,11 @@ angular
 
       //numbers
       reg.id = parseInt(reg.id);
-      reg.licitacion_anio = (reg.licitacion_anio)?parseInt(reg.licitacion_anio):null;
-      reg.monto_contrato = (reg.monto_contrato)?parseFloat(reg.monto_contrato):null;
-      reg.licitacion_presupuesto_oficial = (reg.licitacion_presupuesto_oficial)?parseFloat(reg.licitacion_presupuesto_oficial):null;
-      reg.plazo_meses = (reg.plazo_meses)?parseInt(reg.plazo_meses):null;
-      reg.porcentaje_avance = (reg.porcentaje_avance)?parseFloat(reg.porcentaje_avance):null;
+      reg.licitacion_anio = (reg.licitacion_anio)?parseInt(reg.licitacion_anio.trim()):null;
+      reg.monto_contrato = (reg.monto_contrato)?parseFloat(reg.monto_contrato.trim()):null;
+      reg.licitacion_presupuesto_oficial = (reg.licitacion_presupuesto_oficial)?parseFloat(reg.licitacion_presupuesto_oficial.trim()):null;
+      reg.plazo_meses = (reg.plazo_meses)?parseInt(reg.plazo_meses.trim()):null;
+      reg.porcentaje_avance = (reg.porcentaje_avance)?parseFloat(reg.porcentaje_avance.trim()):null;
 
       reg.fotos = [];
       for (var i = 1; i <= 4; i++) {

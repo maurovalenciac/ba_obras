@@ -10,6 +10,16 @@
     <div class="row">
       <div class="col-sm-12">
         <div id="home-chart-container"></div>
+        <div id="tooltip-home-chart">
+          <button type="button" class="close pull-right" ng-click="closeTooltip()">&times;</button>
+          <span class="title">Obra:</span>
+          <span class="desc">{{selectedObra.data.nombre}}</span>
+          <span class="title">Tipo:</span>
+          <span class="desc">{{selectedObra.data.tipo}}</span>
+          <span class="title">Estado:</span>
+          <span class="desc">{{selectedObra.data.etapa}}</span>
+          <a ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
+        </div>
       </div>
     </div>
   </div>
@@ -17,7 +27,7 @@
     <h4>Tipos de obra</h4>
     <div id="side-chart-container"></div>
     <hr/>
-    <h4>Monto total</h4>
+    <h4>Monto total <br/> <small>(en milloes de pesos)</small></h4>
     <div id="scale-chart-container"></div>
   </div>
 </div>
