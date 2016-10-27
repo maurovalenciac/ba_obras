@@ -13,11 +13,13 @@ angular
     'ngSanitize',
     'slugifier',
     'angular-flexslider',
-    'leaflet-directive'
+    'leaflet-directive',
+    'ngTable'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/home', {templateUrl: 'views/home.html',controller: 'HomeCtrl',controllerAs: 'home'})
+      .when('/buscador', {templateUrl: 'views/buscador.html',controller: 'BuscadorCtrl',controllerAs: 'buscador'})
       .when('/obra/:id', {templateUrl: 'views/obra.html',controller: 'ObraCtrl',controllerAs: 'obra'})
       .when('/entorno/:entorno', {templateUrl: 'views/entorno.html',controller: 'EntornoCtrl',controllerAs: 'entorno'})
       .otherwise({

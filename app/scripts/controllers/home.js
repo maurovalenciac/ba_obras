@@ -229,6 +229,23 @@ angular.module('obrasMduytApp')
 
 		scalechart.gap = 5;
 
+		scalechart.nFormatter = function(num, digits) {
+		  var si = [
+/*		    { value: 1E18, symbol: "E" },
+		    { value: 1E15, symbol: "P" },
+		    { value: 1E12, symbol: "T" },
+		    { value: 1E9,  symbol: "G" },*/
+		    { value: 1E6,  symbol: " millones" },
+		    { value: 1E3,  symbol: " mil" }
+		  ], rx = /\.0+$|(\.[0-9]*[1-9])0+$/, i;
+		  for (i = 0; i < si.length; i++) {
+		    if (num >= si[i].value) {
+		      return $filter('currency')((num / si[i].value).toFixed(digits).replace(rx, "$1"), '$', 0).replace(/\,/g,'.') + si[i].symbol;
+		    }
+		  }
+		  return num.toFixed(digits).replace(rx, "$1");
+		}
+
 		if(!scalechart.svg) {
 
 			//Create
@@ -244,12 +261,13 @@ angular.module('obrasMduytApp')
 			var range = bubbles.scale.range();
 
 			//format $
+			//var max = $filter('currency')(NN, '$', 0).replace(/\,/g,'.')
 			//$filter('currency')((domain[0]+domain[1])/2, '$', 0).replace(/\,/g,'.')
 
 			legendData = [
-					{legend:'Más de 2',radius:range[1]},
-					{legend:'Entre 1 y 2',radius:(range[0]+range[1])/2},
-					{legend:'Hasta 1',radius:range[0]}
+					{legend:scalechart.nFormatter(domain[1],0),radius:range[1]},
+					{legend:scalechart.nFormatter((domain[0]+domain[1])/2,0),radius:(range[0]+range[1])/2},
+					{legend:scalechart.nFormatter(domain[0],0),radius:range[0]}
 				];
 		} else {
 			legendData = [
@@ -333,7 +351,7 @@ angular.module('obrasMduytApp')
 		scalechart.groups
 			.selectAll('text.legend-text')
 			.attr('x',function(d){
-				return (maxRadius*2)+10;
+				return (maxRadius)+10;
 			})
 			.attr('y',function(d){
 				return d.radius+5;
