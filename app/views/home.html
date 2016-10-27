@@ -1,25 +1,22 @@
 <div class="row">
+  <div class="col-sm-12">
+    <h4>Explorador de Obras</h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <a class="btn btn-default" ng-click="showGroup('map')">Mapa</a>
+    <a class="btn btn-default" ng-click="showGroup('comunas')">Comunas</a>
+    <a class="btn btn-default" ng-click="showGroup('etapas')">Etapas</a>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-sm-10">
     <div class="row">
       <div class="col-sm-12">
-        <a class="btn btn-default" ng-click="showGroup('map')">Mapa</a>
-        <a class="btn btn-default" ng-click="showGroup('comunas')">Comunas</a>
-        <a class="btn btn-default" ng-click="showGroup('etapas')">Etapas</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
         <div id="home-chart-container"></div>
-        <div id="tooltip-home-chart">
-          <button type="button" class="close pull-right" ng-click="closeTooltip()">&times;</button>
-          <span class="title">Obra:</span>
-          <span class="desc">{{selectedObra.data.nombre}}</span>
-          <span class="title">Tipo:</span>
-          <span class="desc">{{selectedObra.data.tipo}}</span>
-          <span class="title">Estado:</span>
-          <span class="desc">{{selectedObra.data.etapa}}</span>
-          <a ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
-        </div>
       </div>
     </div>
   </div>
@@ -34,6 +31,26 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h4>[Sankey]</h4>
+    <h4>Obras para una ciudad a tu medida</h4>
+    <p>En un solo vistazo, conocé qué estamos haciendo para mejorar la Ciudad.</p>
   </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div id="sankey-chart-container"></div>
+  </div>
+</div>
+
+
+<!-- Tooltip OBRAS -->
+<div id="tooltip-home-chart">
+  <button type="button" class="close pull-right" ng-click="closeTooltip()">&times;</button>
+  <span class="title">Obra:</span>
+  <span class="desc">{{selectedObra.data.nombre}}</span>
+  <span class="title">Tipo:</span>
+  <span class="desc">{{selectedObra.data.tipo}}</span>
+  <span class="title">Estado:</span>
+  <span class="desc">{{selectedObra.data.etapa}}</span>
+  <a ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
 </div>

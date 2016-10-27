@@ -7,7 +7,7 @@ body{
 }
 
 #home-chart-container path {
-  fill: #dedede;
+  fill: #E3E3E3;
   stroke: #FFF;
   stroke-width: 3px;
   cursor: pointer;
@@ -33,6 +33,7 @@ body{
   display: block;
   font-weight: bold;
   font-size: 14px;
+  margin-bottom: 7px;
 }
 
 #home-chart-container circle.obra{
@@ -40,11 +41,17 @@ body{
 }
 
 #home-chart-container path:hover {
-  fill: #ccc;
+  fill: #d8d8d8;
+  cursor: -moz-zoom-in; 
+  cursor: -webkit-zoom-in; 
+  cursor: zoom-in;
 }
 
 #home-chart-container path.active {
-  fill: #ccc;
+  fill: #d8d8d8;
+  cursor: -moz-zoom-out; 
+  cursor: -webkit-zoom-out; 
+  cursor: zoom-out;
 }
 
 #home-chart-container line {
@@ -53,7 +60,7 @@ body{
 
 rect.comunas-item-frame,
 rect.etapas-item-frame {
-  fill: #dedede;
+  fill: #E3E3E3;
   cursor: -moz-zoom-in; 
   cursor: -webkit-zoom-in; 
   cursor: zoom-in;
@@ -61,12 +68,15 @@ rect.etapas-item-frame {
 
 rect.comunas-item-frame:hover,
 rect.etapas-item-frame:hover {
-  fill: #ccc;
+  fill: #d8d8d8;
 }
 
 rect.comunas-item-frame.active,
 rect.etapas-item-frame.active{
-  fill: #ccc;
+  fill: #d8d8d8;
+  cursor: -moz-zoom-out; 
+  cursor: -webkit-zoom-out; 
+  cursor: zoom-out;
 }
 
 
@@ -74,6 +84,28 @@ rect.etapas-item-frame.active{
 #side-chart-container{
 	width: 100%;
 }
+
+#sankey-chart-container .node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+#sankey-chart-container .node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+}
+
+#sankey-chart-container .link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+}
+
+#sankey-chart-container .link:hover {
+  stroke-opacity: .5;
+}
+
 
 slick.slider-nav img {
     max-width: 50%;
