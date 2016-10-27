@@ -512,7 +512,6 @@ angular.module('obrasMduytApp')
 			sankeychart.mainGroup = sankeychart.svg.append('g').classed('main-group',true);
 			sankeychart.mainGroup.append('rect').attr('fill','white');
 
-			sankeychart.color = d3.scale.category20();
 		}
 		
 		//Update
@@ -548,8 +547,7 @@ angular.module('obrasMduytApp')
 			.attr("d", sankeychart.path)
 			.style("stroke-width", function(d) { return Math.max(1, d.dy); })
 			.style("stroke", function(d) {
-				//return tipo_colors(d.source.name);
-				return 'ccc';
+				return (tipo_colors.domain().indexOf(d.source.name)>-1)?tipo_colors(d.source.name):tipo_colors(d.target.name);
 			})
 			.sort(function(a, b) { return b.dy - a.dy; });
 
@@ -581,8 +579,7 @@ angular.module('obrasMduytApp')
 			.attr("height", function(d) { return d.dy; })
 			.attr("width", sankeychart.sankey.nodeWidth())
 			.style("fill", function(d) { 
-				//return d.color = sankeychart.color(d.name.replace(/ .*/, "")); 
-				return '000';
+				return (tipo_colors.domain().indexOf(d.name)>-1)?tipo_colors(d.name):'#000';
 			})
 			.append("title")
 			.text(function(d) { 
