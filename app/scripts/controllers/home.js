@@ -588,7 +588,8 @@ angular.module('obrasMduytApp')
 		// add the link titles
 		sankeychart.link.append("title")
 			.text(function(d) {
-				return d.source.name + " → " + 
+				var from = isNaN(d.source.name)?d.source.name:'Comuna '+d.source.name;
+				return from + " → " + 
 				d.target.name + "\nObras: " + d.value; 
 			});
 
@@ -601,12 +602,12 @@ angular.module('obrasMduytApp')
 			.attr("transform", function(d) { 
 				return "translate(" + d.x + "," + d.y + ")"; 
 			})
-			.call(d3.behavior.drag()
-			.origin(function(d) { return d; })
-			.on("dragstart", function() { 
+			//.call(d3.behavior.drag())
+			//.origin(function(d) { return d; });
+			/*.on("dragstart", function() { 
 				this.parentNode.appendChild(this); 
 			})
-			.on("drag", dragmove));
+			.on("drag", dragmove));*/
 
 		// add the rectangles for the nodes
 		sankeychart.node.append("rect")
@@ -616,8 +617,10 @@ angular.module('obrasMduytApp')
 				return (tipo_colors.domain().indexOf(d.name)>-1)?tipo_colors(d.name):'#000';
 			})
 			.append("title")
-			.text(function(d) { 
-				return d.name; 
+			.text(function(d) {
+				var name = isNaN(d.name)?d.name:'Comuna '+d.name;
+				name += "\nObras: " + d.value;
+				return name; 
 			});
 
 		// add in the title for the nodes
