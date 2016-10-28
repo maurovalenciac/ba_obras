@@ -72,14 +72,14 @@ angular.module('obrasMduytApp')
 			if( w != $( window ).width() ){
 				clearTimeout($scope.timeoutId);
 				$scope.timeoutId = setTimeout(function(){
-					renderSideChart();
-					renderSankeyChart();
-					renderChart();
 					initialized = {
 						'comunas':false,
 						'etapas':false,
 						'map':false
 					};
+					renderSideChart();
+					renderSankeyChart();
+					renderChart();
 				}, 1000);
 			}
 		});
