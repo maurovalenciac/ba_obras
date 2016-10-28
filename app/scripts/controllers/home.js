@@ -44,6 +44,14 @@ angular.module('obrasMduytApp')
 
 	var _ = window._;
 
+	var w = 0;
+ 
+	$( window ).load( function(){
+
+	   w = $( window ).width();
+
+	});
+
 	DataService.getAll()
 	.then(function(data){
 		$scope.obras = data;
@@ -60,17 +68,20 @@ angular.module('obrasMduytApp')
 		renderSankeyChart();
 		renderChart();
 		window.$(window).resize(function() {
-			clearTimeout($scope.timeoutId);
-			$scope.timeoutId = setTimeout(function(){
-				renderSideChart();
-				renderSankeyChart();
-				renderChart();
-				initialized = {
-					'comunas':false,
-					'etapas':false,
-					'map':false
-				};
-			}, 1000);
+
+			if( w != $( window ).width() ){
+				clearTimeout($scope.timeoutId);
+				$scope.timeoutId = setTimeout(function(){
+					renderSideChart();
+					renderSankeyChart();
+					renderChart();
+					initialized = {
+						'comunas':false,
+						'etapas':false,
+						'map':false
+					};
+				}, 1000);
+			}
 		});
 	});
 
@@ -265,9 +276,9 @@ angular.module('obrasMduytApp')
 			//$filter('currency')((domain[0]+domain[1])/2, '$', 0).replace(/\,/g,'.')
 
 			legendData = [
-					{legend:scalechart.nFormatter(domain[1],0),radius:range[1]},
-					{legend:scalechart.nFormatter((domain[0]+domain[1])/2,0),radius:(range[0]+range[1])/2},
-					{legend:scalechart.nFormatter(domain[0],0),radius:range[0]}
+					{legend:scalechart.nFormatter(domain[1],0),radius:scalechart.w/2},
+					{legend:scalechart.nFormatter((domain[0]+domain[1])/2,0),radius:scalechart.w/4},
+					{legend:scalechart.nFormatter(domain[0],0),radius:scalechart.w/6}
 				];
 		} else {
 			legendData = [
@@ -350,15 +361,19 @@ angular.module('obrasMduytApp')
 
 		scalechart.groups
 			.selectAll('text.legend-text')
+			.attr('text-anchor','middle')
 			.attr('x',function(d){
-				return (maxRadius)+10;
+				return maxRadius;
 			})
 			.attr('y',function(d){
 				return d.radius+5;
 			})
+			.style('opacity',0)
 			.text(function(d){
 				return d.legend;
-			});
+			})
+			.transition()
+			.style('opacity',1);
 
 		scalechart.svg
 			.attr('width',scalechart.w)
