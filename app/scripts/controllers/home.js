@@ -400,6 +400,7 @@ angular.module('obrasMduytApp')
 	$scope.showGroup = function(group){
 
 		if($scope.selectedGroup !== group){
+			$scope.closeTooltip();
 			resetFunctions[$scope.selectedGroup](true);
 			chart.svg.selectAll('.child')
 			.style('opacity',0)
@@ -483,7 +484,7 @@ angular.module('obrasMduytApp')
 					} 
 				})
 				.map($scope.obras.filter(function(d){
-					return d.comuna.length == 1;
+					return (d.comuna);
 				}));
 
 			_.each(temp,function(c,comuna){
@@ -709,13 +710,13 @@ angular.module('obrasMduytApp')
 						radius:5
 					  };
 
-					  if(d.comuna.length>1){
+					  /*if(d.comuna.length>1){
 						_.each(d.comuna,function(cid){
 							var clone = _.clone(c);
 							clone.comuna = cid;
 							bubbles.nodesComuna.push(clone);
 						});
-					  }
+					  }*/
 
 				  return c;
 				});
@@ -879,7 +880,7 @@ angular.module('obrasMduytApp')
 
 		var filtered = $scope.obras
 				.filter(function(d){
-					return ( d.comuna[0] && (!filterId || (filterId && d.comuna[0]===filterId ) ) );
+					return ( d.comuna && (!filterId || (filterId && d.comuna===filterId ) ) );
 				});
 
 		var max = Math.ceil(d3.max(filtered,function(d){return d.monto_contrato;}));
@@ -893,10 +894,10 @@ angular.module('obrasMduytApp')
 
 		bubbles.nodes = filtered
 				.filter(function(d){
-					return ( d.comuna[0] && (!filterId || (filterId && d.comuna[0]===filterId ) ) );
+					return ( d.comuna && (!filterId || (filterId && d.comuna===filterId ) ) );
 				})
 				.map(function(d) {
-				  var i = 'c'+d.comuna[0],
+				  var i = 'c'+d.comuna,
 					  //r = 10,
 					  r = bubbles.scale((d.monto_contrato)?d.monto_contrato:0),
 					  c = {cluster: i, radius: (r)?r:10, data:d};
@@ -1395,8 +1396,8 @@ angular.module('obrasMduytApp')
 		$scope.tooltip
 			.transition()
 			.duration(200)
-			.style("top", 0)
-			.style("left", 0)
+			.style("top", -100)
+			.style("left", -100)
 			.style("opacity", 0);
 	}
 

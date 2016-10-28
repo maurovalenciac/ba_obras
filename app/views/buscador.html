@@ -1,11 +1,7 @@
 <div class="row">
-  <div class="col-md-12">
-
-    <table ng-table-dynamic="tableParams with cols" class="table table-responsive" >
+    <table id="buscador-table" ng-table-dynamic="tableParams with cols" class="table table-responsive" >
         <tr ng-repeat="row in $data">
-            <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+            <td ng-repeat="col in $columns" ng-bind-html="col.getValue(this, row)"></td>
         </tr>
     </table>
-
-  </div>
 </div>

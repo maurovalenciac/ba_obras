@@ -40,7 +40,8 @@ angular
 
       //arrays
       //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
-      reg.comuna = (reg.comuna)?reg.comuna.split('|'):[];
+      var comunas = (reg.comuna)?reg.comuna.split('|'):[null];
+      reg.comuna = comunas[0];
       reg.barrio = (reg.barrio)?reg.barrio.split('|'):[];
       reg.licitacion_oferta_empresas = (reg.licitacion_oferta_empresas)?reg.licitacion_oferta_empresas.split('|'):[];
 
