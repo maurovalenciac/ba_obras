@@ -58,6 +58,11 @@ body{
   stroke-width: 1px;
 }
 
+label.label-nav{
+  font-weight: normal;
+  margin-top: 6px;
+}
+
 rect.comunas-item-frame,
 rect.etapas-item-frame {
   fill: #E3E3E3;

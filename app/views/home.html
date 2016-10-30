@@ -5,10 +5,43 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-12">
-    <a class="btn btn-default" ng-click="showGroup('map')">Mapa</a>
-    <a class="btn btn-default" ng-click="showGroup('comunas')">Comunas</a>
-    <a class="btn btn-default" ng-click="showGroup('etapas')">Etapas</a>
+  <div class="col-md-4">
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="agrupar" class="pull-left label-nav">Agrupar por</label>
+        <div class="dropdown pull-left">
+          <button class="btn btn-link dropdown-toggle" type="button" id="agrupar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{selectedGroup | cleanunderscore}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a ng-click="selectedGroup='comunas';showGroup();">Comunas</a></li>
+            <li><a ng-click="selectedGroup='etapas';showGroup();">Etapa</a></li>
+            <li><a ng-click="selectedGroup='mapa';showGroup();">Mapa</a></li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-4">
+    <form class="form-inline">
+  
+      <div class="form-group">
+        <label for="radio" class="pull-left label-nav">Agrupar por</label>
+        <div class="dropdown pull-left">
+          <button class="btn btn-link dropdown-toggle" type="button" id="radio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{selectedRadioDimension | cleanunderscore}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a ng-click="selectedRadioDimension='monto_contrato';showGroup();">Monto contrato</a></li>
+            <li><a ng-click="selectedRadioDimension='licitacion_presupuesto_oficial';showGroup();">Presupuesto oficial</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
   </div>
 </div>
 

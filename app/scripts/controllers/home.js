@@ -13,33 +13,37 @@ angular.module('obrasMduytApp')
 	var bubbles = {};
 	var tipo_colors = d3.scale.ordinal()
 	  .range(['#A5E668', '#678DD8' , '#F94745','#EE73A7','#FF8F12','#00BDB7','#FFD500']);
+	
 	$scope.selectedGroup = 'comunas';
+	$scope.oldGroup = 'comunas';
 	$scope.selectedObra = false;
+
+	$scope.selectedRadioDimension = 'monto_contrato';
 
 	$scope.tooltip = d3.select("#tooltip-home-chart");
 
 	var renderFunctions = {
 		'comunas':renderComunasGroup,
 		'etapas':renderEtapasGroup,
-		'map':renderMapGroup
+		'mapa':renderMapGroup
 	};
 
 	var prepareNodesFunctions = {
 		'comunas':prepareNodesComunasGroup,
 		'etapas':prepareNodesEtapasGroup,
-		'map':prepareNodesMapGroup
+		'mapa':prepareNodesMapGroup
 	};
 
 	var resetFunctions = {
 		'comunas':resetComunas,
 		'etapas':resetEtapas,
-		'map':resetMap
+		'mapa':resetMap
 	};
 
 	var initialized = {
 		'comunas':false,
 		'etapas':false,
-		'map':false
+		'mapa':false
 	};
 
 	var _ = window._;
@@ -75,7 +79,7 @@ angular.module('obrasMduytApp')
 					initialized = {
 						'comunas':false,
 						'etapas':false,
-						'map':false
+						'mapa':false
 					};
 					renderSideChart();
 					renderSankeyChart();
@@ -135,7 +139,7 @@ angular.module('obrasMduytApp')
 			.attr('height',chart.h);
 
 		//default, comunas
-		$scope.showGroup($scope.selectedGroup);
+		$scope.showGroup();
 	}
 
 
@@ -412,25 +416,25 @@ angular.module('obrasMduytApp')
 	}
 
 
-	$scope.showGroup = function(group){
+	$scope.showGroup = function(){
 
-		if($scope.selectedGroup !== group){
+		if($scope.oldGroup !== $scope.selectedGroup){
 			$scope.closeTooltip();
-			resetFunctions[$scope.selectedGroup](true);
+			resetFunctions[$scope.oldGroup](true);
 			chart.svg.selectAll('.child')
 			.style('opacity',0)
 			.style('display','none');
 			chart.svg.selectAll('circle.obra').transition().style('opacity',0.5);
-			$scope.selectedGroup = group;
+			$scope.oldGroup = $scope.selectedGroup;
 		}
 
-		renderFunctions[group]();
+		renderFunctions[$scope.selectedGroup]();
 
-		var time = (initialized[group] || group === 'map')?100:2000;
-		initialized[group] = true;
+		var time = (initialized[$scope.selectedGroup] || $scope.selectedGroup === 'mapa')?100:2000;
+		initialized[$scope.selectedGroup] = true;
 
 		setTimeout(function(){
-			prepareNodesFunctions[group]();
+			prepareNodesFunctions[$scope.selectedGroup]();
 			renderBubbles();
 		},time);
 
@@ -779,8 +783,9 @@ angular.module('obrasMduytApp')
 	  activeMap.classed("active", false);
 	  activeMap = d3.select(null);
 
+
 	  chart.mapGroup
-			.transition()
+		  .transition()
 		  .duration(750)
 		  .attr("transform", "");
 
@@ -901,8 +906,8 @@ angular.module('obrasMduytApp')
 					return ( d.comuna && (!filterId || (filterId && d.comuna===filterId ) ) );
 				});
 
-		var max = Math.ceil(d3.max(filtered,function(d){return d.monto_contrato;}));
-		var min = Math.floor(d3.min(filtered,function(d){return d.monto_contrato;}));
+		var max = Math.ceil(d3.max(filtered,function(d){return d[$scope.selectedRadioDimension];}));
+		var min = Math.floor(d3.min(filtered,function(d){return d[$scope.selectedRadioDimension];}));
 
 		bubbles.scale = d3.scale.linear()
 			.domain([parseInt(min),parseInt(max)])
@@ -917,7 +922,7 @@ angular.module('obrasMduytApp')
 				.map(function(d) {
 				  var i = 'c'+d.comuna,
 					  //r = 10,
-					  r = bubbles.scale((d.monto_contrato)?d.monto_contrato:0),
+					  r = bubbles.scale((d[$scope.selectedRadioDimension])?d[$scope.selectedRadioDimension]:0),
 					  c = {cluster: i, radius: (r)?r:10, data:d};
 					  
 					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
@@ -1105,8 +1110,8 @@ angular.module('obrasMduytApp')
 					return (d.etapa && (!filterId || (filterId && d.etapa_slug===filterId) ));
 				});
 
-		var max = Math.ceil(d3.max(filtered,function(d){return d.monto_contrato;}));
-		var min = Math.floor(d3.min(filtered,function(d){return d.monto_contrato;}));
+		var max = Math.ceil(d3.max(filtered,function(d){return d[$scope.selectedRadioDimension];}));
+		var min = Math.floor(d3.min(filtered,function(d){return d[$scope.selectedRadioDimension];}));
 
 		bubbles.scale = d3.scale.linear()
 			.domain([parseInt(min),parseInt(max)])
@@ -1117,7 +1122,7 @@ angular.module('obrasMduytApp')
 		bubbles.nodes = filtered
 				.map(function(d) {
 				  var i = 'e-'+d.etapa_slug,
-					  r = bubbles.scale((d.monto_contrato)?d.monto_contrato:10),
+					  r = bubbles.scale((d[$scope.selectedRadioDimension])?d[$scope.selectedRadioDimension]:10),
 					  c = {cluster: i, radius: (r)?r:10, data:d};
 
 					  if (!bubbles.clusters[i] || (r > bubbles.clusters[i].radius)){
@@ -1290,7 +1295,7 @@ angular.module('obrasMduytApp')
 		bubbles.circles	
 			.each(function(d){
 
-				/*if(d.data.comuna.length>1 && $scope.selectedGroup=='map'){
+				/*if(d.data.comuna.length>1 && $scope.selectedGroup=='mapa'){
 					_.each(d.data.comuna,function(c){
 						var id = 'obra-'+d.data.id+'-comuna-'+c;
 	
@@ -1323,7 +1328,7 @@ angular.module('obrasMduytApp')
 		  .attr('cx', function(d) { return d.x; })
 		  .attr('cy', function(d) { return d.y; })
 		  /*.each(function(d){
-			if(d.data.comuna.length>1 && $scope.selectedGroup=='map'){
+			if(d.data.comuna.length>1 && $scope.selectedGroup=='mapa'){
 					_.each(d.data.comuna,function(c){
 						var id = 'obra-'+d.data.id+'-comuna-'+c;
 							
@@ -1336,7 +1341,7 @@ angular.module('obrasMduytApp')
 		  })*/
 		  ;
 
-		/*if(bubbles.lines && $scope.selectedGroup=='map'){
+		/*if(bubbles.lines && $scope.selectedGroup=='mapa'){
 			bubbles.lines
 			  .each(cluster(10 * e.alpha * e.alpha))
 			  .each(collide(0.5))
@@ -1414,9 +1419,9 @@ angular.module('obrasMduytApp')
 		$scope.tooltip
 			.transition()
 			.duration(200)
-			.style("top", -100)
-			.style("left", -100)
-			.style("opacity", 0);
+			.style("opacity", 0)
+			.style("top", '-100px')
+			.style("left", '-100px');
 	}
 
 
