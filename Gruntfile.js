@@ -229,7 +229,7 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
           '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '!<%= yeoman.dist %>/scripts/pym.min.js'
+          '!<%= yeoman.dist %>/scripts/pym.v1.min.js'
         ]
       }
     },
@@ -402,8 +402,14 @@ module.exports = function (grunt) {
         {
           expand: true,
           cwd: 'bower_components/pym.js/dist',
-          src: 'pym.min.js',
+          src: 'pym.v1.min.js',
           dest: '<%= yeoman.dist %>/scripts'
+        },
+        {
+          expand: true,
+          cwd: 'app',
+          src: 'config.js.example',
+          dest: '<%= yeoman.dist %>'
         },
         {
           expand: true,
