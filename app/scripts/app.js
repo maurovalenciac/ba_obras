@@ -33,9 +33,9 @@ angular
     var cleanData = function(reg){
       //slug
       reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
-      
+
       reg.etapa_slug = (reg.etapa)?Slug.slugify(reg.etapa):null;
-      
+
       reg.tipo_slug = (reg.tipo)?Slug.slugify(reg.tipo):null;
 
       //arrays

@@ -7,6 +7,9 @@ angular.module('obrasMduytApp')
     $scope.pymChild.sendHeight();
 
 
+
+
+
     var tilesUSIG = {
                 url: '//tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
                 format: 'tms',

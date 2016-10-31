@@ -55,10 +55,13 @@ angular.module('obrasMduytApp')
                     }
                 });
 
+      //Setup time line
+      var time = {"starting_time": data.fecha_inicio, "ending_time": data.fecha_fin_inicial};
 
 
-    });
 
 
+
+  });
 
   });
