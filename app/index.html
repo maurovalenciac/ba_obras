@@ -36,9 +36,14 @@
               <h1>¡Hola, Buenos Aires!</h1>
               <p>Esta es la página de prueba para visualizar las obras de MDUYT de GCBA. Click para ver página.</p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
               <br>
               <a class="btn btn-primary btn-block btn-lg" ng-click="loadModal('home')">Home</a>
+              <br>
+          </div>
+          <div class="col-md-6">
+              <br>
+              <a class="btn btn-primary btn-block btn-lg" ng-click="loadModal('buscador')">Buscador</a>
               <br>
           </div>
           <div class="col-md-6" ng-repeat="(nombre, obras) in entornos">

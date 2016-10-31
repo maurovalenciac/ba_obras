@@ -1,0 +1,75 @@
+<div class="row obra">
+    <div class="col-md-12">
+          <h4>Obra {{obra.id}}: {{obra.nombre}}</h4>
+          <div class="row">
+           <div class="col-md-8">
+                <img ng-src="{{obra.fotos[0]}}">
+                <p> {{obra.descripcion}} </p>
+            </div>
+          <div class="col-md-4 ficha-tecnica">
+              <h4> Ficha técnica de Licitación </h4>
+              <div class="etapa">
+                <div class="row">
+                   <div class="col-md-2">
+                    Etapa:
+                   </div>
+                    <div class="col-md-10">
+                      <p><strong>{{obra.etapa}}  </strong> </p>
+                      <p> <small> {{obra.etapa_etapa_detalle}}</small> </p>
+                    </div>
+
+                </div>
+              </div>
+              <div>
+              <p> Tipo de Obra:
+                <strong ng-repeat="tipo in obra.tipo">{{tipo}}</strong>
+              </p>
+            </div>
+              <p> Area Responsable: <strong> {{obra.area_responsable}}</strong></p>
+              <p> Empresas
+                <ul>
+                  <li ng-repeat="empresa in obra.licitacion_oferta_empresas">
+                    <strong>{{empresa}}
+                      <i class="detalle-frame-icon glyphicon glyphicon-info-sign" data-container="body" title="{{nota}}" data-toggle="popover" data-placement="bottom" data-content="Fuente: {{fuente}}"></i>
+
+                    </strong>
+                  </li>
+                </ul>
+              </p>
+
+              <p> Estado </p>
+              <div class="progress">
+                <div class="progress-bar bg-color-{{obra.slug}}"
+                  role="progressbar"
+                    ng-style="{ 'width': obra.porcentaje_avance + '%' }">
+                  <div class="progressbar-w" ng-show="!obra.porcentaje_avance"><p></p> </div>
+                  <span class="progressbar-w" ng-hide="obra.porcentaje_avance<22 || !obra.porcentaje_avance">
+                  </span>
+                </div>
+                <div class="progress-w" ng-show="obra.porcentaje_avance<22" ng-style="{ 'width': (100 - obra.porcentaje_avance) + '%' }"></div>
+              </div>
+              <p> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
+              <div class="row fechas">
+                <div class="col-md-3">
+                  <p> Inicio</p>
+                  <p> {{obra.fecha_inicio}} </p>
+                </div>
+                <div class="col-md-6">
+                  <p>-</p>
+                </div>
+                <div class="col-md-3 right">
+                  <p> Fin </p>
+                  <p> {{obra.fecha_fin_inicial}} </p>
+                </div>
+              </div>
+
+              <p ng-if="obra.benficiarios"> Cantidad de Beneficiaros: <strong> {{obra.benficiarios}}</strong> </p>
+              <p ng-if="obra.mano_obra"> Mano de Obra <strong> {{obra.mano_obra}} </strong> </p>
+              <p ng-if="obra.monto_contrato"> Monto Contrato: <strong> {{obra.monto_contrato | currency}} </strong> </p>
+              <p ng-if="obra.licitacion_presupuesto_oficial"> Monto Actualizado: <strong>  {{obra.licitacion_presupuesto_oficial | currency}} </strong> </p>
+              <p> <a href=""><i class="detalle-frame-icon glyphicon glyphicon glyphicon-download-alt">
+                        </i> Descargar Informe </a> </p>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="row">
+    <table id="buscador-table" ng-table-dynamic="tableParams with cols" class="table table-responsive" >
+        <tr ng-repeat="row in $data">
+            <td ng-repeat="col in $columns" ng-bind-html="col.getValue(this, row)"></td>
+        </tr>
+    </table>
+</div>
