@@ -24,12 +24,19 @@ body{
   margin: 10px;
 }
 
-#tooltip-home-chart span.title{
+.resultado-buscador{
+  border-radius: 0px;
+  background-color: white;
+}
+
+#tooltip-home-chart span.title,
+.resultado-buscador span.title{
   display: block;
   font-size: 12px;
 }
 
-#tooltip-home-chart span.desc{
+#tooltip-home-chart span.desc,
+.resultado-buscador span.desc{
   display: block;
   font-weight: bold;
   font-size: 14px;
