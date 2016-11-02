@@ -28,11 +28,19 @@ angular.module('obrasMduytApp')
                       .map(data)
                   ).map(function(e){
                     return {id:e,title:e};
+                  }),
+          tipos: d3.keys(
+                    d3.nest()
+                      .key(function(d){return d.tipo;})
+                      .map(data)
+                  ).map(function(e){
+                    return {id:e,title:e};
                   })
         };
 
         selects.comunas.unshift({id:'',title:'TODAS'});
         selects.etapas.unshift({id:'',title:'TODAS'});
+        selects.tipos.unshift({id:'',title:'TODOS'});
 
         function renderNormalValue($scope, row) {
           return row[this.field];
@@ -82,9 +90,9 @@ angular.module('obrasMduytApp')
             getValue: renderNormalValue
           },
           { 
-            field: "licitacion_empresa",
+            field: "licitacion_oferta_empresa",
             title: "Empresa", 
-            filter: { licitacion_empresa: "text" }, 
+            filter: { licitacion_oferta_empresa: "text" }, 
             show: true, 
             /*sortable: "licitacion_empresa",*/
             getValue: renderNormalValue
@@ -99,12 +107,13 @@ angular.module('obrasMduytApp')
             getValue: renderNormalValue
           },
           { 
-            field: "monto_contrato", 
-            title: "Monto Contrato", 
-            filter: { monto_contrato: "number" }, 
+            field: "tipo", 
+            title: "Tipo", 
+            filter: { tipo: "select" },
+            filterData: selects.tipos, 
             show: true, 
             /*sortable: "monto_contrato",*/
-            getValue: renderMoneyValue
+            getValue: renderNormalValue
           },
           { 
             field: "link_interno", 
@@ -144,7 +153,7 @@ angular.module('obrasMduytApp')
 
         $scope.tableParams = new NgTableParams({
           sorting: { comuna: "asc" },
-          filter: { comuna: "", etapa: "" },
+          filter: { comuna: "", etapa: "", tipo: "" },
           page:1,
           count:10
         }, {

@@ -43,7 +43,7 @@ angular
       var comunas = (reg.comuna)?reg.comuna.split('|'):[null];
       reg.comuna = comunas[0];
       reg.barrio = (reg.barrio)?reg.barrio.split('|'):[];
-      reg.licitacion_oferta_empresas = (reg.licitacion_oferta_empresas)?reg.licitacion_oferta_empresas.split('|'):[];
+      reg.licitacion_oferta_empresa = (reg.licitacion_oferta_empresa)?reg.licitacion_oferta_empresa:null;
 
       //numbers
       reg.id = parseInt(reg.id);

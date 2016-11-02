@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('obrasMduytApp')
-  .controller('EntornoCtrl', function ($scope,DataService,$routeParams) {
+  .controller('EntornoCtrl', function ($scope,DataService,$routeParams,leafletData,$timeout) {
 
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
@@ -46,23 +46,38 @@ angular.module('obrasMduytApp')
     DataService.getByEntorno($routeParams.entorno)
     .then(function(data){
       $scope.entorno = $routeParams.entorno;
-      console.log(data);
+      //console.log(data);
       $scope.obras = data;
 
       var markers = {};
+      var boundsMarkers = [];
       for (var i = 0; i < data.length; i++) {
         var obra = data[i];
-        markers['m'+i] =  {
+        var m = {
           lat: parseFloat(obra.lat),
           lng:   parseFloat(obra.lng),
           focus:true,
           message: obra.nombre
         };
+        markers['m'+i] =  m;
+        boundsMarkers.push(L.marker([m.lat, m.lng]));
       };
+
+      var group = new L.featureGroup(boundsMarkers);
 
       angular.extend($scope, {
                     markers : markers
                 });
+
+      $timeout(function() {
+          leafletData.getMap().then(function(map) {
+                map.fitBounds(group.getBounds(),{padding: [50, 50]});
+          });
+      }, 1000);
+
+      /**/
+
+
     });
 
 

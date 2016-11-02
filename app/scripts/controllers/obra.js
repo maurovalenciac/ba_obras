@@ -39,7 +39,7 @@ angular.module('obrasMduytApp')
 
     DataService.getById($routeParams.id)
     .then(function(data){
-      console.log(data);
+      //console.log(data);
       $scope.obra = data;
         //setup slider
       $scope.slides = data.fotos;
@@ -54,6 +54,8 @@ angular.module('obrasMduytApp')
                         }
                     }
                 });
+      $scope.center.lat = parseFloat(data.lat);
+      $scope.center.lng = parseFloat(data.lng);
 
       //Setup time line
       var time = {"starting_time": data.fecha_inicio, "ending_time": data.fecha_fin_inicial};
