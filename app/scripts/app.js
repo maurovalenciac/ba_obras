@@ -12,6 +12,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'slugifier',
+    'angular-flexslider',
     'leaflet-directive',
     'ngTable'
   ])

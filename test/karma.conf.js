@@ -33,6 +33,8 @@ module.exports = function(config) {
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/webcomponentsjs/webcomponents.js',
       'bower_components/moment/moment.js',
+      'bower_components/flexslider/jquery.flexslider.js',
+      'bower_components/angular-flexslider/angular-flexslider.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
