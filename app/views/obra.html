@@ -51,15 +51,11 @@
               </div>
               <p ng-if="obra.plazo_meses"> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
               <div class="row fechas" ng-show="obra.fecha_inicio">
+                <div class="col-md-12">
+                 <progress-line callback="mainCallback">
+                  </progress-line>
+                </div>
 
-                <div class="col-md-6">
-                  <p class="up"> Inicio</p>
-                  <p> {{obra.fecha_inicio}} </p>
-                </div>
-                <div class="col-md-6 right">
-                  <p class="up"> Fin </p>
-                  <p> {{obra.fecha_fin_inicial}} </p>
-                </div>
               </div>
 
               <p ng-if="obra.benficiarios"> Cantidad de Beneficiaros: <strong> {{obra.benficiarios}}<small> personas</small>  </strong></p>

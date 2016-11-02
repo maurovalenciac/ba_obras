@@ -151,6 +151,50 @@ div.obra .ficha-tecnica .progress{
     height: 35px;
     margin-bottom: 15px;
 }
+
+ div.obra .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+
+    div.obra text {
+        font: 10px sans-serif;
+        color: black;
+    }
+    div.obra text.reference {
+        font: 3px sans-serif;
+        color: black;
+    }
+
+    div.obra text.value {
+        font-size: 100%;
+        fill: black;
+    }
+
+    div.obra .axisHorizontal path{
+        fill: none;
+    }
+
+    div.obra .axisHorizontal .tick line {
+        stroke-width: 1;
+        stroke: rgba(0, 0, 0, 0.2);
+    }
+
+    div.obra .bar {
+        fill: steelblue;
+        fill-opacity: .9;
+    }
 div.obra .ficha-tecnica .progress-bar{
   background-color: #f1662f;
   background-image: linear-gradient(to bottom, #f1662f 0%, #f1662f 100%);

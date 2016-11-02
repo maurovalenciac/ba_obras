@@ -36,15 +36,24 @@ angular.module('obrasMduytApp')
         }
     });
 
-
+    $scope.mainCallback = function(callback){
+        $scope.drawLineOnObraLoaded = callback;
+    }
     DataService.getById($routeParams.id)
     .then(function(data){
-      console.log(data);
+      console.log('obra loaded');
+
       $scope.obra = data;
+      $scope.drawLineOnObraLoaded(data);
         //setup slider
       $scope.slides = data.fotos;
       //Setup Map
       angular.extend($scope, {
+                  center: {
+                                lat: parseFloat(data.lat),
+                                lng:   parseFloat(data.lng),
+                                zoom: 15
+                            },
                     markers: {
                         m1: {
                             lat: parseFloat(data.lat),
@@ -57,7 +66,6 @@ angular.module('obrasMduytApp')
 
       //Setup time line
       var time = {"starting_time": data.fecha_inicio, "ending_time": data.fecha_fin_inicial};
-
 
 
 
