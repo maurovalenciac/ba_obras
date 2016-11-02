@@ -43,7 +43,9 @@ angular.module('obrasMduytApp')
     .then(function(data){
 
       $scope.obra = data;
-      $scope.drawLineOnObraLoaded(data);
+      if (!data.hideDates){
+        $scope.drawLineOnObraLoaded(data);
+      }
         //setup slider
       $scope.slides = data.fotos;
       //Setup Map

@@ -46,7 +46,11 @@
                 <div class="progress-w" ng-show="obra.porcentaje_avance<22" ng-style="{ 'width': (100 - obra.porcentaje_avance) + '%' }"></div>
               </div>
               <p ng-if="obra.plazo_meses"> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
-              <div class="row fechas" ng-show="obra.fecha_inicio">
+
+              <p ng-if="obra.hideDates && obra.licitacion_anio">
+                Año de licitación: <strong> {{obra.licitacion_anio}} </strong> </p>
+              </p>
+              <div ng-if="!obra.hideDates" class="row fechas" ng-show="obra.fecha_inicio">
                 <div class="col-md-12">
                  <progress-line callback="mainCallback">
                   </progress-line>
