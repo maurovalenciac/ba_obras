@@ -41,7 +41,6 @@ angular.module('obrasMduytApp')
     }
     DataService.getById($routeParams.id)
     .then(function(data){
-      console.log('obra loaded');
 
       $scope.obra = data;
       $scope.drawLineOnObraLoaded(data);
@@ -63,6 +62,8 @@ angular.module('obrasMduytApp')
                         }
                     }
                 });
+      $scope.center.lat = parseFloat(data.lat);
+      $scope.center.lng = parseFloat(data.lng);
 
       //Setup time line
       var time = {"starting_time": data.fecha_inicio, "ending_time": data.fecha_fin_inicial};

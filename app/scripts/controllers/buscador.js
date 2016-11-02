@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('obrasMduytApp')
-  .controller('BuscadorCtrl', function ($scope,DataService,$routeParams,NgTableParams,$filter,$sce) {
+  .controller('BuscadorCtrl', function ($scope,DataService,$routeParams,NgTableParams,$filter,$sce, ngTableEventsChannel) {
 
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
 
     DataService.getAll()
       .then(function(data){
-        console.log(data);
+        //console.log(data);
         //$scope.obras = data;
 
         var selects = {
@@ -28,11 +28,19 @@ angular.module('obrasMduytApp')
                       .map(data)
                   ).map(function(e){
                     return {id:e,title:e};
+                  }),
+          tipos: d3.keys(
+                    d3.nest()
+                      .key(function(d){return d.tipo;})
+                      .map(data)
+                  ).map(function(e){
+                    return {id:e,title:e};
                   })
         };
 
         selects.comunas.unshift({id:'',title:'TODAS'});
         selects.etapas.unshift({id:'',title:'TODAS'});
+        selects.tipos.unshift({id:'',title:'TODOS'});
 
         function renderNormalValue($scope, row) {
           return row[this.field];
@@ -62,7 +70,7 @@ angular.module('obrasMduytApp')
             filter: { comuna: "select" }, 
             filterData: selects.comunas, 
             show: true, 
-            sortable: "comuna",
+            /*sortable: "comuna",*/
             getValue: renderNormalValue
           },
           { 
@@ -70,7 +78,7 @@ angular.module('obrasMduytApp')
             title: "Nombre", 
             filter: { nombre: "text" }, 
             show: true, 
-            sortable: "nombre",
+            /*sortable: "nombre",*/
             getValue: renderNormalValue
           },
           { 
@@ -78,15 +86,15 @@ angular.module('obrasMduytApp')
             title: "Área", 
             filter: { area_responsable: "text" }, 
             show: true, 
-            sortable: "area_responsable",
+            /*sortable: "area_responsable",*/
             getValue: renderNormalValue
           },
           { 
-            field: "licitacion_empresa",
+            field: "licitacion_oferta_empresa",
             title: "Empresa", 
-            filter: { licitacion_empresa: "text" }, 
+            filter: { licitacion_oferta_empresa: "text" }, 
             show: true, 
-            sortable: "licitacion_empresa",
+            /*sortable: "licitacion_empresa",*/
             getValue: renderNormalValue
           },
           { 
@@ -95,36 +103,64 @@ angular.module('obrasMduytApp')
             filter:{ etapa: "select"}, 
             filterData: selects.etapas, 
             show: true, 
-            sortable: "etapa",
+            /*sortable: "etapa",*/
             getValue: renderNormalValue
           },
           { 
-            field: "monto_contrato", 
-            title: "Monto Contrato", 
-            filter: { monto_contrato: "number" }, 
+            field: "tipo", 
+            title: "Tipo", 
+            filter: { tipo: "select" },
+            filterData: selects.tipos, 
             show: true, 
-            sortable: "monto_contrato",
-            getValue: renderMoneyValue
+            /*sortable: "monto_contrato",*/
+            getValue: renderNormalValue
           },
           { 
             field: "link_interno", 
             title: "", 
             filter: false, 
             show: true, 
-            sortable: false,
+            /*sortable: false,*/
             getValue: renderLinkValue
           }
         ];
 
+        /*function onPagesChanged(d){
+          $scope.results = d.data;
+          console.log('pages change',d.count());
+        }
+
+        function onDatasetChanged(d){
+          $scope.results = d.data;
+          console.log('dataset change',d.count());
+        }*/
+
+        function onAfterReloadData(d){
+          $scope.results = d.data;
+          //console.log('reload data',d.count());
+        }
+
+        function onAfterCreated(){
+          $('[ng-table-pagination="params"]')
+              .appendTo('#footer');
+        }
+
+        ngTableEventsChannel.onAfterCreated(onAfterCreated, $scope);
+        //ngTableEventsChannel.onPagesChanged(onPagesChanged, $scope);
+        //ngTableEventsChannel.onDatasetChanged(onDatasetChanged, $scope);
+        ngTableEventsChannel.onAfterReloadData(onAfterReloadData, $scope);
+
+
         $scope.tableParams = new NgTableParams({
           sorting: { comuna: "asc" },
-          filter: { comuna: "", etapa: "" },
+          filter: { comuna: "", etapa: "", tipo: "" },
           page:1,
           count:10
         }, {
           dataset: data,
            counts:[10,25,50]
         });
+
 
 
         var showCols = {

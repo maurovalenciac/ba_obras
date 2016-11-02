@@ -947,39 +947,44 @@ angular.module('obrasMduytApp')
 
 	var activeComuna = d3.select(null);
 	function clickedComunas(d) {
-		$scope.closeTooltip();
-		if (activeComuna.node() === this){ return resetComunas();}
-		activeComuna.classed("active", false);
-		activeComuna = d3.select(this)
-			.classed("active", true);
+		if(!$scope.isSmallDevice){
 
-		var selectedG = activeComuna
-			.node().parentNode;
+			$scope.closeTooltip();
+			if (activeComuna.node() === this){ return resetComunas();}
+			activeComuna.classed("active", false);
+			activeComuna = d3.select(this)
+				.classed("active", true);
 
-		d3.selectAll('g.comunas-item')
-			.transition()
-			.style('opacity',function () {
-				return (this === selectedG) ? 1.0 : 0;
-			})
-			.each('end', function () {
-				if(this !== selectedG){
-					d3.select(this).style('display','none');
-				}
-			});
+			var selectedG = activeComuna
+				.node().parentNode;
 
-		activeComuna.transition()
-			.duration(750)
-			.attr('height',chart.h-chart.margin*2)
-			.attr('width',chart.w-chart.margin*2);
+			d3.selectAll('g.comunas-item')
+				.transition()
+				.style('opacity',function () {
+					return (this === selectedG) ? 1.0 : 0;
+				})
+				.each('end', function () {
+					if(this !== selectedG){
+						d3.select(this).style('display','none');
+					}
+				});
 
-		d3.select(selectedG)
-			.transition()
-			.duration(750)
-			.attr('transform','translate(0,0)')
-			.each('end',function(){
-				prepareNodesComunasGroup(d3.select(selectedG).attr('id'));
-				renderBubbles();
-			});
+			activeComuna.transition()
+				.duration(750)
+				.attr('height',chart.h-chart.margin*2)
+				.attr('width',chart.w-chart.margin*2);
+
+			d3.select(selectedG)
+				.transition()
+				.duration(750)
+				.attr('transform','translate(0,0)')
+				.each('end',function(){
+					prepareNodesComunasGroup(d3.select(selectedG).attr('id'));
+					renderBubbles();
+				});
+
+		}
+
 	}
 
 	function resetComunas(clear) {
@@ -1170,6 +1175,7 @@ angular.module('obrasMduytApp')
 	}
 
 	function clickedEtapas(d) {
+<<<<<<< HEAD
 		$scope.closeTooltip();
 		if (activeEtapa.node() === this){  return resetEtapas(); }
 		activeEtapa.classed("active", false);
@@ -1178,31 +1184,44 @@ angular.module('obrasMduytApp')
 
 		var selectedG = activeEtapa
 			.node().parentNode;
+=======
+		if(!$scope.isSmallDevice){
+>>>>>>> 09ce78ebe209bd947683516892d2ec5dcf655965
 
-		d3.selectAll('g.etapas-item')
-			.transition()
-			.style('opacity',function () {
-				return (this === selectedG) ? 1.0 : 0;
-			})
-			.each('end', function () {
-				if(this !== selectedG){
-					d3.select(this).style('display','none');
-				}
-			});
+			$scope.closeTooltip();
+			if (activeEtapa.node() === this){  return resetEtapas(); }
+			activeEtapa.classed("active", false);
+			activeEtapa = d3.select(this)
+				.classed("active", true);
 
-		activeEtapa.transition()
-			.duration(750)
-			.attr('height',chart.h-chart.margin*2)
-			.attr('width',chart.w-chart.margin*2);
+			var selectedG = activeEtapa
+				.node().parentNode;
 
-		d3.select(selectedG)
-			.transition()
-			.duration(750)
-			.attr('transform','translate(0,0)')
-			.each('end',function(){
-				prepareNodesEtapasGroup(d3.select(selectedG).attr('id'));
-				renderBubbles();
-			});
+			d3.selectAll('g.etapas-item')
+				.transition()
+				.style('opacity',function () {
+					return (this === selectedG) ? 1.0 : 0;
+				})
+				.each('end', function () {
+					if(this !== selectedG){
+						d3.select(this).style('display','none');
+					}
+				});
+
+			activeEtapa.transition()
+				.duration(750)
+				.attr('height',chart.h-chart.margin*2)
+				.attr('width',chart.w-chart.margin*2);
+
+			d3.select(selectedG)
+				.transition()
+				.duration(750)
+				.attr('transform','translate(0,0)')
+				.each('end',function(){
+					prepareNodesEtapasGroup(d3.select(selectedG).attr('id'));
+					renderBubbles();
+				});
+		}
 	}
 
 
@@ -1228,6 +1247,7 @@ angular.module('obrasMduytApp')
 			.on("click", function(d) {
 				$scope.selectedObra = d;
 				$scope.$apply();
+<<<<<<< HEAD
 				$scope.tooltip
 					.transition()
 					.duration(200)
@@ -1235,6 +1255,25 @@ angular.module('obrasMduytApp')
 					.style("top", (d3.event.pageY) + "px")
 					.style("opacity", 1);
 				//d3.select('#detalle').html(JSON.stringify(d.data));
+=======
+				if($scope.isSmallDevice){
+					$scope.tooltip
+						.style('width',(chart.w-20)+'px')
+						.transition()
+						.duration(200)
+						.style('left', '10px')
+						.style("top", (d3.event.pageY) + "px")
+						.style("opacity", 1);
+				}else{
+					$scope.tooltip
+						.style('width','200px')
+						.transition()
+						.duration(200)
+						.style("left", (d3.event.pageX) + "px")
+						.style('top', (d3.event.pageY) + 'px')
+						.style('opacity', 1);
+				}
+>>>>>>> 09ce78ebe209bd947683516892d2ec5dcf655965
 			});
 
 		bubbles.circles

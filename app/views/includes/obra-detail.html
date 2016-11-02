@@ -1,38 +1,34 @@
 <div class="row obra">
     <div class="col-md-12">
-          <h3>Obra {{obra.id}}: {{obra.nombre}}</h3>
+          <h3>Obra: {{obra.nombre}}</h3>
           <div class="row">
            <div class="col-md-8">
-                <img ng-src="{{obra.fotos[0]}}">
+                <img class="img-responsive" ng-src="{{obra.fotos[0]}}">
                 <p> {{obra.descripcion}} </p>
           </div>
           <div class="col-md-3 ficha-tecnica">
               <h4> Ficha técnica</h4>
               <div class="etapa">
                 <div class="row">
-                   <div class="col-md-4">
+                   <div class="col-md-12">
                     <p>Estado de licitación:</p>
                    </div>
-                    <div class="col-md-8">
-                      <p><strong>{{obra.etapa}}  </strong> </p>
+                    <div class="col-md-6">
+                      <p><strong>{{obra.etapa}}</strong> </p>
+                    </div>
+                    <div class="col-md-6">
                       <p> <small> {{obra.etapa_detalle}}</small> </p>
                     </div>
 
                 </div>
               </div>
               <div>
-              <p> Tipo de obra:
-                <strong>{{obra.tipo}}</strong>
-              </p>
-            </div>
-              <p> Area responsable: <strong> {{obra.area_responsable}}</strong></p>
-              <p> Empresas
-                <ul>
-                  <li ng-repeat="empresa in obra.licitacion_oferta_empresas">
-                    <strong>{{empresa}}</strong>
-                  </li>
-                </ul>
-              </p>
+                <p> Tipo de obra:
+                  <strong>{{obra.tipo}}</strong>
+                </p>
+              </div>
+              <p> Área responsable: <strong> {{obra.area_responsable}}</strong></p>
+              <p ng-show="obra.licitacion_oferta_empresa"> Empresa: <strong> {{obra.licitacion_oferta_empresa}}</strong></p>
 
               <p> Estado </p>
               <div class="progress">

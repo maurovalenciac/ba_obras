@@ -1,7 +1,63 @@
 <div class="row">
     <table id="buscador-table" ng-table-dynamic="tableParams with cols" class="table table-responsive" >
         <tr ng-repeat="row in $data">
-            <td ng-repeat="col in $columns" ng-bind-html="col.getValue(this, row)"></td>
         </tr>
     </table>
+</div>
+
+<div class="row">
+	<h2 ng-show="results.length==0" class="text-center">No hay resultados para los filtros aplicados</h2>
+	<div class="col-sm-12 well resultado-buscador" ng-repeat="o in results">
+		<div class="row">
+			<div class="col-sm-3">
+				<img ng-show="o.imagen_1" ng-src="{{o.imagen_1}}" class="img-responsive"/>
+				<img ng-hide="o.imagen_1" ng-src="http://placehold.it/400x300" class="img-responsive"/>
+
+			</div>
+			<div class="col-sm-9">
+				<div class="row">
+					<div class="col-sm-6">
+						<span class="title">Obra:</span>
+						<span class="desc">{{o.nombre}}</span>
+					</div>
+					<div class="col-sm-6">
+						<span class="title">Empresa:</span>
+						<span class="desc">{{o.licitacion_oferta_empresa}}</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<span class="title">Descripción:</span>
+						<span class="desc">{{o.descripcion}}</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2">
+						<span class="title">Área:</span>
+						<span class="desc">{{o.area_responsable}}</span>
+					</div>
+					<div class="col-sm-2">
+						<span class="title">Tipo:</span>
+						<span class="desc">{{o.tipo}}</span>
+					</div>
+					<div class="col-sm-2">
+						<span class="title">Comuna:</span>
+						<span class="desc">Comuna {{o.comuna}}</span>
+					</div>
+					<div class="col-sm-2">
+						<span class="title">Etapa:</span>
+						<span class="desc">{{o.etapa}}</span>
+					</div>
+					<div class="col-sm-3 col-sm-offset-1">
+						<a ng-href="{{o.data.link_interno}}" class="btn btn-default btn-block">Más información</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div id="footer" class="col-sm-12">
+	</div>
 </div>
