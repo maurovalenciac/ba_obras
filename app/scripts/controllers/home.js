@@ -1175,18 +1175,7 @@ angular.module('obrasMduytApp')
 	}
 
 	function clickedEtapas(d) {
-<<<<<<< HEAD
-		$scope.closeTooltip();
-		if (activeEtapa.node() === this){  return resetEtapas(); }
-		activeEtapa.classed("active", false);
-		activeEtapa = d3.select(this)
-			.classed("active", true);
-
-		var selectedG = activeEtapa
-			.node().parentNode;
-=======
 		if(!$scope.isSmallDevice){
->>>>>>> 09ce78ebe209bd947683516892d2ec5dcf655965
 
 			$scope.closeTooltip();
 			if (activeEtapa.node() === this){  return resetEtapas(); }
@@ -1247,15 +1236,6 @@ angular.module('obrasMduytApp')
 			.on("click", function(d) {
 				$scope.selectedObra = d;
 				$scope.$apply();
-<<<<<<< HEAD
-				$scope.tooltip
-					.transition()
-					.duration(200)
-					.style("left", (d3.event.pageX) + "px")
-					.style("top", (d3.event.pageY) + "px")
-					.style("opacity", 1);
-				//d3.select('#detalle').html(JSON.stringify(d.data));
-=======
 				if($scope.isSmallDevice){
 					$scope.tooltip
 						.style('width',(chart.w-20)+'px')
@@ -1273,7 +1253,6 @@ angular.module('obrasMduytApp')
 						.style('top', (d3.event.pageY) + 'px')
 						.style('opacity', 1);
 				}
->>>>>>> 09ce78ebe209bd947683516892d2ec5dcf655965
 			});
 
 		bubbles.circles
