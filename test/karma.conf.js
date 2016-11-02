@@ -21,6 +21,7 @@ module.exports = function(config) {
     files: [
       // bower:js
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/moment/moment.js',
       'bower_components/angular/angular.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/angular-route/angular-route.js',
@@ -31,8 +32,6 @@ module.exports = function(config) {
       'bower_components/angular-slugify/angular-slugify.js',
       'bower_components/leaflet/dist/leaflet-src.js',
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
-      'bower_components/webcomponentsjs/webcomponents.js',
-      'bower_components/moment/moment.js',
       'bower_components/flexslider/jquery.flexslider.js',
       'bower_components/angular-flexslider/angular-flexslider.js',
       // endbower
