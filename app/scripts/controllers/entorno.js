@@ -53,14 +53,16 @@ angular.module('obrasMduytApp')
       var boundsMarkers = [];
       for (var i = 0; i < data.length; i++) {
         var obra = data[i];
-        var m = {
-          lat: parseFloat(obra.lat),
-          lng:   parseFloat(obra.lng),
-          focus:true,
-          message: obra.nombre
-        };
-        markers['m'+i] =  m;
-        boundsMarkers.push(L.marker([m.lat, m.lng]));
+        if (obra.lat && obra.lng) {
+          var m = {
+            lat: parseFloat(obra.lat),
+            lng:   parseFloat(obra.lng),
+            focus:true,
+            message: obra.nombre
+          };
+          markers['m'+i] =  m;
+          boundsMarkers.push(L.marker([m.lat, m.lng]));
+        }
       };
 
       var group = new L.featureGroup(boundsMarkers);
