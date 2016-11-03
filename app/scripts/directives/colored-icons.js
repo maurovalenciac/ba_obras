@@ -9,22 +9,24 @@ angular.module('obrasMduytApp')
           callback: '=callback',
           class: '=class'
         },
-        controller: function($scope, $timeout, $http) {
+        controller: function($scope,$element, $timeout, $http) {
 
             $scope.loading = true;
+            $scope.id = 'content-' + Math.floor((Math.random()*10000));
+            var mainSelectorClass = "." + $scope.id;
             var drawLine = function(obra){
 
               console.log('this is obra:',obra);
 
-              $scope.id = 'content-' + Math.floor((Math.random()*10000));
+              var width  =$element[0].clientWidth;
 
 
               setTimeout(function() {
 
                        //create svg element
 
-        var svgDoc = d3.select(".colored").append("svg")
-        .attr("viewBox", "0 0 100 25");
+        var svgDoc = d3.select($element[0]).append("svg")
+        .attr("viewBox", "0 0 100 15");
 
         // Define the gradient
         var gradient = svgDoc.append("svg:defs")
@@ -48,11 +50,10 @@ angular.module('obrasMduytApp')
             .append("path")
                     .attr("d", "M3.5,2H2.7C3,1.8,3.3,1.5,3.3,1.1c0-0.6-0.4-1-1-1c-0.6,0-1,0.4-1,1c0,0.4,0.2,0.7,0.6,0.9H1.1C0.7,2,0.4,2.3,0.4,2.6v1.9c0,0.3,0.3,0.6,0.6,0.6h0.2c0,0,0,0.1,0,0.1v1.9c0,0.3,0.2,0.6,0.3,0.6h1.3c0.2,0,0.3-0.3,0.3-0.6V5.3c0,0,0-0.1,0-0.1h0.2c0.3,0,0.6-0.3,0.6-0.6V2.6C4.1,2.3,3.8,2,3.5,2z");
 
-
         //background rectangle
         svgDoc.append("rect")
           .attr("width", 100)
-          .attr("height", 12)
+          .attr("height", 10)
           .attr("fill","#efefef");
 
         //specify the number of columns and rows for pictogram layout
@@ -72,6 +73,34 @@ angular.module('obrasMduytApp')
 
 
 
+        //text element to display number of icons highlighted
+        svgDoc.append("text")
+            .attr("id", "txtValue")
+            .attr("x", 2)
+            .attr("y", 15)
+            .attr("dy", 0)
+            .text("Manzana");
+
+        svgDoc.append("text")
+            .attr("id", "txtValue")
+            .attr("x", 33)
+            .attr("y", 15)
+            .attr("dy", 0)
+            .text("Barrio");
+
+      svgDoc.append("text")
+            .attr("id", "txtValue")
+            .attr("x", 60)
+            .attr("y", 15)
+            .attr("dy", 0)
+            .text("Comuna");
+
+        svgDoc.append("text")
+            .attr("id", "txtValue")
+            .attr("x", 87.5)
+            .attr("y", 15)
+            .attr("dy", 0)
+            .text("Ciudad");
 
         //create group element and create an svg <use> element for each icon
         svgDoc.append("g")
@@ -130,11 +159,12 @@ angular.module('obrasMduytApp')
 
 
             }
-            drawLine();
+
+             $scope.callback(drawLine);
 
 
         },
-        template: '<div class="colored"></div>'
+        template: "<div class='colored'></div>"
     };
 
 });

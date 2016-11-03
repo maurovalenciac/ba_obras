@@ -58,8 +58,12 @@
 
               </div>
 
+
               <p ng-if="obra.benficiarios"> Cantidad de Beneficiaros: <strong> {{obra.benficiarios}}<small> personas</small>  </strong></p>
+              <colored-icons callback="drawFirstColored"></colored-icons>
               <p ng-if="obra.mano_obra"> Mano de Obra: <strong> {{obra.mano_obra}} <small>personas</small> </strong> </p>
+              <colored-icons callback="drawSecondColored"></colored-icons>
+
               <p ng-if="obra.monto_contrato"> Monto Contrato: <strong> {{obra.monto_contrato | currency}} </strong> </p>
               <p ng-if="obra.licitacion_presupuesto_oficial"> Monto Actualizado: <strong>  {{obra.licitacion_presupuesto_oficial | currency}} </strong> </p>
               <p ng-if="obra.pliego_descarga"> <a ng-href="{{obra.pliego_descarga}}"><i class="detalle-frame-icon glyphicon glyphicon glyphicon-download-alt">

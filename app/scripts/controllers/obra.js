@@ -39,6 +39,12 @@ angular.module('obrasMduytApp')
     $scope.mainCallback = function(callback){
         $scope.drawLineOnObraLoaded = callback;
     }
+    $scope.drawFirstColored = function(callback){
+        $scope.firstColoredLoaded = callback;
+    }
+    $scope.drawSecondColored = function(callback){
+        $scope.secondColoredLoaded = callback;
+    }
     DataService.getById($routeParams.id)
     .then(function(data){
 
@@ -46,6 +52,8 @@ angular.module('obrasMduytApp')
       if (!data.hideDates){
         $scope.drawLineOnObraLoaded(data);
       }
+      $scope.firstColoredLoaded(data);
+      $scope.secondColoredLoaded(data);
         //setup slider
       $scope.slides = data.fotos;
       //Setup Map
