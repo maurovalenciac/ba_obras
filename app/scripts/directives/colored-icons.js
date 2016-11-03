@@ -7,11 +7,13 @@ angular.module('obrasMduytApp')
         replace: true,
         scope: {
           callback: '=callback',
+          scale:'=scale',
           class: '=class'
         },
         controller: function($scope,$element, $timeout, $http) {
 
             $scope.loading = true;
+            var scale = $scope.scale;
             $scope.id = 'content-' + Math.floor((Math.random()*10000));
             var mainSelectorClass = "." + $scope.id;
             var drawLine = function(obra){
@@ -24,7 +26,7 @@ angular.module('obrasMduytApp')
               setTimeout(function() {
 
                        //create svg element
-
+        d3.select($element[0]).html("");
         var svgDoc = d3.select($element[0]).append("svg")
         .attr("viewBox", "0 0 100 15");
 
@@ -123,7 +125,25 @@ angular.module('obrasMduytApp')
                   })
                 .classed("iconPlain", true);
 
-        var data = { percent: 22};
+
+        var base = 1;
+        var cantidad = 1;
+        if ($scope.scale === "manoDeObra"){
+          //Mano de obra: un tipito = 100
+          base = 20;
+          cantidad= obra.mano_obra;
+
+        }
+        if ($scope.scale === "beneficiarios"){
+          //Beneficiarios: un tipito = 100 mil
+          base = 50000;
+          cantidad= obra.benficiarios;
+
+        }
+
+        var p = cantidad * 100/((base * numCols));
+        console.log(p);
+        var data = { percent: p};
 
         function drawIsotype(dataObject) {
             var valueLit = dataObject.percent,
@@ -155,7 +175,7 @@ angular.module('obrasMduytApp')
             });
         };
         drawIsotype(data);
-              }, 100);
+              }, 300);
 
 
             }

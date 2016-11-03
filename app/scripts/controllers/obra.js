@@ -49,11 +49,15 @@ angular.module('obrasMduytApp')
     .then(function(data){
 
       $scope.obra = data;
-      if (!data.hideDates){
+      if (!data.hideDates && $scope.drawLineOnObraLoaded){
         $scope.drawLineOnObraLoaded(data);
       }
-      $scope.firstColoredLoaded(data);
-      $scope.secondColoredLoaded(data);
+      if (data.beneficiarios && $scope.firstColoredLoaded){
+        $scope.firstColoredLoaded(data);
+      }
+      if (data.mano_obra && $scope.secondColoredLoaded){
+        $scope.secondColoredLoaded(data);
+      }
         //setup slider
       $scope.slides = data.fotos;
       //Setup Map
