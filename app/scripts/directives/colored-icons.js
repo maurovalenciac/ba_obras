@@ -28,7 +28,7 @@ angular.module('obrasMduytApp')
                        //create svg element
         d3.select($element[0]).html("");
         var svgDoc = d3.select($element[0]).append("svg")
-        .attr("viewBox", "0 0 100 15");
+        .attr("viewBox", "0 0 100 16");
 
         // Define the gradient
         var gradient = svgDoc.append("svg:defs")
@@ -78,14 +78,14 @@ angular.module('obrasMduytApp')
         //text element to display number of icons highlighted
         svgDoc.append("text")
             .attr("id", "txtValue")
-            .attr("x", 2)
+            .attr("x", 1)
             .attr("y", 15)
             .attr("dy", 0)
             .text("Manzana");
 
         svgDoc.append("text")
             .attr("id", "txtValue")
-            .attr("x", 33)
+            .attr("x", 30)
             .attr("y", 15)
             .attr("dy", 0)
             .text("Barrio");
@@ -99,7 +99,7 @@ angular.module('obrasMduytApp')
 
         svgDoc.append("text")
             .attr("id", "txtValue")
-            .attr("x", 87.5)
+            .attr("x", 85.5)
             .attr("y", 15)
             .attr("dy", 0)
             .text("Ciudad");
