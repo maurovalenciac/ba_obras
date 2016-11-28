@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-sm-12">
-    <h4>Explorador de Obras</h4>
+    <h4>Explorador de obras del Ministerio de Desarrollo Rrbano y Transporte</h4>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <form class="form-inline">
       <div class="form-group">
-        <label for="agrupar" class="pull-left label-nav">Agrupar por</label>
+        <label for="agrupar" class="pull-left label-nav">Probá diferentes formas de agrupar las obras:</label>
         <div class="dropdown pull-left">
           <button class="btn btn-link btn-home dropdown-toggle" type="button" id="agrupar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{selectedGroup | cleanunderscore}}
@@ -26,10 +26,10 @@
 
   <div class="col-md-4">
     <form class="form-inline">
-  
+
       <div class="form-group">
-        <label for="radio" class="pull-left label-nav">Diámetro según</label>
-        <div class="dropdown pull-left">
+        <label for="radio" class="pull-left label-nav">Diámetro según monto de contrato</label>
+        <!-- <div class="dropdown pull-left">
           <button class="btn btn-link btn-home dropdown-toggle" type="button" id="radio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{selectedRadioDimension | cleanunderscore}}
             <span class="caret"></span>
@@ -38,7 +38,7 @@
             <li><a ng-click="selectedRadioDimension='monto_contrato';showGroup();">Monto contrato</a></li>
             <li><a ng-click="selectedRadioDimension='licitacion_presupuesto_oficial';showGroup();">Presupuesto oficial</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
 
     </form>
@@ -74,13 +74,13 @@
     <p>En un solo vistazo, conocé qué estamos haciendo para mejorar la Ciudad.</p>
   </div>
   <div class="col-xs-4">
-    Dónde: Comunas    
+    Dónde: Comunas
   </div>
   <div class="col-xs-4 text-center">
-    Qué hacemos: Tipos de obras    
+    Qué hacemos: Tipos de obras
   </div>
   <div class="col-xs-4 text-right">
-    Cómo vamos: Etapas    
+    Cómo vamos: Etapas
   </div>
 </div>
 
