@@ -53,6 +53,9 @@ angular
       reg.plazo_meses = (reg.plazo_meses)?parseInt(reg.plazo_meses.trim()):null;
       reg.porcentaje_avance = (reg.porcentaje_avance)?parseFloat(reg.porcentaje_avance.trim()):null;
 
+
+      reg.hideDates = (reg.etapa === 'En proyecto' || reg.etapa === 'En licitación');
+
       reg.fotos = [];
       for (var i = 1; i <= 4; i++) {
         var key = 'imagen_'+i;

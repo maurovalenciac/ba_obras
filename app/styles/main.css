@@ -184,11 +184,16 @@ div.obra .ficha-tecnica .progress{
         padding: 5px;
         text-align: center;
     }
-
+    div.obra .colored text{
+        font: 4px sans-serif;
+        color: black;
+    }
     div.obra text {
         font: 10px sans-serif;
         color: black;
     }
+
+
     div.obra text.reference {
         font: 3px sans-serif;
         color: black;
@@ -209,7 +214,7 @@ div.obra .ficha-tecnica .progress{
     }
 
     div.obra .bar {
-        fill: steelblue;
+        fill: black;
         fill-opacity: .9;
     }
 div.obra .ficha-tecnica .progress-bar{
