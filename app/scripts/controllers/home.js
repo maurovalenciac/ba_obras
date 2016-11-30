@@ -14,8 +14,8 @@ angular.module('obrasMduytApp')
 	var tipo_colors = d3.scale.ordinal()
 	  .range(['#A5E668', '#678DD8' , '#F94745','#EE73A7','#FF8F12','#00BDB7','#FFD500']);
 
-	$scope.selectedGroup = 'comunas';
-	$scope.oldGroup = 'comunas';
+	$scope.selectedGroup = 'mapa';
+	$scope.oldGroup = 'mapa';
 	$scope.selectedObra = false;
 
 	$scope.selectedRadioDimension = 'monto_contrato';
