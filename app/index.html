@@ -64,24 +64,26 @@
           </div>
           <hr>
         </div>
-    </div>
-
-    <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 1170px;max-width: 100%;">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Ejemplo de iframe</h4>
-          </div>
-          <div class="modal-body">
-            <div id="pym-container"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        
+        <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" style="width: 1170px;max-width: 100%;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Demo iframe: {{url}}</h4>
+              </div>
+              <div class="modal-body">
+                <div id="pym-container"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
     </div>
+
 
     <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 
@@ -169,6 +171,8 @@
 
             $scope.sluger = Slug.slugify;
 
+            $scope.url = 'pala';
+
             DataService.retrieveAll()
             .then(function(data){
               $scope.entornos = _.groupBy(data.filter(function(e){return e.entorno_slug}), 'entorno');
@@ -181,6 +185,7 @@
               var url = server +'app.html#/'+hash;
               $('#iframeModal').modal('show');
               var pymParent = new pym.Parent('pym-container', url, {});
+              $scope.url = url;
             };
 
         });
