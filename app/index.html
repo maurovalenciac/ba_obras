@@ -119,14 +119,31 @@
 
           var data = undefined;
 
-          var cleanData = function(reg){
+          var cleanData = function(oldReg){
+            var reg = {};
+            for (var key in oldReg) {
+              if (oldReg.hasOwnProperty(key)) { 
+                reg[key.toLowerCase()] = oldReg[key];
+              }
+            }
+            //lowercase
+
+
             //slug
             reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
+            reg.etapa_slug = (reg.etapa)?Slug.slugify(reg.etapa):null;
             reg.entorno = (reg.entorno)?reg.entorno:null;
 
             //numbers
             reg.id = parseInt(reg.id);
             return reg;
+          };
+
+          var etapas_validas = ['en-proyecto','en-licitacion','en-ejecucion','finalizada'];
+
+          var filterData = function(reg){
+            var cond1 = (etapas_validas.indexOf(reg.etapa_slug)>-1);
+            return cond1;
           };
 
           var getUrl = function(){
@@ -148,7 +165,7 @@
               var deferred = $q.defer();
               $http.jsonp(getUrl())
               .then(function(result) {
-                data = result.data.map(cleanData);
+                data = result.data.map(cleanData).filter(filterData);
                 deferred.resolve(data);
               }, function(error) {
                 data = error;

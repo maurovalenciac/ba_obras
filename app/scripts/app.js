@@ -30,7 +30,15 @@ angular
 
     var data;
 
-    var cleanData = function(reg){
+    var cleanData = function(oldReg){
+
+      var reg = {};
+      for (var key in oldReg) {
+        if (oldReg.hasOwnProperty(key)) { 
+          reg[key.toLowerCase()] = oldReg[key];
+        }
+      }
+
       //slug
       reg.entorno_slug = (reg.entorno)?Slug.slugify(reg.entorno):null;
 

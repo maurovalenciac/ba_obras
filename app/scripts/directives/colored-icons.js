@@ -18,7 +18,7 @@ angular.module('obrasMduytApp')
             var mainSelectorClass = "." + $scope.id;
             var drawLine = function(obra){
 
-              console.log('this is obra:',obra);
+              //console.log('this is obra:',obra);
 
               var width  =$element[0].clientWidth;
 
@@ -142,7 +142,7 @@ angular.module('obrasMduytApp')
         }
 
         var p = cantidad * 100/((base * numCols));
-        console.log(p);
+        //console.log(p);
         var data = { percent: p};
 
         function drawIsotype(dataObject) {
