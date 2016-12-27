@@ -417,7 +417,50 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>/geo',
           src: '*.geojson',
           dest: '<%= yeoman.dist %>/geo'
-        }]
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/fonts',
+          src: ['.htaccess']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/geo',
+          src: ['.htaccess']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/images',
+          src: ['.htaccess']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/scripts',
+          src: ['.htaccess']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/styles',
+          src: ['.htaccess']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>/styles/fonts',
+          src: ['.htaccess']
+        }
+        ]
       },
       styles: {
         expand: true,
