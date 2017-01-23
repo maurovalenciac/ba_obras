@@ -16,15 +16,18 @@ angular
     'leaflet-directive',
     'ngTable'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider,$logProvider) {
     $routeProvider
       .when('/home', {templateUrl: 'views/home.html',controller: 'HomeCtrl',controllerAs: 'home'})
       .when('/buscador', {templateUrl: 'views/buscador.html',controller: 'BuscadorCtrl',controllerAs: 'buscador'})
       .when('/obra/:id', {templateUrl: 'views/obra.html',controller: 'ObraCtrl',controllerAs: 'obra'})
       .when('/entorno/:entorno', {templateUrl: 'views/entorno.html',controller: 'EntornoCtrl',controllerAs: 'entorno'})
+      .when('/historia', {templateUrl: 'views/historia.html',controller: 'HistoriaCtrl',controllerAs: 'historia'})
+      .when('/mapas', {templateUrl: 'views/mapas.html',controller: 'MapasCtrl',controllerAs: 'mapas'})
       .otherwise({
         redirectTo: '/home'
       });
+      $logProvider.debugEnabled(false);
   })
   .service('DataService', function ($http, $q, Slug) {
 

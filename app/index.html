@@ -43,6 +43,16 @@
               <a class="btn btn-primary btn-block btn-lg" ng-click="loadModal('buscador')">Buscador</a>
               <br>
           </div>
+          <div class="col-md-6">
+              <br>
+              <a class="btn btn-primary btn-block btn-lg" ng-click="loadModal('historia')">Demo historia</a>
+              <br>
+          </div>
+          <div class="col-md-6">
+              <br>
+              <a class="btn btn-primary btn-block btn-lg" ng-click="loadModal('mapas')">Demo mapas</a>
+              <br>
+          </div>
           <div class="col-md-6" ng-repeat="(nombre, obras) in entornos">
               <div class="well">
                 <h3>Entorno: {{nombre}} ({{obras.length}}) <a class="btn btn-primary btn-md" ng-click="loadModal('entorno/'+sluger(nombre))">Ver Entorno</a> </h3>
