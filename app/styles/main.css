@@ -223,3 +223,37 @@ div.obra .ficha-tecnica .progress-bar{
   border-color: #f1662f;
   color:white;
 }
+
+/* Historias */
+
+#historia-container{
+  
+}
+#historia-container .item{
+
+}
+
+#item-1{
+  background-color: steelblue;
+}
+
+.item-1-img{
+  margin: 0 auto;
+}
+
+#item-2{
+  background-color: aqua;
+}
+
+#item-3{
+  background-color: olive;
+}
+
+.item-1-targets,
+.item-2-targets,
+.item-3-targets{
+  display: block;
+  height: 30px;
+  width: 30px;
+  background: red;
+}

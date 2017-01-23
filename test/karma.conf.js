@@ -34,6 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/flexslider/jquery.flexslider.js',
       'bower_components/angular-flexslider/angular-flexslider.js',
+      'bower_components/animejs/anime.min.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
