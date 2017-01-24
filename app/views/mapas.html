@@ -1,5 +1,34 @@
-<div class="row obra">
-  <div class="col-md-12">
-    <h3>Mapas...</h3>
-  </div>
+<div ng-cloak ng-show="!loading">
+	<div class="row obra">
+	  <div class="col-md-12">
+	    <label>Seleccione una categoría</label>
+	    <button class="btn" ng-class="{'btn-primary':(currentCat == c)}" ng-repeat="c in cats" ng-click="filterMaps(c)">{{c}}</button>
+	  </div>
+	</div>
+
+	<div class="row obra">
+	  <div class="col-md-12">
+	    <label>Seleccione un mapa</label>
+	    <button class="btn" ng-class="{'btn-primary':(currentMap == m)}" ng-repeat="m in maps" ng-click="renderMap(m)">{{m.nombre}}</button>
+	  </div>
+	</div>
+
+	<hr>
+
+	<div ng-show="currentMap" class="row obra">
+	  <div class="col-md-12">
+	    <h2>{{currentMap.nombre}}  <small>{{currentMap.categoria}} <span ng-show="loadingMap">Cargando mapa...</span></small></h2>
+	    <p class="lead">{{currentMap.descripcion}}</p>
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="col-md-12">
+	    <leaflet center="center" geojson="geojson" tiles="tiles" markers="markers" defaults="defaults" width="100%" height="500px"></leaflet>
+	  </div>
+	</div>
+
+</div>
+<div ng-show="loading">
+	<h2>Cargando mapas ...</h2>
 </div>
