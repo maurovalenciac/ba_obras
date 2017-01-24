@@ -119,7 +119,7 @@
         .module('obrasMduytDemo', [
           'slugifier'
         ])
-        .service('DataService', function ($http, $q, Slug) {
+        .service('DataService', function ($http, $q, Slug,$sce) {
 
           var data = undefined;
 
@@ -159,7 +159,9 @@
               };
 
             }
-            return window.MDUYT_CONFIG.BASE_URL + '?source_format=csv&source='+window.MDUYT_CONFIG.HOME_CSV + '&callback=JSON_CALLBACK';
+
+            var url = window.MDUYT_CONFIG.BASE_URL + '?source_format=csv&source='+window.MDUYT_CONFIG.HOME_CSV;
+              return  $sce.trustAsResourceUrl(url);
           };
 
           this.retrieveAll = function() {
