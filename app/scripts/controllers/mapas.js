@@ -42,7 +42,7 @@ angular.module('obrasMduytApp')
 //                debugger;
                 //console.log(layers);
             },
-/*	                style: {
+/*	        style: {
                 fillColor: "green",
                 weight: 2,
                 opacity: 1,
@@ -88,27 +88,10 @@ angular.module('obrasMduytApp')
 		$scope.loadingMap = true;
 		var url = $sce.trustAsResourceUrl(m.mapa);
 
-		/*$http.jsonp(url,{jsonpCallback: 'callbackMap'})
-		.then(function(data, status) {
-	        angular.extend($scope, {
-	            geojson: {
-	                data: data,
-	                style: {
-	                    fillColor: "green",
-	                    weight: 2,
-	                    opacity: 1,
-	                    color: 'white',
-	                    dashArray: '3',
-	                    fillOpacity: 0.7
-	                }
-	            }
-	        });
-	    });*/
 	    $scope.resetGeojson();
 	    $.getJSON( m.mapa+'&callback=?', function( data ) {
 	    	console.log(data);
 	    	$scope.geojson.data = data;
-	    	//http://ws.usig.buenosaires.gob.ar/rest/convertir_coordenadas?x=100000&y=100000&output=lonlat
 	    	
 	        $scope.loadingMap = false;
 	        $scope.$apply()

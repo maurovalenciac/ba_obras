@@ -142,6 +142,8 @@ angular
           MAPAS_CSV: 'https://goo.gl/YYV2E7'
         };
 
+      } else {
+        L.Icon.Default.imagePath = '/images';
       }
     };
 
