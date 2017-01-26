@@ -33,10 +33,36 @@ angular.module('obrasMduytApp')
         tiles: tilesUSIG,
         defaults:{
              scrollWheelZoom: false
+        },
+        geojson: {
+            onEachFeature: function (feature, layer) {
+//                console.log(feature);
+//                console.log(layer);
+                layer.bindPopup(feature.properties.Nombre);
+//                debugger;
+                //console.log(layers);
+            },
+/*	                style: {
+                fillColor: "green",
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            }*/
         }
     });
 
+    $scope.resetGeojson = function(){
+    	$scope.geojson.data = {
+    		type: 'FeatureCollection',
+    		features:[]
+    	}
+    };
+
     $scope.data = {};
+
+    $scope.resetGeojson();
 
     DataService.getMapas()
 	.then(function(data){
@@ -78,22 +104,12 @@ angular.module('obrasMduytApp')
 	            }
 	        });
 	    });*/
+	    $scope.resetGeojson();
 	    $.getJSON( m.mapa+'&callback=?', function( data ) {
 	    	console.log(data);
+	    	$scope.geojson.data = data;
 	    	//http://ws.usig.buenosaires.gob.ar/rest/convertir_coordenadas?x=100000&y=100000&output=lonlat
-	    	angular.extend($scope, {
-	            geojson: {
-	                data: {"type": "FeatureCollection", "features": [{"geometry": {"type": "Point", "coordinates": [-58.463300, -34.629269]}, "type": "Feature", "id": "establecimientos_educativos_de_gestion_estatal|1154", "properties": {"Nombre": "Bachillerato a Distancia Adultos 2000", "Id": "establecimientos_educativos_de_gestion_estatal|1154"}}]},
-	                style: {
-	                    fillColor: "green",
-	                    weight: 2,
-	                    opacity: 1,
-	                    color: 'white',
-	                    dashArray: '3',
-	                    fillOpacity: 0.7
-	                }
-	            }
-	        });
+	    	
 	        $scope.loadingMap = false;
 	        $scope.$apply()
 		});
