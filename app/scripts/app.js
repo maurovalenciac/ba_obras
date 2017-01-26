@@ -135,7 +135,7 @@ angular
 
     var verifyConfig = function(){
       if(!window.MDUYT_CONFIG){
-        console.error('Archivo de configuración inexistente, utilizando configuración default de desarrollo.');
+        console.warn('Archivo de configuración inexistente, utilizando configuración default de desarrollo.');
         window.MDUYT_CONFIG = {
           BASE_URL: 'http://api.topranking.link/',
           HOME_CSV: 'https://goo.gl/vcb6oX',
