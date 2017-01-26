@@ -141,9 +141,14 @@ angular
           HOME_CSV: 'https://goo.gl/vcb6oX',
           MAPAS_CSV: 'https://goo.gl/YYV2E7'
         };
+        if(window.location.href.indexOf("dist") > -1) {
+          L.Icon.Default.imagePath = 'dist/images';
+        } else {
+          L.Icon.Default.imagePath = 'images';
+        }
 
       } else {
-        L.Icon.Default.imagePath = 'images';
+
       }
     };
 
