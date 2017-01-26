@@ -143,7 +143,7 @@ angular
         };
 
       } else {
-        L.Icon.Default.imagePath = '/images';
+        L.Icon.Default.imagePath = '/dist/images';
       }
     };
 
