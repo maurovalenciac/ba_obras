@@ -24,25 +24,6 @@
     </form>
   </div>
 
-  <div class="col-md-4">
-    <form class="form-inline">
-
-      <div class="form-group">
-        <label for="radio" class="pull-left label-nav">Diámetro según monto de contrato</label>
-        <!-- <div class="dropdown pull-left">
-          <button class="btn btn-link btn-home dropdown-toggle" type="button" id="radio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{selectedRadioDimension | cleanunderscore}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a ng-click="selectedRadioDimension='monto_contrato';showGroup();">Monto contrato</a></li>
-            <li><a ng-click="selectedRadioDimension='licitacion_presupuesto_oficial';showGroup();">Presupuesto oficial</a></li>
-          </ul>
-        </div> -->
-      </div>
-
-    </form>
-  </div>
 </div>
 
 <div class="row">
@@ -60,7 +41,7 @@
         <div id="side-chart-container"></div>
         <hr/>
       </div>
-      <div class="col-sm-12 col-xs-6">
+      <div ng-show="selectedGroup!='mapa'" class="col-sm-12 col-xs-6">
         <h4>Monto total</h4>
         <div id="scale-chart-container"></div>
       </div>
@@ -70,7 +51,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h4>Obras para una ciudad a tu medida</h4>
+    <h4>Obras para una Ciudad a tu medida</h4>
     <p>En un solo vistazo, conocé qué estamos haciendo para mejorar la Ciudad.</p>
   </div>
   <div class="col-xs-4">

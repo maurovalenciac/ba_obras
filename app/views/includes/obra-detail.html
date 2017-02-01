@@ -46,7 +46,6 @@
                 </div>
                 <div class="progress-w" ng-show="obra.porcentaje_avance<22" ng-style="{ 'width': (100 - obra.porcentaje_avance) + '%' }"></div>
               </div>
-              <p ng-if="obra.plazo_meses"> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
               <div class="row fechas" ng-show="obra.fecha_inicio">
 
                 <div class="col-md-6">
@@ -58,6 +57,7 @@
                   <p> {{obra.fecha_fin_inicial}} </p>
                 </div>
               </div>
+              <p ng-if="obra.plazo_meses"> Plazo total: <strong> {{obra.plazo_meses}} meses </strong> </p>
 
               <p ng-if="obra.benficiarios"> Cantidad de Beneficiaros: <strong> {{obra.benficiarios}}<small> personas</small>  </strong></p>
               <p ng-if="obra.mano_obra"> Mano de Obra: <strong> {{obra.mano_obra}} <small>personas</small> </strong> </p>

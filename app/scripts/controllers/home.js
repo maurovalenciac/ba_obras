@@ -147,7 +147,7 @@ angular.module('obrasMduytApp')
 
 		sidechart.w = d3.select('#side-chart-container').node().getBoundingClientRect().width;
 
-		sidechart.h = 400;
+		sidechart.h = 300;
 		sidechart.margin = sidechart.w/100;
 
 		sidechart.gap = 2;
@@ -208,6 +208,36 @@ angular.module('obrasMduytApp')
 						return d.tipo;
 					});
 
+				group
+					.append('rect')
+					.datum(d)
+					.classed('click-rect',true)
+					.attr('fill','white')
+					.attr('fill-opacity',0)
+					.on('click',function(d){
+						if($scope.selectedType == d.slug){
+							d3.selectAll('circle.obra')
+								.style('opacity',1);
+							d3.selectAll('.tipo-group text.tipo-text')
+								.style('font-size','14px');
+							
+							$scope.selectedType = null;
+						} else {
+							d3.selectAll('circle.obra')
+								.style('opacity',0.3);
+							d3.selectAll('circle.obra.'+d.slug)
+								.style('opacity',1);
+
+							d3.selectAll('.tipo-group text.tipo-text')
+								.style('font-size','14px');
+							d3.select('#tipo-group-'+d.slug+' .tipo-text')
+								.transition()
+								.style('font-size','20px');
+							
+							$scope.selectedType = d.slug;
+						}
+					});
+
 			});
 
 		sidechart.groups
@@ -221,6 +251,13 @@ angular.module('obrasMduytApp')
 			.selectAll('text.tipo-text')
 			.attr('y',function(d){
 				return sidechart.scale(d.candidad)/2+5;
+			});
+
+		sidechart.groups
+			.selectAll('rect.click-rect')
+			.attr('width',sidechart.w)
+			.attr('height',function(d){
+				return sidechart.scale(d.candidad);
 			});
 
 		var acum = 0;
@@ -280,9 +317,9 @@ angular.module('obrasMduytApp')
 			//$filter('currency')((domain[0]+domain[1])/2, '$', 0).replace(/\,/g,'.')
 
 			legendData = [
-					{legend:scalechart.nFormatter(domain[1],0),radius:scalechart.w/2},
-					{legend:scalechart.nFormatter((domain[0]+domain[1])/2,0),radius:scalechart.w/4},
-					{legend:scalechart.nFormatter(domain[0],0),radius:scalechart.w/6}
+					{legend:scalechart.nFormatter(domain[1],0),radius:scalechart.w/8},
+					{legend:scalechart.nFormatter((domain[0]+domain[1])/2,0),radius:scalechart.w/12},
+					{legend:scalechart.nFormatter(domain[0],0),radius:scalechart.w/16}
 				];
 		} else {
 			legendData = [
@@ -365,9 +402,9 @@ angular.module('obrasMduytApp')
 
 		scalechart.groups
 			.selectAll('text.legend-text')
-			.attr('text-anchor','middle')
+			.attr('text-anchor','start')
 			.attr('x',function(d){
-				return maxRadius;
+				return maxRadius*2+3;
 			})
 			.attr('y',function(d){
 				return d.radius+5;
@@ -446,7 +483,7 @@ angular.module('obrasMduytApp')
 
 		sankeychart.w = (!sankeychart.svg ||  (sankeychart.w<500) )?sankeychart.w-15:sankeychart.w;
 
-		sankeychart.h = 400;
+		sankeychart.h = 500;
 		sankeychart.margin = sankeychart.w/100;
 
 		// the function for moving the nodes
@@ -515,13 +552,28 @@ angular.module('obrasMduytApp')
 				});
 			});
 
+			var links = {};
+
 		    data.forEach(function (d) {
 		      graph.nodes.push({ "name": d.source });
 		      graph.nodes.push({ "name": d.target });
-		      graph.links.push({ "source": d.source,
+
+		      if(!links[d.source+'|'+d.target]){
+		      	links[d.source+'|'+d.target] = { "source": d.source,
 		                         "target": d.target,
-		                         "value": +d.value });
+		                         "value": 0 };
+		      }
+
+		      links[d.source+'|'+d.target].value += d.value;
+
+		      /*graph.links.push({ "source": d.source,
+		                         "target": d.target,
+		                         "value": +d.value });*/
 		     });
+
+		    _.forOwn(links, function(value, key) {
+		    	graph.links.push(value);
+			});
 
 		     // return only the distinct / unique nodes
 		     graph.nodes = d3.keys(d3.nest()
@@ -634,6 +686,7 @@ angular.module('obrasMduytApp')
 			.attr("text-anchor", function(d) { return (isNaN(d.name))?'end':'start';})
 			.attr("dy", ".35em")
 			.attr("transform", null)
+			.style("font-size", function(d) { return (isNaN(d.name))?'14px':'10px';})
 			.text(function(d) { return d.name; })
 			.filter(function(d) { return d.x < sankeychart.width / 2; })
 
@@ -1232,7 +1285,9 @@ angular.module('obrasMduytApp')
 		bubbles.circles
 			.enter()
 			.append('circle')
-			.classed('obra',true)
+			.attr('class',function(d){
+				return 'obra '+ d.data.tipo_slug;
+			})
 			.on("click", function(d) {
 				$scope.selectedObra = d;
 				$scope.$apply();

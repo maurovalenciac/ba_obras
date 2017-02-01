@@ -40,7 +40,7 @@ angular.module('obrasMduytApp')
             margin = 0,
             valueMargin = 0,
             width =document.querySelectorAll(".chart")[0].clientWidth,
-            height = 75,
+            height = 55,
             barHeight = 5,
             barPadding = 0,
             data, bar, svg, scale, xAxis, labelWidth = 0;
@@ -81,13 +81,13 @@ var timeToWidth = d3.scale.linear()
             .orient("bottom");
 
     bar.append("rect")
-            .attr("transform", "translate(0, 35)")
+            .attr("transform", "translate(0, 15)")
             .attr("height", 1)
             .attr("width", function(d){
                 return scale(percentageToTime(100));
             });
 
-    bar.append("text")
+    /*bar.append("text")
             .attr("class", "value")
             .attr("y", 30)
             .attr("dx", 0) //margin right
@@ -113,29 +113,29 @@ var timeToWidth = d3.scale.linear()
             .attr("x", function(d){
                 var width = this.getBBox().width;
                 return Math.max(width + valueMargin, scale(d.value));
-            });
+            });*/
 
     svg.append('g').append("text")
             .attr("class", "value")
-            .attr("y", 50)
-            .attr("x", 25)
+            .attr("y", 30)
+            .attr("x", 0)
             .attr("dx", 0) //margin right
             .attr("dy", "0") //vertical align middle
-            .attr("text-anchor", "end")
+            .attr("text-anchor", "start")
             .text("Inicio");
 
     svg.append('g').append("text")
             .attr("class", "value")
-            .attr("y", 65)
-            .attr("x", 55)
+            .attr("y", 45)
+            .attr("x", 0)
             .attr("dx", 0) //margin right
             .attr("dy", "0") //vertical align middle
-            .attr("text-anchor", "end")
-            .text(obra.fecha_inicio);
+            .attr("text-anchor", "start")
+            .text(inicio.format('MM-YYYY'));
 
     svg.append('g').append("text")
             .attr("class", "value")
-            .attr("y", 50)
+            .attr("y", 30)
             .attr("x", width)
             .attr("dx", 0) //margin right
             .attr("dy", "0") //vertical align middle
@@ -144,12 +144,12 @@ var timeToWidth = d3.scale.linear()
 
     svg.append('g').append("text")
             .attr("class", "value")
-            .attr("y", 65)
+            .attr("y", 45)
             .attr("x", width)
             .attr("dx", 0) //margin right
             .attr("dy", "0") //vertical align middle
             .attr("text-anchor", "end")
-            .text(obra.fecha_fin_inicial);
+            .text(fin.format('MM-YYYY'));
 
           }
 

@@ -107,6 +107,10 @@ rect.etapas-item-frame.active{
 	width: 100%;
 }
 
+#side-chart-container rect.click-rect{
+  cursor: pointer;
+}
+
 #sankey-chart-container .node rect {
   fill-opacity: .9;
   shape-rendering: crispEdges;
