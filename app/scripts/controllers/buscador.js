@@ -77,7 +77,8 @@ angular.module('obrasMduytApp')
             field: "nombre",
             title: "Nombre", 
             filter: { nombre: "text" }, 
-            show: true, 
+            show: true,
+            class: 'lupita', 
             /*sortable: "nombre",*/
             getValue: renderNormalValue
           },
@@ -86,6 +87,7 @@ angular.module('obrasMduytApp')
             title: "Área", 
             filter: { area_responsable: "text" }, 
             show: true, 
+            class: 'lupita',
             /*sortable: "area_responsable",*/
             getValue: renderNormalValue
           },
@@ -94,6 +96,7 @@ angular.module('obrasMduytApp')
             title: "Empresa", 
             filter: { licitacion_oferta_empresa: "text" }, 
             show: true, 
+            class: 'lupita',
             /*sortable: "licitacion_empresa",*/
             getValue: renderNormalValue
           },

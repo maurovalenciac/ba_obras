@@ -24,6 +24,24 @@ body{
   margin: 10px;
 }
 
+#buscador-table .lupita .ng-table-header{
+  position: relative;
+}
+
+#buscador-table .lupita .ng-table-header:after {
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e003";
+  position: absolute;
+  top: 3px;
+  left: 7px;
+}
+
 .resultado-buscador{
   border-radius: 0px;
   background-color: white;
