@@ -47,6 +47,10 @@ body{
   background-color: white;
 }
 
+.flex-direction-nav a{
+  height: 45px;
+}
+
 #tooltip-home-chart span.title,
 .resultado-buscador span.title{
   display: block;
