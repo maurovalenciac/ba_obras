@@ -1,6 +1,17 @@
 'use strict';
 
 angular.module('obrasMduytApp')
+    .filter('ByCategoryFilter', function() {
+        return function( items, cats ) {
+          var filtered = [];
+          if(items && cats){
+              angular.forEach(cats.filter(function(c){return c.active;}), function(c) {
+                filtered = filtered.concat(items.filter(function(i){return i.categoria == c.name;}))
+              });
+          }
+          return filtered;
+        };
+    })
   .controller('MapasCtrl', function ($scope,DataService,$http,leafletData,$sce,$window) {
 
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
@@ -53,35 +64,45 @@ angular.module('obrasMduytApp')
         }
     });
 
-    $scope.resetGeojson = function(){
+    /*$scope.resetGeojson = function(){
     	$scope.geojson.data = {
     		type: 'FeatureCollection',
     		features:[]
     	}
-    };
+    };*/
 
     $scope.data = {};
 
-    $scope.resetGeojson();
+    //$scope.resetGeojson();
 
     DataService.getMapas()
 	.then(function(data){
+        console.log(data);
+        $scope.rawdata = data;
+        $scope.maps = data;
 		$scope.nested = d3.nest()
 			.key(function(d){return d.categoria;})
 			.map(data);
-		$scope.cats = _.keys($scope.nested);
 
-		$scope.filterMaps($scope.cats[0]);
+		$scope.cats = _.keys($scope.nested).map(function(c){
+            return {name:c,active:true};
+        });
 
 		$scope.loading = false;
 
 	});
 
-	$scope.filterMaps = function(c){
-		$scope.currentCat = c;
-		$scope.maps = $scope.nested[c];
-		$scope.renderMap($scope.maps[0]);
+	$scope.toggleFilter = function(c){
+        c.active = !c.active;
 	};
+
+    $scope.selectMap = function(m){
+        $scope.currentMap = m;
+    };
+
+    $scope.unselectMap = function(m){
+        $scope.currentMap = false;
+    };
 
 	$scope.renderMap = function(m){
 		$scope.currentMap = m;
