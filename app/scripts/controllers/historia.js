@@ -6,7 +6,39 @@ angular.module('obrasMduytApp')
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
 
-    $scope.old = 'item-1';
+    console.log(window.SLIDES_DATA);
+    $scope.SLIDES_DATA = window.SLIDES_DATA
+
+    $scope.historyIndex = -1;
+    $scope.slideIndex = 0;
+
+    $scope.nextHistory = function(){
+      $scope.historyIndex = ($scope.SLIDES_DATA[$scope.historyIndex+1])?$scope.historyIndex+1:0;
+      $scope.renderHistory();
+    }
+
+    $scope.prevHistory = function(){
+      $scope.historyIndex = ($scope.historyIndex==0)?$scope.SLIDES_DATA.length-1:$scope.historyIndex-1;
+      $scope.renderHistory();
+    }
+
+    $scope.renderHistory = function(){
+      $scope.history = $scope.SLIDES_DATA[$scope.historyIndex];
+      $scope.slideIndex = 0;
+      $('#history-carousel').carousel({
+        interval: false
+      })
+      .off('slid.bs.carousel')
+      .on('slid.bs.carousel', function (args) {
+        var id = $(args.relatedTarget).attr('id').split('-')[1];
+        $scope.slideIndex = parseInt(id);
+        $scope.$apply();
+      });
+    }
+
+    $scope.nextHistory();
+
+/*    $scope.old = 'item-1';
 
     $('#history-carousel').carousel({
       interval: false
@@ -136,7 +168,6 @@ angular.module('obrasMduytApp')
     var hideAnimations = {
       'item-1': function(){
         console.log('chau 1!');
-
       },
       'item-2': function(){
         console.log('chau 2!');
@@ -175,6 +206,6 @@ angular.module('obrasMduytApp')
       hide(i);
       return e;
     });
-    show($scope.old);
+    show($scope.old);*/
 
   });
