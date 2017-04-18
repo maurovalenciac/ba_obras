@@ -27,11 +27,16 @@
           
           <div id="item-{{key}}" ng-repeat="(key, h) in history.slides" class="item" ng-class="{active:(key==slideIndex)}">
             <div class="row embed-responsive embed-responsive-16by9">
-                <img class="img-responsive embed-responsive-item" ng-src="{{h.url}}"/>
+                <img ng-show="history.pic == 'main'" class="img-responsive embed-responsive-item" ng-src="{{h.url}}"/>
+                <img ng-show="history.pic == imgkey" ng-repeat="(imgkey, v) in h.variations" class="img-responsive embed-responsive-item" ng-src="{{v.url}}"/>
             </div>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12">
+                  <p>
+                    <span ng-show="h.variations && h.variations.length>0">VER: </span>
+                    <span ng-repeat="(imgkey, v) in h.variations" class="label label-orange" ng-mouseover="mouseoverVariation(imgkey)" ng-mouseout="mouseoutVariation()">{{v.title}}</span>
+                  </p>
                   <h2>
                     {{h.title}} <ol ng-show="history.slides.length>1" class="carousel-indicators">
                       <li data-target="#history-carousel" ng-repeat="(key, h) in history.slides" data-slide-to="{{key}}" ng-class="{active:(key==slideIndex)}"></li>

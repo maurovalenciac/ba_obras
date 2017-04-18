@@ -12,6 +12,14 @@ angular.module('obrasMduytApp')
     $scope.historyIndex = -1;
     $scope.slideIndex = 0;
 
+    $scope.mouseoverVariation = function(ix){
+      $scope.history.pic = ix;
+    }
+
+    $scope.mouseoutVariation = function(){
+      $scope.history.pic = 'main';
+    }
+
     $scope.nextHistory = function(){
       $scope.historyIndex = ($scope.SLIDES_DATA[$scope.historyIndex+1])?$scope.historyIndex+1:0;
       $scope.renderHistory();
@@ -24,6 +32,7 @@ angular.module('obrasMduytApp')
 
     $scope.renderHistory = function(){
       $scope.history = $scope.SLIDES_DATA[$scope.historyIndex];
+      $scope.history.pic = 'main';
       $scope.slideIndex = 0;
       $('#history-carousel').carousel({
         interval: false

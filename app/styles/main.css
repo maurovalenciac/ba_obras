@@ -337,3 +337,15 @@ div.obra .ficha-tecnica .progress-bar{
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+#historia-container .label-orange {
+  background-color: #f7803b;
+  margin: 0px 5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 10px;
+}
+#historia-container .label-orange:hover {
+  color: #fff;
+  text-decoration: underline;
+}

@@ -21,7 +21,17 @@ window.SLIDES_DATA = [
 				title: 'El microcentro',
 				description: 'Para los que trabajan o hacen trámites en el microcentro, caminar era casi imposible. ¿Quién podía atravesar las veredas angostas sin esforzarse para esquivar autos y motos?',
 				type: 'image',
-				url:'http://travelingcoder.com/media/buenos-aires-multi-faceted-city/cover.jpg'
+				url:'images/historias/test/base.png',
+				variations: [
+					{
+						title: 'Reciclaje',
+						url: 'images/historias/test/reciclado.png'
+					},
+					{
+						title: 'Ríos',
+						url: 'images/historias/test/rios.png'
+					}
+				]
 			},
 			{
 				title: '',
