@@ -56,6 +56,49 @@ window.SLIDES_DATA = [
 		]
 	},
 	{
+		title: 'El microcentro II',
+		order: 2,
+		category: 'equilibrada',
+		slides: [
+			{
+				title: 'El microcentro II',
+				description: 'Para los que trabajan o hacen trámites en el microcentro, caminar era casi imposible. ¿Quién podía atravesar las veredas angostas sin esforzarse para esquivar autos y motos?',
+				type: 'image',
+				url:'images/historias/test/base.png',
+				variations: [
+					{
+						title: 'Reciclaje',
+						url: 'images/historias/test/reciclado.png'
+					},
+					{
+						title: 'Ríos',
+						url: 'images/historias/test/rios.png'
+					}
+				]
+			},
+			{
+				title: '',
+				description: 'Esta zona tenía lo que se conoce como un índice de compacidad alto: demasiado espacio construido en relación al poco espacio público disponible. Los puntos más  oscuros del mapa representan las zonas que cuentan con menos espacio público, y por lo tanto el índice de compacidad es alto.',
+				type: 'map',
+				url:'http://deluxeargentina.com/wp-content/themes/deluxe/timthumb.php?w=1000&h=450&src=http://deluxeargentina.com/wp-content/uploads/2012/05/Buenos-Aires-by-night.resized.jpg'
+			}
+			,
+			{
+				title: '',
+				description: 'Por eso transformamos el microcentro en un área de prioridad peatonal.',
+				type: 'map',
+				url:'http://i1.wp.com/www.buenasdicas.com/wp-content/uploads/2015/11/buenos-aires-capa.jpg'
+			}
+			,
+			{
+				title: '',
+				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio, hay más espacio para disfrutar.',
+				type: 'map',
+				url:'http://argentinafreetravel.com/imgs/ban3.jpg'
+			}
+		]
+	},
+	{
 		title: '',
 		order: 999,
 		category: false,

@@ -1,21 +1,21 @@
 <div id="historia-container" class="row">
 
     <div class="buttons-container">
-      <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group" role="group">
-          <button id="verde" type="button" class="btn btn-default" ng-class="{unselected: (history.category && history.category!='verde')}">Verde</button>
+      <div class="btn-group btn-group-header" ng-class="{categorySelected:(history.category)}" role="group">
+        <div class="btn-group btn-header" role="group" ng-class="{unselected: (history.category && history.category!='verde')}">
+          <button id="verde" type="button" class="btn btn-default" ng-click="selectCategory('verde')" >Verde<span ng-show="(history.category && history.category=='verde')">: {{history.title}}</span></button>
         </div>
-        <div class="btn-group" role="group">
-          <button id="integrada" type="button" class="btn btn-default" ng-class="{unselected: (history.category && history.category!='integrada')}">Integrada</button>
+        <div class="btn-group btn-header" role="group" ng-class="{unselected: (history.category && history.category!='integrada')}">
+          <button id="integrada" type="button" class="btn btn-default" ng-click="selectCategory('integrada')">Integrada<span ng-show="(history.category && history.category=='integrada')">: {{history.title}}</span></button>
         </div>
-        <div class="btn-group" role="group">
-          <button id="equilibrada" type="button" class="btn btn-default" ng-class="{unselected: (history.category && history.category!='equilibrada')}">Equilibrada</button>
+        <div class="btn-group btn-header" role="group" ng-class="{unselected: (history.category && history.category!='equilibrada')}">
+          <button id="equilibrada" type="button" class="btn btn-default" ng-click="selectCategory('equilibrada')">Equilibrada<span ng-show="(history.category && history.category=='equilibrada')">: {{history.title}}</span></button>
         </div>
-        <div class="btn-group" role="group">
-          <button id="cercana" type="button" class="btn btn-default" ng-class="{unselected: (history.category && history.category!='cercana')}">Cercana</button>
+        <div class="btn-group btn-header" role="group" ng-class="{unselected: (history.category && history.category!='cercana')}">
+          <button id="cercana" type="button" class="btn btn-default" ng-click="selectCategory('cercana')">Cercana<span ng-show="(history.category && history.category=='cercana')">: {{history.title}}</span></button>
         </div>
-        <div class="btn-group" role="group">
-          <button id="atractiva" type="button" class="btn btn-default" ng-class="{unselected: (history.category && history.category!='atractiva')}">Atractiva</button>
+        <div class="btn-group btn-header" role="group" ng-class="{unselected: (history.category && history.category!='atractiva')}">
+          <button id="atractiva" type="button" class="btn btn-default" ng-click="selectCategory('atractiva')">Atractiva<span ng-show="(history.category && history.category=='atractiva')">: {{history.title}}</span></button>
         </div>
       </div>
     </div>

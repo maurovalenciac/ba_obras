@@ -45,6 +45,14 @@ angular.module('obrasMduytApp')
       });
     }
 
+    $scope.selectCategory = function(cat){
+      var id = _.findIndex($scope.SLIDES_DATA, function(o) { return o.category == cat; }); 
+      if(id>0){
+        $scope.historyIndex = id;
+        $scope.renderHistory();
+      }
+    }
+
     $scope.nextHistory();
 
 /*    $scope.old = 'item-1';

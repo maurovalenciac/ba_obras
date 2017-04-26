@@ -310,7 +310,7 @@ div.obra .ficha-tecnica .progress-bar{
   color: #fff;
 }
 
-#historia-container .buttons-container .btn.unselected{
+#historia-container .buttons-container .unselected .btn{
   opacity: 0.4;
 }
 
@@ -349,3 +349,27 @@ div.obra .ficha-tecnica .progress-bar{
   color: #fff;
   text-decoration: underline;
 }
+
+#historia-container .btn-group-header{
+  width: 100%;
+}
+
+#historia-container .btn-group-header .btn-header{
+  width: 20%;
+  transition: width .5s ease;
+  max-height: 32px;
+  overflow: hidden;
+}
+
+#historia-container .btn-group-header .btn-header button{
+  width: 100%;
+}
+
+#historia-container .btn-group-header.categorySelected .btn-header{
+  width: 52%;
+}
+
+#historia-container .btn-group-header.categorySelected .btn-header.unselected{
+  width: 12%;
+}
+
