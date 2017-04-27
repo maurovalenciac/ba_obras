@@ -47,13 +47,13 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <a ng-show="(historyIndex>0) && (slideIndex==0)" class="btn btn-link" ng-click="prevHistory()"><span class="glyphicon glyphicon-chevron-left"></span> Historia anterior</a>
+                  <a ng-show="(historyIndex>0) && (slideIndex==0)" class="btn btn-link btn-orange" ng-click="prevHistory()"><span class="glyphicon glyphicon-chevron-left"></span> Historia anterior</a>
                   
-                  <a ng-show="(slideIndex!=0)" class="btn btn-link" data-target="#history-carousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span> Anterior</a>
+                  <a ng-show="(slideIndex!=0)" class="btn btn-link btn-orange" data-target="#history-carousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span> Anterior</a>
                   
-                  <a ng-show="(history.slides[slideIndex+1])" class="btn btn-link" data-target="#history-carousel" role="button" data-slide="next">Continuar <span class="glyphicon glyphicon-chevron-right"></span></a>
+                  <a ng-show="(history.slides[slideIndex+1])" class="btn btn-link btn-orange" data-target="#history-carousel" role="button" data-slide="next">Continuar <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-                  <a ng-show="(SLIDES_DATA[historyIndex+1]) && !history.slides[slideIndex+1]" class="btn btn-link" ng-click="nextHistory()">Próxima historia <span class="glyphicon glyphicon-chevron-right"></span></a>
+                  <a ng-show="(SLIDES_DATA[historyIndex+1]) && !history.slides[slideIndex+1]" class="btn btn-link btn-orange" ng-click="nextHistory()">Próxima historia <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </div>
               </div>
             </div>

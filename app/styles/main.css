@@ -256,7 +256,7 @@ div.obra .ficha-tecnica .progress-bar{
   min-height: 500px;
 }
 
-#historia-container .btn-link {
+.btn-orange {
     color: #f7803b;
     text-transform: uppercase;
     text-decoration: none;
@@ -373,3 +373,22 @@ div.obra .ficha-tecnica .progress-bar{
   width: 12%;
 }
 
+/* MAPAS */
+#explorador-mapas-container {
+
+} 
+
+#explorador-mapas-container .map-item{
+  padding: 15px;
+  box-shadow: 0px 0px 5px #888888;
+  margin-bottom: 20px;
+} 
+
+#explorador-mapas-container .map-item h3,
+#explorador-mapas-container .map-item h4{
+  margin-top:0px;
+}
+
+#explorador-mapas-container .map-item p{
+    margin-bottom:0px;
+}

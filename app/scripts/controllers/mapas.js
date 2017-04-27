@@ -20,8 +20,8 @@ angular.module('obrasMduytApp')
     $scope.loading = true;
     $scope.loadingMap = false;
 
-    var tilesUSIG = {
-                url: '//tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
+    var baseTiles = {
+                url: 'http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
                 format: 'tms',
                 builder: 'tms',
                 baseLayer: true,
@@ -33,47 +33,20 @@ angular.module('obrasMduytApp')
                 }
               };
 
-    $scope.titles = tilesUSIG;
     angular.extend($scope, {
         markers: {},
+        tiles: baseTiles,
         center: {
                     lat: -34.604,
                     lng: -58.430,
                     zoom: 12
                 },
-        tiles: tilesUSIG,
         defaults:{
              scrollWheelZoom: false
-        },
-        geojson: {
-            onEachFeature: function (feature, layer) {
-//                console.log(feature);
-//                console.log(layer);
-                layer.bindPopup(feature.properties.Nombre);
-//                debugger;
-                //console.log(layers);
-            },
-/*	        style: {
-                fillColor: "green",
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.7
-            }*/
         }
     });
 
-    /*$scope.resetGeojson = function(){
-    	$scope.geojson.data = {
-    		type: 'FeatureCollection',
-    		features:[]
-    	}
-    };*/
-
     $scope.data = {};
-
-    //$scope.resetGeojson();
 
     DataService.getMapas()
 	.then(function(data){
@@ -97,26 +70,14 @@ angular.module('obrasMduytApp')
 	};
 
     $scope.selectMap = function(m){
+        baseTiles.url = m.tiles;
+        $scope.tiles = baseTiles;
         $scope.currentMap = m;
+        console.log($scope.tiles);
     };
 
     $scope.unselectMap = function(m){
         $scope.currentMap = false;
     };
-
-	$scope.renderMap = function(m){
-		$scope.currentMap = m;
-		$scope.loadingMap = true;
-		var url = $sce.trustAsResourceUrl(m.mapa);
-
-	    $scope.resetGeojson();
-	    $.getJSON( m.mapa+'&callback=?', function( data ) {
-	    	console.log(data);
-	    	$scope.geojson.data = data;
-	    	
-	        $scope.loadingMap = false;
-	        $scope.$apply()
-		});
-	};
 
   });

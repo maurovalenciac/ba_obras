@@ -1,4 +1,4 @@
-<div ng-cloak ng-show="!loading">
+<div id="explorador-mapas-container" ng-cloak ng-show="!loading">
 	<div class="row obra">
 	  <div class="col-md-12">
 	    <h2>Explorador de mapas</h2>
@@ -10,11 +10,10 @@
 
 	<div ng-show="currentMap" class="row obra">
 	  <div class="col-md-12">
-	  	<div class="well">
-		    <a class="btn btn-link pull-right" ng-click="unselectMap()">Cerrar</a>
-		    <h3>{{currentMap.nombre}}  <small>{{currentMap.categoria}} <span ng-show="loadingMap"> - Cargando mapa...</span></small></h3>
+	  	<div class="map-item">
+		    <h3>{{currentMap.nombre}}  <small>{{currentMap.categoria}} <span ng-show="loadingMap"> - Cargando mapa...</span></small><a class="btn btn-link pull-right btn-orange" ng-click="unselectMap()">Cerrar</a></h3>
 		    <p class="lead">{{currentMap.descripcion}}</p>
-		    <leaflet center="center" geojson="geojson" tiles="tiles" markers="markers" defaults="defaults" width="100%" height="500px"></leaflet>
+		    <leaflet center="center" tiles="tiles" markers="markers" defaults="defaults" width="100%" height="500px"></leaflet>
 	   </div>
 	  </div>
 	</div>
@@ -23,11 +22,11 @@
 
 	<div class="row obra">
 	  <div class="col-md-6" ng-repeat="m in maps|ByCategoryFilter:cats">
-	  	<div class="well">
+	  	<div class="map-item">
 	    <h4>{{m.nombre}} <small>{{m.categoria}}</small></h4>
 	    <p>{{m.descripcion}}</p>
 	   	<p class="text-right">
-	   	<a ng-show="m.link_historia" class="btn btn-link">Ver historia</a><a class="btn btn-link" ng-click="selectMap(m)">Ver mapa</a></p>
+	   	<a ng-show="m.link_historia" class="btn btn-link btn-orange">Ver historia</a><a class="btn btn-link btn-orange" ng-click="selectMap(m)">Ver mapa</a></p>
 	   </div>
 	  </div>
 	</div>
