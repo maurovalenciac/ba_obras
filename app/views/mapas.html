@@ -26,9 +26,11 @@
 	<div ng-show="currentMap" class="row obra">
 	  <div class="col-md-12">
 	  	<div class="map-item">
-		    <h3>{{currentMap.nombre}}  <small>{{currentMap.categoria}} <span ng-show="loadingMap"> - Cargando mapa...</span></small><a class="btn btn-link pull-right btn-orange" ng-click="unselectMap()">Cerrar</a></h3>
-		    <p class="lead">{{currentMap.descripcion}}</p>
-		    <leaflet center="center" tiles="tiles" markers="markers" defaults="defaults" width="100%" height="500px"></leaflet>
+	  		<div class="map-item-text">
+			    <h3>{{currentMap.nombre}}  <small class="bg-{{currentMap.categoria}} label">Ciudad {{currentMap.categoria}} <span ng-show="loadingMap"> - Cargando mapa...</span></small><a class="btn btn-link pull-right btn-orange" ng-click="unselectMap()">Cerrar</a></h3>
+			    <p class="lead">{{currentMap.descripcion}}</p>
+	  		</div>
+			<leaflet center="center" tiles="tiles" markers="markers" defaults="defaults" width="100%" height="500px"></leaflet>
 	   </div>
 	  </div>
 	</div>
