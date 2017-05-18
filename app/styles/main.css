@@ -379,10 +379,23 @@ div.obra .ficha-tecnica .progress-bar{
 } 
 
 #explorador-mapas-container .map-item{
-  padding: 15px;
   box-shadow: 0px 0px 5px #888888;
   margin-bottom: 20px;
-} 
+}
+
+#explorador-mapas-container .map-item-row{
+  display: flex;
+  align-items: stretch;
+}
+
+#explorador-mapas-container .map-item-text{
+  padding: 30px 30px 15px 15px;
+}
+
+#explorador-mapas-container .map-item-preview{
+  height: 100%;
+  background-size: cover;
+}
 
 #explorador-mapas-container .map-item h3,
 #explorador-mapas-container .map-item h4{

@@ -59,7 +59,10 @@ angular.module('obrasMduytApp')
         $scope.maps = data;
 		$scope.nested = d3.nest()
 			.key(function(d){return d.categoria;})
-			.map(data);
+			.map(data.map(function(d){
+                d.preview = d.tiles.replace('{z}','13').replace('{x}','2767').replace('{y}','3255');
+                return d;
+            }));
 
 		$scope.cats = _.keys($scope.nested).map(function(c){
             return {name:c,active:true};
