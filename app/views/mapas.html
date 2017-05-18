@@ -1,12 +1,27 @@
 <div id="explorador-mapas-container" ng-cloak ng-show="!loading">
-	<div class="row obra">
-	  <div class="col-md-12">
-	    <h2>Explorador de mapas</h2>
-	    <button class="btn" ng-class="{'btn-primary':(c.active)}" ng-repeat="c in cats" ng-click="toggleFilter(c)">{{c.name}}</button>
-	  </div>
+	
+	<div class="row">
+		<div class="form-group col-md-8">
+	    	<input type="text" class="form-control" ng-model="filterTerm" placeholder="Buscar por palabras clave">
+		</div>
+		<div class="col-md-4">
+	  		<button type="submit" class="btn btn-link btn-orange" ng-click="clearFilter()">Limpiar filtros</button>
+		</div>
 	</div>
 
-	<hr/>
+	<div class="row">
+		<div class="col-md-12">
+		<div class="buttons-container-categories">
+	      <div class="btn-group btn-group-header" role="group">
+	        
+	        <div class="btn-group btn-header" role="group" ng-class="{unselected: !(c.active)}" ng-repeat="c in cats">
+	          <button id="{{c.name}}" type="button" class="btn btn-default" ng-click="toggleFilter(c)" >Ciudad {{c.name}}</button>
+	        </div>
+
+	      </div>
+	    </div>
+	    </div>
+	</div>
 
 	<div ng-show="currentMap" class="row obra">
 	  <div class="col-md-12">
@@ -18,12 +33,12 @@
 	  </div>
 	</div>
 	
-	<h1>Listado de mapas</h1>
+	<hr/>
 
 	<div class="row obra">
-	  <div class="col-md-6" ng-repeat="m in maps|ByCategoryFilter:cats">
+	  <div class="col-md-6" ng-repeat="m in maps|ByCategoryFilter:cats:filterTerm">
 	  	<div class="map-item">
-	    <h4>{{m.nombre}} <small>{{m.categoria}}</small></h4>
+	    <h4>{{m.nombre}} <small class="bg-{{m.categoria}} label">Ciudad {{m.categoria}}</small></h4>
 	    <p>{{m.descripcion}}</p>
 	   	<p class="text-right">
 	   	<a ng-show="m.link_historia" class="btn btn-link btn-orange">Ver historia</a><a class="btn btn-link btn-orange" ng-click="selectMap(m)">Ver mapa</a></p>

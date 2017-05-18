@@ -298,41 +298,41 @@ div.obra .ficha-tecnica .progress-bar{
   z-index: 100;
 }
 
-#historia-container .buttons-container{
+.buttons-container-categories{
   margin: 1px;
   margin-bottom: 5px;
 }
 
-#historia-container .buttons-container .btn{
+.buttons-container-categories .btn{
   border: none;
   box-shadow: none;
   background-image: none;
   color: #fff;
 }
 
-#historia-container .buttons-container .unselected .btn{
+.buttons-container-categories .unselected .btn{
   opacity: 0.4;
 }
 
-#historia-container .buttons-container #verde{
+.buttons-container-categories #verde{
   background-color: #7fcd37;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-#historia-container .buttons-container #integrada{
+.buttons-container-categories #integrada{
   background-color: #fdac2a; 
 }
 
-#historia-container .buttons-container #equilibrada{
+.buttons-container-categories #equilibrada{
   background-color: #fd514d;
 }
 
-#historia-container .buttons-container #cercana{
+.buttons-container-categories #cercana{
   background-color: #db5a94;
 }
 
-#historia-container .buttons-container #atractiva{
+.buttons-container-categories #atractiva{
   background-color: #27c3b9;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -350,26 +350,26 @@ div.obra .ficha-tecnica .progress-bar{
   text-decoration: underline;
 }
 
-#historia-container .btn-group-header{
+.buttons-container-categories .btn-group-header{
   width: 100%;
 }
 
-#historia-container .btn-group-header .btn-header{
+.buttons-container-categories .btn-group-header .btn-header{
   width: 20%;
   transition: width .5s ease;
   max-height: 32px;
   overflow: hidden;
 }
 
-#historia-container .btn-group-header .btn-header button{
+.buttons-container-categories .btn-group-header .btn-header button{
   width: 100%;
 }
 
-#historia-container .btn-group-header.categorySelected .btn-header{
+.buttons-container-categories .btn-group-header.categorySelected .btn-header{
   width: 52%;
 }
 
-#historia-container .btn-group-header.categorySelected .btn-header.unselected{
+.buttons-container-categories .btn-group-header.categorySelected .btn-header.unselected{
   width: 12%;
 }
 
@@ -391,4 +391,24 @@ div.obra .ficha-tecnica .progress-bar{
 
 #explorador-mapas-container .map-item p{
     margin-bottom:0px;
+}
+
+.bg-verde{
+  background-color: #7fcd37;
+}
+
+.bg-integrada{
+  background-color: #fdac2a; 
+}
+
+.bg-equilibrada{
+  background-color: #fd514d;
+}
+
+.bg-cercana{
+  background-color: #db5a94;
+}
+
+.bg-atractiva{
+  background-color: #27c3b9;
 }

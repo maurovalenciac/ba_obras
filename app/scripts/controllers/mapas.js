@@ -2,11 +2,13 @@
 
 angular.module('obrasMduytApp')
     .filter('ByCategoryFilter', function() {
-        return function( items, cats ) {
+        return function( items, cats, filterTerm ) {
           var filtered = [];
           if(items && cats){
               angular.forEach(cats.filter(function(c){return c.active;}), function(c) {
-                filtered = filtered.concat(items.filter(function(i){return i.categoria == c.name;}))
+                filtered = filtered.concat(items.filter(function(i){
+                    return ( (i.categoria == c.name) && (filterTerm=='' || i.descripcion.indexOf(filterTerm)>-1 ) );
+                }))
               });
           }
           return filtered;
@@ -19,6 +21,8 @@ angular.module('obrasMduytApp')
 
     $scope.loading = true;
     $scope.loadingMap = false;
+
+    $scope.filterTerm = "";
 
     var baseTiles = {
                 url: 'http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
@@ -73,11 +77,18 @@ angular.module('obrasMduytApp')
         baseTiles.url = m.tiles;
         $scope.tiles = baseTiles;
         $scope.currentMap = m;
-        console.log($scope.tiles);
     };
 
     $scope.unselectMap = function(m){
         $scope.currentMap = false;
+    };
+
+    $scope.clearFilter = function(){
+        _.forEach($scope.cats,function(c){
+            c.active = true;
+        });
+        $scope.filterTerm = "";
+        $scope.unselectMap();
     };
 
   });
