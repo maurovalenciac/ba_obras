@@ -262,13 +262,25 @@ div.obra .ficha-tecnica .progress-bar{
     text-decoration: none;
 }
 
+.btn-orange:visited, .btn-orange:visited{
+    color: #f7803b;
+}
+
 #historia-container .carousel-inner{
   border-radius:0px;
 }
 
 #historia-container .btn-link:hover {
     text-decoration: underline;
+    color: #f7803b;
 }
+
+#historia-container p .resaltar{
+  background-color:#f7803b; 
+  font-weight:bold;
+  padding: 0 3px;
+}
+
 
 #historia-container .carousel-indicators{
   display: inline-block;

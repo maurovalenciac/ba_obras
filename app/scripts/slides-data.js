@@ -6,7 +6,7 @@ window.SLIDES_DATA = [
 		slides: [
 			{
 				title: 'Buenos Aires detrás de escena',
-				description: 'Millones de historias dan vida a nuestra Ciudad. Algunos disfrutan pasar horas bajo la sombra de un árbol en la plaza del barrio. Otros no frenan nunca: colectivos, subtes y trenes los llevan y traen de todas sus actividades diarias. ¿Qué es lo que más necesitás de tu Ciudad?',
+				description: 'Millones de historias dan vida a nuestra <span class="resaltar">Ciudad</span>. Algunos disfrutan pasar horas bajo la sombra de un árbol en la plaza del barrio. Otros no frenan nunca: colectivos, subtes y trenes los llevan y traen de todas sus actividades diarias. ¿Qué es lo que más necesitás de tu Ciudad?',
 				type:'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/1.%20SUBE_animacion.gif'
 			}	
         ]
@@ -128,7 +128,7 @@ window.SLIDES_DATA = [
 		slides: [
 			{
 				title: 'Explorá',
-				description: 'Conocé todo lo que el Ministerio de Desarrollo Urbano y Transporte está haciendo para mejorar la Ciudad. <a>Explorá todos los mapas</a>. Explorá todas las obras.',
+				description: 'Conocé todo lo que el Ministerio de Desarrollo Urbano y Transporte está haciendo para mejorar la Ciudad.<br/><a target="_blank" href="http://www.buenosaires.gob.ar/" class="btn btn-link btn-orange">Explorá todos los mapas</a><a target="_blank" href="http://www.buenosaires.gob.ar/" class="btn btn-link btn-orange">Explorá todas las obras</a>',
 				type:'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/sociopublico/acceso_constitucion/comuna1constitucion.jpg'
 			}
 		]

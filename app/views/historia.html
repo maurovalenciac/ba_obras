@@ -27,8 +27,9 @@
           
           <div id="item-{{key}}" ng-repeat="(key, h) in history.slides" class="item" ng-class="{active:(key==slideIndex)}">
             <div class="row embed-responsive embed-responsive-16by9">
-                <img ng-show="history.pic == 'main'" class="img-responsive embed-responsive-item" ng-src="{{h.url}}"/>
-                <img ng-show="history.pic == imgkey" ng-repeat="(imgkey, v) in h.variations" class="img-responsive embed-responsive-item" ng-src="{{v.url}}"/>
+                <img ng-show="h.type=='image' && history.pic == 'main'" class="img-responsive embed-responsive-item" ng-src="{{h.url}}"/>
+                <img ng-show="h.type=='image' && history.pic == imgkey" ng-repeat="(imgkey, v) in h.variations" class="img-responsive embed-responsive-item" ng-src="{{v.url}}"/>
+                <iframe ng-src="{{url}}" ng-if="url && h.type=='map'" class="embed-responsive-item"></iframe>
             </div>
             <div class="container-fluid">
               <div class="row">
@@ -42,7 +43,7 @@
                       <li data-target="#history-carousel" ng-repeat="(key, h) in history.slides" data-slide-to="{{key}}" ng-class="{active:(key==slideIndex)}"></li>
                     </ol>
                   </h2>
-                  <p>{{h.description}}</p>
+                  <p ng-bind-html="h.description"></p>
                 </div>
               </div>
               <div class="row">
@@ -53,7 +54,10 @@
                   
                   <a ng-show="(history.slides[slideIndex+1])" class="btn btn-link btn-orange" data-target="#history-carousel" role="button" data-slide="next">Continuar <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-                  <a ng-show="(SLIDES_DATA[historyIndex+1]) && !history.slides[slideIndex+1]" class="btn btn-link btn-orange" ng-click="nextHistory()">Próxima historia <span class="glyphicon glyphicon-chevron-right"></span></a>
+                  <a ng-show="historyIndex!=0 && (SLIDES_DATA[historyIndex+1]) && !history.slides[slideIndex+1]" class="btn btn-link btn-orange" ng-click="nextHistory()">Próxima historia <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                  <a ng-show="historyIndex==0 && (SLIDES_DATA[historyIndex+1]) && !history.slides[slideIndex+1]" class="btn btn-link btn-orange" ng-click="nextHistory()">Comenzar <span class="glyphicon glyphicon-chevron-right"></span></a>
+
                 </div>
               </div>
             </div>
