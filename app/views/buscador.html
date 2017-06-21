@@ -49,7 +49,7 @@
 						<span class="desc">{{o.etapa}}</span>
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
-						<a ng-href="{{o.data.link_interno}}" class="btn btn-default btn-block">Más información</a>
+						<a ng-show="o.link_interno" ng-href="{{o.link_interno}}" target="_parent" class="btn btn-default btn-block">Más información</a>
 					</div>
 				</div>
 			</div>
