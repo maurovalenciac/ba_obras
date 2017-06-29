@@ -6,7 +6,6 @@ angular.module('obrasMduytApp')
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
 
-    console.log(window.SLIDES_DATA);
     $scope.SLIDES_DATA = window.SLIDES_DATA
 
     $scope.historyIndex = -1;

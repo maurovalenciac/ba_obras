@@ -6,8 +6,9 @@ window.SLIDES_DATA = [
 		slides: [
 			{
 				title: 'Buenos Aires detrás de escena',
-				description: 'Millones de historias dan vida a nuestra <span class="resaltar">Ciudad</span>. Algunos disfrutan pasar horas bajo la sombra de un árbol en la plaza del barrio. Otros no frenan nunca: colectivos, subtes y trenes los llevan y traen de todas sus actividades diarias. ¿Qué es lo que más necesitás de tu Ciudad?',
-				type:'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/1.%20SUBE_animacion.gif'
+				description: 'Millones de historias dan vida a nuestra Ciudad. Algunos disfrutan pasar horas bajo la sombra de un árbol en la plaza del barrio. Otros no frenan nunca: colectivos, subtes y trenes los llevan y traen de todas sus actividades diarias. ¿Qué es lo que más necesitás de tu Ciudad?',
+				type:'image', 
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/1.%20SUBE_animacion.gif'
 			}	
         ]
 	},
@@ -33,8 +34,9 @@ window.SLIDES_DATA = [
 			},
 			{
 				title: '',
-				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar. Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en la calle Tacuarí.',
-				type: 'image',	url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/5.%20Compacidad_final.jpg'
+				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar.</br>Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/area-ambiental-central”><span class=“resaltar”>la calle Tacuarí</span></a>.',
+				type: 'map',
+                url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/compacidad_corregida/'
 			}
 		]
 	},
@@ -51,11 +53,12 @@ window.SLIDES_DATA = [
 			{
 				title: '',
 				description: 'La Comuna 8 es una de las zonas de la Ciudad con un índice de caminabilidad muy bajo, casi en cero, porque no tiene un buen equilibrio entre la actividad económica, comercial, cultural y/o recreativa. Algunas cuadras superan ampliamente la longitud promedio y superan a los extenuantes 1000 metros, otras incluso se cortan por las vías del ferrocarril o las autopistas. Se las conoce como barreras urbanas, que hacen que sea difícil moverse caminando en esa zona. Los puntos azules del mapa son los que peor resultado dan.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/6.%20Caminabilidad_final.jpg'
+				type: 'map', 
+                url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/indicador_sintetico_de_caminabilidad/'
 			},
 			{
 				title: '',
-				description: 'La construcción de la Villa Olímpica en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
+				description: 'La construcción de <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/villa-olimpica”><span class=“resaltar”>la Villa Olímpica</span></a> en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
 				type: 'image',
 				url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/villa_olimpica_05.jpg?itok=b_CiZ26W'
 			}
@@ -70,7 +73,8 @@ window.SLIDES_DATA = [
 			{
 				title: 'Un sur joven',
 				description: 'La Comuna 8 es, además, una de las zonas de la Ciudad con mayor cantidad de jóvenes. El 35% de sus habitantes tiene menos de 19 años y casi el 50% menos de 40.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/7.%20Poblacion.jpg'
+				type: 'map', 
+                url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/ciudad_atractiva/'
 			},
             {
 				title: '',
@@ -92,11 +96,12 @@ window.SLIDES_DATA = [
             {
 				title: '',
 				description: 'El indicador de equilibrio de usos mide la relación entre el uso residencial y no residencial del suelo: nos muestra dónde falta desarrollo y qué aspecto debemos fortalecer. Si miramos los barrios Urquiza, Coghlan y Saavedra encontramos muchos puntos de color rojo. Esto muestra que el indicador está muy bajo, porque es una zona que siempre fue residencial, de casas bajas y calles amplias.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/7.%20Deporte_2.jpg'
+				type: 'map', 
+                url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/equilibrio_de_usos/'
 			},
             {
 				title: '',
-				description: 'En estas manzanas se encuentra el nuevo Barrio Parque Donado Holmberg, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
+				description: 'En estas manzanas se encuentra <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/donado-holmberg”><span class=“resaltar”>el nuevo Barrio Parque Donado Holmberg</span></a>, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
 				type: 'image',
                 url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/3_231.jpg'
 			}
