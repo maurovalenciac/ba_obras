@@ -34,7 +34,7 @@ window.SLIDES_DATA = [
 			},
 			{
 				title: '',
-				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar.</br>Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/area-ambiental-central”><span class=“resaltar”>la calle Tacuarí</span></a>.',
+				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar.</br>Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/area-ambiental-central"><span class="resaltar">la calle Tacuarí</span></a>.',
 				type: 'map',
                 url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/compacidad_corregida/'
 			}
@@ -58,7 +58,7 @@ window.SLIDES_DATA = [
 			},
 			{
 				title: '',
-				description: 'La construcción de <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/villa-olimpica”><span class=“resaltar”>la Villa Olímpica</span></a> en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
+				description: 'La construcción de <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/villa-olimpica"><span class="resaltar">la Villa Olímpica</span></a> en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
 				type: 'image',
 				url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/villa_olimpica_05.jpg?itok=b_CiZ26W'
 			}
@@ -101,7 +101,7 @@ window.SLIDES_DATA = [
 			},
             {
 				title: '',
-				description: 'En estas manzanas se encuentra <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/donado-holmberg”><span class=“resaltar”>el nuevo Barrio Parque Donado Holmberg</span></a>, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
+				description: 'En estas manzanas se encuentra <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/donado-holmberg"><span class="resaltar">el nuevo Barrio Parque Donado Holmberg</span></a>, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
 				type: 'image',
                 url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/3_231.jpg'
 			}

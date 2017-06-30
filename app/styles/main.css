@@ -275,10 +275,20 @@ div.obra .ficha-tecnica .progress-bar{
     color: #f7803b;
 }
 
+#historia-container p a{
+  text-decoration: none;
+}
+
+#historia-container p a:hover{
+  text-decoration: underline;
+  color:white;
+}
+
 #historia-container p .resaltar{
   background-color:#f7803b; 
   font-weight:bold;
   padding: 0 3px;
+  color: white;
 }
 
 

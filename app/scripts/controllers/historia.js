@@ -33,6 +33,7 @@ angular.module('obrasMduytApp')
       $scope.history = $scope.SLIDES_DATA[$scope.historyIndex];
       $scope.history.pic = 'main';
       $scope.slideIndex = 0;
+      $scope.evaluateMap($scope.slideIndex);
       $('#history-carousel').carousel({
         interval: false
       })
@@ -40,13 +41,17 @@ angular.module('obrasMduytApp')
       .on('slid.bs.carousel', function (args) {
         var id = $(args.relatedTarget).attr('id').split('-')[1];
         $scope.slideIndex = parseInt(id);
-        if($scope.SLIDES_DATA[$scope.historyIndex].slides[$scope.slideIndex].type=='map'){
-          $scope.url = $sce.trustAsResourceUrl($scope.SLIDES_DATA[$scope.historyIndex].slides[$scope.slideIndex].url);
-        } else {
-          $scope.url = false;
-        }
+        $scope.evaluateMap($scope.slideIndex);
         $scope.$apply();
       });
+    }
+
+    $scope.evaluateMap = function(slideIndex){
+      if($scope.SLIDES_DATA[$scope.historyIndex].slides[slideIndex].type=='map'){
+        $scope.url = $sce.trustAsResourceUrl($scope.SLIDES_DATA[$scope.historyIndex].slides[slideIndex].url);
+      } else {
+        $scope.url = false;
+      }
     }
 
     $scope.selectCategory = function(cat){
