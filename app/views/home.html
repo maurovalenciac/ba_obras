@@ -81,5 +81,5 @@
   <span class="desc">{{selectedObra.data.tipo}}</span>
   <span class="title">Estado:</span>
   <span class="desc">{{selectedObra.data.etapa}}</span>
-  <a ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
+  <a ng-show="selectedObra.data.link_interno!=''" target="_parent" ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
 </div>
