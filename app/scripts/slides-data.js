@@ -8,7 +8,7 @@ window.SLIDES_DATA = [
 				title: 'Buenos Aires detrás de escena',
 				description: 'Millones de historias dan vida a nuestra Ciudad. Algunos disfrutan pasar horas bajo la sombra de un árbol en la plaza del barrio. Otros no frenan nunca: colectivos, subtes y trenes los llevan y traen de todas sus actividades diarias. ¿Qué es lo que más necesitás de tu Ciudad?',
 				type:'image', 
-                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/1.%20SUBE_animacion.gif'
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/sube_animacion.gif'
 			}	
         ]
 	},
@@ -20,21 +20,23 @@ window.SLIDES_DATA = [
 			{
 				title: 'El microcentro',
 				description: 'Para los que trabajan o hacen trámites en el microcentro, caminar era casi imposible. ¿Quién podía atravesar las veredas angostas sin esforzarse para esquivar autos y motos?',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/2.%20Florida%20Paula%20Soler%20Moya.jpg',
+				type: 'image', 
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/floridapaulasolermoya.jpg',
             },
 			{
 				title: '',
 				description: 'Esta zona tenía lo que se conoce como un índice de compacidad alto: demasiado espacio construido en relación al poco espacio público disponible. Los puntos más  oscuros del mapa representan las zonas que cuentan con menos espacio público, y por lo tanto el índice de compacidad es alto.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/3.%20Compacidad_pre_final.jpg'
+				type: 'image', 
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/compacidad_pre_final.jpg'
 			},
 			{
 				title: '',
 				description: 'Por eso transformamos el microcentro en un área de prioridad peatonal.',
-				type: 'image',	url:'http://www.buenosaires.gob.ar/sites/gcaba/files/img_4675_retocada_2_1.jpg'
+				type: 'image',	url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/prioridad_peatonal.jpg'
 			},
 			{
 				title: '',
-				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar.</br>Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/area-ambiental-central"><span class="resaltar">la calle Tacuarí</span></a>.',
+				description: 'Miremos el mapa del indicador de compacidad corregida de nuevo: los puntos que vimos antes ya no son tan oscuros. Eso es porque hoy hay más espacio para caminar tranquilos entre tanto edificio. Hay más espacio para disfrutar.</br>Pero todavía nos falta. Conocé más sobre las obras que estamos realizando en <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/area-ambiental-central”><span class=“resaltar”>la calle Tacuarí</span></a>.',
 				type: 'map',
                 url:'http://epok.buenosaires.gob.ar/pub/mapa/sociopublico/compacidad_corregida/'
 			}
@@ -48,7 +50,7 @@ window.SLIDES_DATA = [
 			{
 				title: 'Caminar por la Ciudad',
 				description: 'Pero hacer espacio para que podamos andar a pie por las calles porteñas no es lo único que hace a una verdadera ciudad caminable. También importa que todo lo que te hace falta esté cerca tuyo. Una ciudad integrada es esa donde no necesitás viajar mucho para realizar tus actividades cotidianas. Si tu trabajo, los servicios y comercios que necesitás están al alcance de tu mano, entonces tenés más tiempo para vos.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/6.%20Caminabilidad_ninios.jpg',
+				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/caminabilidad_ninios.jpg',
 			},
 			{
 				title: '',
@@ -58,9 +60,9 @@ window.SLIDES_DATA = [
 			},
 			{
 				title: '',
-				description: 'La construcción de <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/villa-olimpica"><span class="resaltar">la Villa Olímpica</span></a> en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
+				description: 'La construcción de <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/villa-olimpica”><span class=“resaltar”>la Villa Olímpica</span></a> en esta zona es una oportunidad para mejorar en este aspecto: implica construir viviendas, abrir nuevas calles que reduzcan la longitud de las cuadras y sumar comercios y otras actividades económicas y recreativas.',
 				type: 'image',
-				url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/villa_olimpica_05.jpg?itok=b_CiZ26W'
+				url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/villa_olimpica_05.jpg'
 			}
 			
 		]
@@ -79,7 +81,8 @@ window.SLIDES_DATA = [
             {
 				title: '',
 				description: 'Por eso es importante no solo impulsar el desarrollo de viviendas, sino también incentivar la actividad económica, el empleo y las actividades deportivas. La creación del Distrito del Deporte en esta zona busca lograr ese objetivo a través de beneficios fiscales para atraer empresas que se radiquen en la zona.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/7.%20Deporte_2.jpg'
+				type: 'image', 
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/deporte_2.jpg'
 			}	
 		]
 	},
@@ -91,7 +94,8 @@ window.SLIDES_DATA = [
 			{
 				title: 'El equilibrio de la Ciudad',
 				description: 'Cuanto más diversas son las actividades de una zona, mayor es su autonomía y su posibilidad de desarrollo. La diversidad nos permite construir una Ciudad más equilibrada.',
-				type: 'image', url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/obrasfinales/Finales%20para%20las%20historias/8.%20disfrute_market.jpg'
+				type: 'image', 
+                url:'http://cdn2.buenosaires.gob.ar/desarrollourbano/observatorio-de-obras/masobras/disfrute_market.jpg'
 			},	
             {
 				title: '',
@@ -101,7 +105,7 @@ window.SLIDES_DATA = [
 			},
             {
 				title: '',
-				description: 'En estas manzanas se encuentra <a target="_blank" href="http://www.buenosaires.gob.ar/desarrollourbano/donado-holmberg"><span class="resaltar">el nuevo Barrio Parque Donado Holmberg</span></a>, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
+				description: 'En estas manzanas se encuentra <a target=“_blank” href=“http://www.buenosaires.gob.ar/desarrollourbano/donado-holmberg”><span class=“resaltar”>el nuevo Barrio Parque Donado Holmberg</span></a>, que potenciará el desarrollo social, cultural, económico y administrativo de la zona.',
 				type: 'image',
                 url:'http://www.buenosaires.gob.ar/sites/gcaba/files/styles/interna_pagina/public/3_231.jpg'
 			}
