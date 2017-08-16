@@ -37,15 +37,16 @@
 	
 	<hr/>
 
-	<div class="row obra">
-	  <div class="col-md-6" ng-repeat="m in maps|ByCategoryFilter:cats:filterTerm">
+	<div class="row map-item-container-row">
+	  <div class="col-md-6 map-item-container" ng-repeat="m in maps|ByCategoryFilter:cats:filterTerm">
 	  	<div class="map-item">
 	  		<div class="row map-item-row">
 		  		<div class="col-sm-4">
 		  			<div class="map-item-preview" ng-style="{'background-image':'url('+m.preview+')'}"></div>
 			    </div>
 			    <div class="map-item-text col-sm-8">
-				    <h4>{{m.nombre}} <small class="bg-{{m.categoria}} label">Ciudad {{m.categoria}}</small></h4>
+				    <h4>{{m.nombre}}</h4>
+				    <p class="label-container"><small class="bg-{{m.categoria}} label">Ciudad {{m.categoria}}</small></p>
 				    <p>{{m.descripcion}}</p>
 				   	<p class="text-right">
 				   	<a ng-show="m.link_historia" class="btn btn-link btn-orange">Ver historia</a><a class="btn btn-link btn-orange" ng-click="selectMap(m)">Ver mapa</a></p>

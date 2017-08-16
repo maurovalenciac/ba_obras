@@ -1,30 +1,30 @@
-html{
+html {
   background-color: #fff;
 }
 
-body{
+body {
   background-color: #fff;
 }
 
 #home-chart-container path {
-  fill: #E3E3E3;
-  stroke: #FFF;
+  fill: #e3e3e3;
+  stroke: #fff;
   stroke-width: 3px;
   cursor: pointer;
 }
 
-#tooltip-home-chart{
+#tooltip-home-chart {
   position: absolute;
   background-color: white;
   -webkit-box-shadow: 2px 4px 11px 0px rgba(50, 50, 50, 1);
-  -moz-box-shadow:    2px 4px 11px 0px rgba(50, 50, 50, 1);
-  box-shadow:         2px 4px 11px 0px rgba(50, 50, 50, 1);
+  -moz-box-shadow: 2px 4px 11px 0px rgba(50, 50, 50, 1);
+  box-shadow: 2px 4px 11px 0px rgba(50, 50, 50, 1);
   opacity: 0;
   padding: 10px;
   margin: 10px;
 }
 
-#buscador-table .lupita .ng-table-header{
+#buscador-table .lupita .ng-table-header {
   position: relative;
 }
 
@@ -42,23 +42,23 @@ body{
   left: 7px;
 }
 
-.resultado-buscador{
+.resultado-buscador {
   border-radius: 0px;
   background-color: white;
 }
 
-.flex-direction-nav a{
+.flex-direction-nav a {
   height: 45px;
 }
 
 #tooltip-home-chart span.title,
-.resultado-buscador span.title{
+.resultado-buscador span.title {
   display: block;
   font-size: 12px;
 }
 
 #tooltip-home-chart span.desc,
-.resultado-buscador span.desc{
+.resultado-buscador span.desc {
   display: block;
   font-weight: bold;
   font-size: 14px;
@@ -68,14 +68,14 @@ body{
 .btn-home {
   color: #333;
 }
-.btn-home:hover{
+.btn-home:hover {
   color: #333;
 }
-.dropdown-menu a{
+.dropdown-menu a {
   cursor: pointer;
 }
 
-#home-chart-container circle.obra{
+#home-chart-container circle.obra {
   cursor: pointer;
 }
 
@@ -97,14 +97,14 @@ body{
   stroke-width: 1px;
 }
 
-label.label-nav{
+label.label-nav {
   font-weight: normal;
   margin-top: 6px;
 }
 
 rect.comunas-item-frame,
 rect.etapas-item-frame {
-  fill: #E3E3E3;
+  fill: #e3e3e3;
   cursor: -moz-zoom-in;
   cursor: -webkit-zoom-in;
   cursor: zoom-in;
@@ -116,20 +116,19 @@ rect.etapas-item-frame:hover {
 }
 
 rect.comunas-item-frame.active,
-rect.etapas-item-frame.active{
+rect.etapas-item-frame.active {
   fill: #d8d8d8;
   cursor: -moz-zoom-out;
   cursor: -webkit-zoom-out;
   cursor: zoom-out;
 }
 
-
 #home-chart-container,
-#side-chart-container{
-	width: 100%;
+#side-chart-container {
+  width: 100%;
 }
 
-#side-chart-container rect.click-rect{
+#side-chart-container rect.click-rect {
   cursor: pointer;
 }
 
@@ -153,146 +152,144 @@ rect.etapas-item-frame.active{
   stroke-opacity: .5;
 }
 
-
 slick.slider-nav img {
-    max-width: 50%;
-    text-align: center;
+  max-width: 50%;
+  text-align: center;
 }
-div.obra .ficha-tecnica{
-    background: #fff;
-    border-radius: 4px;
-    position: relative;
-    -ms-behavior: url(../bastrap3/pie.htc);
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    -webkit-box-shadow: 0 0 4px #aaa;
-    box-shadow: 0 0 4px #aaa;
-    padding: 1em;
+div.obra .ficha-tecnica {
+  background: #fff;
+  border-radius: 4px;
+  position: relative;
+  -ms-behavior: url(../bastrap3/pie.htc);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-shadow: 0 0 4px #aaa;
+  box-shadow: 0 0 4px #aaa;
+  padding: 1em;
 }
-div.obra .etapa{
-  border:2px solid #f1662f;
+div.obra .etapa {
+  border: 2px solid #f1662f;
   padding: 3px;
 }
-div.obra .ficha-tecnica p{
-    margin: 4px 0;
+div.obra .ficha-tecnica p {
+  margin: 4px 0;
 }
-div.obra .ficha-tecnica h4{
+div.obra .ficha-tecnica h4 {
   color: #808080;
   font-weight: lighter;
 }
-div.obra .ficha-tecnica .fechas{
+div.obra .ficha-tecnica .fechas {
   font-size: 0.75em;
 }
-div.obra .ficha-tecnica .fechas .up{
-    font-weight: bolder;
-    font-size: 1.2em;
+div.obra .ficha-tecnica .fechas .up {
+  font-weight: bolder;
+  font-size: 1.2em;
 }
-div.obra .ficha-tecnica .fechas .right{
+div.obra .ficha-tecnica .fechas .right {
   text-align: right;
 }
-div.obra .ficha-tecnica .progress{
-    height: 35px;
-    margin-bottom: 15px;
+div.obra .ficha-tecnica .progress {
+  height: 35px;
+  margin-bottom: 15px;
 }
 
- div.obra .toolTip {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        position: absolute;
-        display: none;
-        width: auto;
-        height: auto;
-        background: none repeat scroll 0 0 white;
-        border: 0 none;
-        border-radius: 8px 8px 8px 8px;
-        box-shadow: -3px 3px 15px #888888;
-        color: black;
-        font: 12px sans-serif;
-        padding: 5px;
-        text-align: center;
-    }
-    div.obra .colored text{
-        font: 4px sans-serif;
-        color: black;
-    }
-    div.obra text {
-        font: 10px sans-serif;
-        color: black;
-    }
+div.obra .toolTip {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 white;
+  border: 0 none;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  font: 12px sans-serif;
+  padding: 5px;
+  text-align: center;
+}
+div.obra .colored text {
+  font: 4px sans-serif;
+  color: black;
+}
+div.obra text {
+  font: 10px sans-serif;
+  color: black;
+}
 
+div.obra text.reference {
+  font: 3px sans-serif;
+  color: black;
+}
 
-    div.obra text.reference {
-        font: 3px sans-serif;
-        color: black;
-    }
+div.obra text.value {
+  font-size: 100%;
+  fill: black;
+}
 
-    div.obra text.value {
-        font-size: 100%;
-        fill: black;
-    }
+div.obra .axisHorizontal path {
+  fill: none;
+}
 
-    div.obra .axisHorizontal path{
-        fill: none;
-    }
+div.obra .axisHorizontal .tick line {
+  stroke-width: 1;
+  stroke: rgba(0, 0, 0, 0.2);
+}
 
-    div.obra .axisHorizontal .tick line {
-        stroke-width: 1;
-        stroke: rgba(0, 0, 0, 0.2);
-    }
-
-    div.obra .bar {
-        fill: black;
-        fill-opacity: .9;
-    }
-div.obra .ficha-tecnica .progress-bar{
+div.obra .bar {
+  fill: black;
+  fill-opacity: .9;
+}
+div.obra .ficha-tecnica .progress-bar {
   background-color: #f1662f;
   background-image: linear-gradient(to bottom, #f1662f 0%, #f1662f 100%);
   border-color: #f1662f;
-  color:white;
+  color: white;
 }
 
 /* Historias */
 
-#historia-container{
+#historia-container {
   min-height: 500px;
 }
 
 .btn-orange {
-    color: #f7803b;
-    text-transform: uppercase;
-    text-decoration: none;
-}
-
-.btn-orange:visited, .btn-orange:visited{
-    color: #f7803b;
-}
-
-#historia-container .carousel-inner{
-  border-radius:0px;
-}
-
-#historia-container .btn-link:hover {
-    text-decoration: underline;
-    color: #f7803b;
-}
-
-#historia-container p a{
+  color: #f7803b;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
-#historia-container p a:hover{
-  text-decoration: underline;
-  color:white;
+.btn-orange:visited,
+.btn-orange:visited {
+  color: #f7803b;
 }
 
-#historia-container p .resaltar{
-  background-color:#f7803b; 
-  font-weight:bold;
+#historia-container .carousel-inner {
+  border-radius: 0px;
+}
+
+#historia-container .btn-link:hover {
+  text-decoration: underline;
+  color: #f7803b;
+}
+
+#historia-container p a {
+  text-decoration: none;
+}
+
+#historia-container p a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+#historia-container p .resaltar {
+  background-color: #f7803b;
+  font-weight: bold;
   padding: 0 3px;
   color: white;
 }
 
-
-#historia-container .carousel-indicators{
+#historia-container .carousel-indicators {
   display: inline-block;
   position: static;
   top: 0px;
@@ -302,59 +299,59 @@ div.obra .ficha-tecnica .progress-bar{
   width: auto;
 }
 
-#historia-container .carousel-indicators li{
+#historia-container .carousel-indicators li {
   background-color: #ccc;
   margin-right: 10px;
 }
 
-#historia-container .carousel-indicators li.active{
+#historia-container .carousel-indicators li.active {
   background-color: #f7803b;
 }
 
-#historia-container .item{
+#historia-container .item {
   z-index: 1;
   max-height: 999px;
 }
 
-#historia-container .item.active{
+#historia-container .item.active {
   z-index: 100;
 }
 
-.buttons-container-categories{
+.buttons-container-categories {
   margin: 1px;
   margin-bottom: 5px;
 }
 
-.buttons-container-categories .btn{
+.buttons-container-categories .btn {
   border: none;
   box-shadow: none;
   background-image: none;
   color: #fff;
 }
 
-.buttons-container-categories .unselected .btn{
+.buttons-container-categories .unselected .btn {
   opacity: 0.4;
 }
 
-.buttons-container-categories #verde{
+.buttons-container-categories #verde {
   background-color: #7fcd37;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-.buttons-container-categories #integrada{
-  background-color: #fdac2a; 
+.buttons-container-categories #integrada {
+  background-color: #fdac2a;
 }
 
-.buttons-container-categories #equilibrada{
+.buttons-container-categories #equilibrada {
   background-color: #fd514d;
 }
 
-.buttons-container-categories #cercana{
+.buttons-container-categories #cercana {
   background-color: #db5a94;
 }
 
-.buttons-container-categories #atractiva{
+.buttons-container-categories #atractiva {
   background-color: #27c3b9;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -372,78 +369,100 @@ div.obra .ficha-tecnica .progress-bar{
   text-decoration: underline;
 }
 
-.buttons-container-categories .btn-group-header{
+.buttons-container-categories .btn-group-header {
   width: 100%;
 }
 
-.buttons-container-categories .btn-group-header .btn-header{
+.buttons-container-categories .btn-group-header .btn-header {
   width: 20%;
   transition: width .5s ease;
   max-height: 32px;
   overflow: hidden;
 }
 
-.buttons-container-categories .btn-group-header .btn-header button{
+.buttons-container-categories .btn-group-header .btn-header button {
   width: 100%;
 }
 
-.buttons-container-categories .btn-group-header.categorySelected .btn-header{
+.buttons-container-categories .btn-group-header.categorySelected .btn-header {
   width: 52%;
 }
 
-.buttons-container-categories .btn-group-header.categorySelected .btn-header.unselected{
+.buttons-container-categories .btn-group-header.categorySelected .btn-header.unselected {
   width: 12%;
 }
 
 /* MAPAS */
 #explorador-mapas-container {
+}
 
-} 
-
-#explorador-mapas-container .map-item{
+#explorador-mapas-container .map-item {
   box-shadow: 0px 0px 5px #888888;
   margin-bottom: 20px;
+  height: 100%;
 }
 
-#explorador-mapas-container .map-item-row{
+.map-item-container-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.map-item-container-row .map-item-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#explorador-mapas-container .map-item-container {
+}
+
+#explorador-mapas-container .map-item-row {
   display: flex;
   align-items: stretch;
+  height: 100%;
 }
 
-#explorador-mapas-container .map-item-text{
+#explorador-mapas-container .map-item-text {
   padding: 30px 30px 15px 15px;
 }
 
-#explorador-mapas-container .map-item-preview{
+#explorador-mapas-container .map-item-preview {
   height: 100%;
   background-size: cover;
 }
 
 #explorador-mapas-container .map-item h3,
-#explorador-mapas-container .map-item h4{
-  margin-top:0px;
+#explorador-mapas-container .map-item h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
-#explorador-mapas-container .map-item p{
-    margin-bottom:0px;
+#explorador-mapas-container .map-item p {
+  margin-bottom: 0px;
 }
 
-.bg-verde{
+#explorador-mapas-container .map-item p.label-container {
+  margin: 5px 0px 7px 0px;
+}
+
+.bg-verde {
   background-color: #7fcd37;
 }
 
-.bg-integrada{
-  background-color: #fdac2a; 
+.bg-integrada {
+  background-color: #fdac2a;
 }
 
-.bg-equilibrada{
+.bg-equilibrada {
   background-color: #fd514d;
 }
 
-.bg-cercana{
+.bg-cercana {
   background-color: #db5a94;
 }
 
-.bg-atractiva{
+.bg-atractiva {
   background-color: #27c3b9;
 }
