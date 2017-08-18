@@ -20,7 +20,8 @@ angular
 				"#EE73A7",
 				"#FF8F12",
 				"#00BDB7",
-				"#FFD500"
+				"#FFD500",
+				"#AD009F"
 			]);
 
 		$scope.selectedGroup = "mapa";
@@ -167,7 +168,7 @@ angular
 				.node()
 				.getBoundingClientRect().width;
 
-			sidechart.h = 400;
+			sidechart.h = 500;
 			sidechart.margin = sidechart.w / 100;
 
 			sidechart.gap = 10;
@@ -874,7 +875,7 @@ angular
 				})
 				.map(function(d) {
 					var i = "i" + d.id,
-						r = 3,
+						r = 5,
 						c = { cluster: i, radius: r, data: d };
 
 					bubbles.clusters[i] = c;
