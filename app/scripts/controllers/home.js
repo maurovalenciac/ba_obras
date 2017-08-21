@@ -14,14 +14,14 @@ angular
 		var tipo_colors = d3.scale
 			.ordinal()
 			.range([
-				"#A5E668",
-				"#678DD8",
-				"#F94745",
-				"#EE73A7",
-				"#FF8F12",
-				"#00BDB7",
-				"#FFD500",
-				"#AD009F"
+				"#036633",
+				"#698AC6",
+				"#956336",
+				"#92C14D",
+				"#2B3180",
+				"#E3117E",
+				"#EF830C",
+				"#E31F20"
 			]);
 
 		$scope.selectedGroup = "mapa";
@@ -168,10 +168,10 @@ angular
 				.node()
 				.getBoundingClientRect().width;
 
-			sidechart.h = 500;
+			sidechart.h = 600;
 			sidechart.margin = sidechart.w / 100;
 
-			sidechart.gap = 10;
+			sidechart.gap = 15;
 
 			if (!sidechart.svg) {
 				//Create
@@ -221,6 +221,7 @@ angular
 						.append("rect")
 						.datum(d)
 						.classed("tipo-rect", true)
+						.attr("x", 25)
 						.attr("fill", function(d) {
 							return tipo_colors(d.tipo);
 						});
@@ -230,9 +231,21 @@ angular
 						.datum(d)
 						.classed("tipo-text", true)
 						.attr("fill", "#000")
-						.attr("x", 30)
+						.attr("x", 50)
 						.text(function() {
 							return d.tipo;
+						});
+
+					group
+						.append("image")
+						.datum(d)
+						.classed("tipo-icon", true)
+						.attr("x", -5)
+						.attr("y", 0)
+						.attr("height", "30px")
+						.attr("width", "30px")
+						.attr("xlink:href", function() {
+							return "images/iconos/" + d.slug + ".svg";
 						});
 
 					group
@@ -282,6 +295,12 @@ angular
 			sidechart.groups.selectAll("text.tipo-text").attr("y", function(d) {
 				return sidechart.scale(d.cantidad) / 2 + 5;
 			});
+
+			sidechart.groups
+				.selectAll("image.tipo-icon")
+				.attr("y", function(d) {
+					return sidechart.scale(d.cantidad) / 2 - 15;
+				});
 
 			sidechart.groups
 				.selectAll("rect.click-rect")
