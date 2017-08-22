@@ -1486,7 +1486,7 @@ angular
 							.style("opacity", 1);
 					} else {
 						$scope.tooltip
-							.style("width", "200px")
+							.style("width", "250px")
 							.transition()
 							.duration(200)
 							.style("left", d3.event.pageX + "px")

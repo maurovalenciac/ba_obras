@@ -51,10 +51,25 @@ body {
   height: 45px;
 }
 
+#tooltip-home-chart .progress {
+  margin-bottom: 5px;
+}
+
+#tooltip-home-chart img.obra-pic {
+  margin-bottom: 5px;
+}
+
 #tooltip-home-chart span.title,
 .resultado-buscador span.title {
   display: block;
   font-size: 12px;
+}
+
+#tooltip-home-chart span.main-title {
+  font-size: 14px;
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
 }
 
 #tooltip-home-chart span.desc,
