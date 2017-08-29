@@ -90,6 +90,13 @@ body {
   cursor: pointer;
 }
 
+#main-chart-container {
+  position: relative;
+}
+
+#side-chart-col {
+}
+
 #home-chart-container circle.obra {
   cursor: pointer;
 }

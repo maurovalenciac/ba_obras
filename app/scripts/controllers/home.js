@@ -129,7 +129,7 @@ angular
 				chart.h = chart.w;
 				chart.margin = chart.w / 100;
 			} else {
-				chart.h = 3 * chart.w / 4;
+				chart.h = chart.w;
 				chart.margin = chart.w / 200;
 			}
 
@@ -168,10 +168,11 @@ angular
 				.node()
 				.getBoundingClientRect().width;
 
-			sidechart.h = 600;
 			sidechart.margin = sidechart.w / 100;
+			sidechart.barh = 30;
+			sidechart.h = $scope.total_obras_by_tipo.length * sidechart.barh;
 
-			sidechart.gap = 15;
+			sidechart.gap = 10;
 
 			if (!sidechart.svg) {
 				//Create
@@ -186,12 +187,14 @@ angular
 
 			sidechart.scale = d3.scale
 				.linear()
-				.domain([0, $scope.obras.length])
-				.range([
+				//.domain([0, $scope.obras.length])
+				.domain([
 					0,
-					sidechart.h -
-						($scope.total_obras_by_tipo.length - 1) * sidechart.gap
-				]);
+					d3.max($scope.total_obras_by_tipo, function(to) {
+						return to.cantidad;
+					})
+				])
+				.range([0, sidechart.w - 180]);
 
 			//Update
 			sidechart.svg
@@ -221,7 +224,7 @@ angular
 						.append("rect")
 						.datum(d)
 						.classed("tipo-rect", true)
-						.attr("x", 25)
+						.attr("x", 150)
 						.attr("fill", function(d) {
 							return tipo_colors(d.tipo);
 						});
@@ -231,7 +234,7 @@ angular
 						.datum(d)
 						.classed("tipo-text", true)
 						.attr("fill", "#000")
-						.attr("x", 50)
+						.attr("x", sidechart.barh)
 						.text(function() {
 							return d.tipo;
 						});
@@ -278,7 +281,7 @@ angular
 										"#tipo-group-" + d.slug + " .tipo-text"
 									)
 									.transition()
-									.style("font-size", "20px");
+									.style("font-size", "16px");
 
 								$scope.selectedType = d.slug;
 							}
@@ -287,32 +290,30 @@ angular
 
 			sidechart.groups
 				.selectAll("rect.tipo-rect")
-				.attr("width", 20)
-				.attr("height", function(d) {
+				.attr("height", sidechart.barh)
+				.attr("width", function(d) {
 					return sidechart.scale(d.cantidad);
 				});
 
 			sidechart.groups.selectAll("text.tipo-text").attr("y", function(d) {
-				return sidechart.scale(d.cantidad) / 2 + 5;
+				return sidechart.barh - 10;
 			});
 
 			sidechart.groups
 				.selectAll("image.tipo-icon")
 				.attr("y", function(d) {
-					return sidechart.scale(d.cantidad) / 2 - 15;
+					return 0;
 				});
 
 			sidechart.groups
 				.selectAll("rect.click-rect")
 				.attr("width", sidechart.w)
-				.attr("height", function(d) {
-					return sidechart.scale(d.cantidad);
-				});
+				.attr("height", sidechart.barh);
 
 			var acum = 0;
 			sidechart.groups.transition().attr("transform", function(d) {
 				var y = acum;
-				acum = acum + sidechart.gap + sidechart.scale(d.cantidad);
+				acum = acum + sidechart.gap + sidechart.barh;
 				return "translate(0," + y + ")";
 			});
 		}
@@ -828,7 +829,7 @@ angular
 				.mercator()
 				.center([-58.43992, -34.618])
 				.translate([chart.w / 2, chart.h / 2])
-				.scale(190 * chart.w);
+				.scale(240 * chart.w);
 
 			chart.mapPath = d3.geo.path().projection(chart.mapProjection);
 
@@ -894,7 +895,7 @@ angular
 				})
 				.map(function(d) {
 					var i = "i" + d.id,
-						r = 5,
+						r = 4,
 						c = { cluster: i, radius: r, data: d };
 
 					bubbles.clusters[i] = c;
@@ -907,7 +908,7 @@ angular
 					bubbles.clusterPoints[i] = {
 						x: point[0],
 						y: point[1],
-						radius: 5
+						radius: 4
 					};
 
 					/*if(d.comuna.length>1){
