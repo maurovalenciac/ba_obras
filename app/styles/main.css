@@ -57,6 +57,9 @@ body {
 
 #tooltip-home-chart .progress i{
   color: white;
+  float: right;
+  margin-right: 5px;
+  margin-top:2px;
 }
 
 

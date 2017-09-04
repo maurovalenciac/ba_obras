@@ -1467,10 +1467,10 @@ angular
 				"monto_mas_50"
 			];
 			var montos_string = {
-				"monto_0_50":"Hasta $50 mill.",
-				"monto_50_100": "Entre $50 mill. y $100 mill.",
-				"monto_100_150": "Entre $100 mill. y $150 mill.",
-				"monto_mas_50": "Más de $150 mill."
+				"monto_0_50":"Hasta 50 millones",
+				"monto_50_100": "50  a 100 millones",
+				"monto_100_150": "100 a 150 millones",
+				"monto_mas_50": "Más de 150 millones"
 			};
 
 			var itemH, itemW;
@@ -1716,6 +1716,9 @@ angular
 					d.color_tipo_obra = tipo_colors(d.data.tipo);
 					$scope.selectedObra = d;
 
+					d3.selectAll('circle.obra').style('opacity',0.3);
+					d3.select(this).style('opacity',1);
+
 					$scope.$apply();
 					if ($scope.isSmallDevice) {
 						$scope.tooltip
@@ -1841,6 +1844,7 @@ angular
 		}
 
 		$scope.closeTooltip = function() {
+			d3.selectAll('circle.obra').style('opacity',1);
 			$scope.tooltip
 				.transition()
 				.duration(200)
