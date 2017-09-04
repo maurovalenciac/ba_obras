@@ -9,17 +9,12 @@
     <form class="form-inline">
       <div class="form-group">
         <label for="agrupar" class="pull-left label-nav">Probá diferentes formas de agrupar las obras:</label>
-        <div class="dropdown pull-left">
-          <button class="btn btn-link btn-home dropdown-toggle" type="button" id="agrupar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{selectedGroup | cleanunderscore}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a ng-click="selectedGroup='comunas';showGroup();">Comunas</a></li>
-            <li><a ng-click="selectedGroup='etapas';showGroup();">Etapa</a></li>
-            <li><a ng-click="selectedGroup='mapa';showGroup();">Mapa</a></li>
-          </ul>
-        </div>
+        <p>
+        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='mapa'}" ng-click="selectedGroup='mapa';showGroup();">Mapa</a>
+        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='comunas'}" ng-click="selectedGroup='comunas';showGroup();">Comunas</a>
+        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='etapas'}" ng-click="selectedGroup='etapas';showGroup();">Etapa</a>
+        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='montos'}" ng-click="selectedGroup='montos';showGroup();">Inversión</a>
+        </p>
       </div>
     </form>
   </div>
@@ -76,7 +71,8 @@
   <div ng-show="selectedObra.data.porcentaje_avance" class="progress">
     <div class="progress-bar"
       role="progressbar"
-        ng-style="{ 'width': selectedObra.data.porcentaje_avance + '%' }">
+        ng-style="{ 'width': selectedObra.data.porcentaje_avance + '%', 'background-color': selectedObra.color_tipo_obra, 'background-image':'none' }">
+        <i ng-show="selectedObra.data.porcentaje_avance == 100" class="glyphicon glyphicon-ok"></i>
     </div>
     <div class="progress-w" ng-show="selectedObra.data.porcentaje_avance<22" ng-style="{ 'width': (100 - selectedObra.data.porcentaje_avance) + '%' }"></div>
   </div>

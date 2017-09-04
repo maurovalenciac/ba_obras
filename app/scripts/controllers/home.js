@@ -35,24 +35,28 @@ angular
 		var renderFunctions = {
 			comunas: renderComunasGroup,
 			etapas: renderEtapasGroup,
+			montos: renderMontosGroup,
 			mapa: renderMapGroup
 		};
 
 		var prepareNodesFunctions = {
 			comunas: prepareNodesComunasGroup,
 			etapas: prepareNodesEtapasGroup,
+			montos: prepareNodesMontosGroup,
 			mapa: prepareNodesMapGroup
 		};
 
 		var resetFunctions = {
 			comunas: resetComunas,
 			etapas: resetEtapas,
+			montos: resetMontos,
 			mapa: resetMap
 		};
 
 		var initialized = {
 			comunas: false,
 			etapas: false,
+			montos: false,
 			mapa: false
 		};
 
@@ -102,6 +106,7 @@ angular
 						initialized = {
 							comunas: false,
 							etapas: false,
+							montos: false,
 							mapa: false
 						};
 						renderSideChart();
@@ -144,6 +149,7 @@ angular
 				chart.svg.append("g").attr("id", "comunas-group");
 				chart.svg.append("g").attr("id", "map-group");
 				chart.svg.append("g").attr("id", "etapas-group");
+				chart.svg.append("g").attr("id", "montos-group");
 
 				bubbles.group = chart.svg
 					.append("g")
@@ -1078,8 +1084,6 @@ angular
 			bubbles.clusters = {};
 			bubbles.clusterPoints = {};
 
-			bubbles.nodesComuna = [];
-
 			var filterId = comunaID
 				? comunaID.replace("comunas-item-", "")
 				: false;
@@ -1322,7 +1326,7 @@ angular
 			bubbles.clusters = {};
 			bubbles.clusterPoints = {};
 
-			bubbles.nodesComuna = [];
+			bubbles.nodesEtapas = [];
 
 			var filterId = etapaID
 				? etapaID.replace("etapas-item-", "")
@@ -1452,6 +1456,240 @@ angular
 			}
 		}
 
+		/* MONTOS Functions ====================================================== */
+
+		function renderMontosGroup(clear) {
+
+			var montos = [
+				"monto_0_50",
+				"monto_50_100",
+				"monto_100_150",
+				"monto_mas_50"
+			];
+			var montos_string = {
+				"monto_0_50":"Hasta $50 mill.",
+				"monto_50_100": "Entre $50 mill. y $100 mill.",
+				"monto_100_150": "Entre $100 mill. y $150 mill.",
+				"monto_mas_50": "Más de $150 mill."
+			};
+
+			var itemH, itemW;
+			if ($scope.isSmallDevice) {
+				itemH = chart.w;
+				itemW = chart.w;
+				chart.svg.attr("height", etapas.length * chart.w);
+				chart.mainGroup
+					.select("rect")
+					.attr("height", etapas.length * chart.w);
+			} else {
+				itemH = chart.h / 2;
+				itemW = chart.w / 2;
+			}
+
+			if (!chart.montosGroup) {
+				chart.montosGroup = chart.svg.select("#montos-group");
+
+				chart.montosGroup
+					.selectAll("g.montos-item")
+					.data(montos)
+					.enter()
+					.append("g")
+					.classed("child", true)
+					.classed("montos-item", true)
+					.style("opacity", 0)
+					.attr("transform", function(d, i) {
+						return (
+							"translate(" +
+							(chart.w / 2 - itemW / 2) +
+							"," +
+							(chart.h / 2 - itemH / 2) +
+							")"
+						);
+					})
+					.attr("id", function(d) {
+						return "montos-item-" + d;
+					})
+					.each(function() {
+						var group = d3.select(this);
+
+						group
+							.append("rect")
+							.classed("montos-item-frame", true)
+							.on("click", clickedMontos);
+
+						group
+							.append("text")
+							.classed("montos-item-text", true)
+							.attr("fill", "#000")
+							.text(function(d) {
+								return montos_string[d];
+							});
+					});
+			}
+
+			if (!clear) {
+				chart.montosGroup
+					.selectAll("g.montos-item")
+					.style("display", "block");
+			}
+
+			//update
+			chart.montosGroup
+				.selectAll("rect.montos-item-frame")
+				.transition()
+				.duration(700)
+				.attr("x", chart.margin)
+				.attr("y", chart.margin)
+				.attr("height", itemH - chart.margin * 2)
+				.attr("width", itemW - chart.margin * 2);
+
+			chart.montosGroup
+				.selectAll("text.montos-item-text")
+				.transition()
+				.duration(700)
+				.attr("x", 15)
+				.attr("y", 25);
+
+			sortItems(
+				chart.montosGroup
+					.selectAll("g.montos-item")
+					.transition()
+					.duration(1000)
+					.style("opacity", 1),
+				itemW,
+				itemH
+			);
+		}
+
+		function prepareNodesMontosGroup(montoID) {
+			bubbles.clusters = {};
+			bubbles.clusterPoints = {};
+
+
+			var filterId = montoID
+				? montoID.replace("montos-item-", "")
+				: false;
+
+			var filtered = $scope.obras.filter(function(d) {
+				return (
+					d.monto_contrato &&
+					d.monto_contrato != "" &&
+					(!filterId || (filterId && d.monto_slug === filterId))
+				);
+			});
+
+			var max = Math.ceil(
+				d3.max(filtered, function(d) {
+					return d[$scope.selectedRadioDimension];
+				})
+			);
+			var min = Math.floor(
+				d3.min(filtered, function(d) {
+					return d[$scope.selectedRadioDimension];
+				})
+			);
+
+			bubbles.scale = d3.scale
+				.linear()
+				.domain([parseInt(min), parseInt(max)])
+				.range([10, filterId ? 100 : 50]);
+
+
+			bubbles.nodes = filtered.map(function(d) {
+				var i = "m-" + d.monto_slug,
+					r = filterId ? 10 : 5,
+					c = { cluster: i, radius: r ? r : 10, data: d };
+
+				if (!bubbles.clusters[i] || r > bubbles.clusters[i].radius) {
+					bubbles.clusters[i] = c;
+				}
+
+				return c;
+			});
+
+			if (!filterId) {
+				d3.selectAll("g.montos-item").each(function(d) {
+					var g = d3.select(this);
+					var rect = g.select("rect");
+
+					bubbles.clusterPoints["m-" + d] = {
+						x:
+							d3.transform(g.attr("transform")).translate[0] +
+							rect.attr("width") / 2,
+						y:
+							d3.transform(g.attr("transform")).translate[1] +
+							rect.attr("height") / 2,
+						radius: 10
+					};
+				});
+			} else {
+				bubbles.clusterPoints = false;
+			}
+
+		}
+
+		var activeMonto = d3.select(null);
+		
+		function resetMontos(clear) {
+			activeMonto.classed("active", false);
+
+			activeMonto = d3.select(null);
+
+			d3.selectAll("g.montos-item").style("display", "block");
+
+			renderMontosGroup(clear);
+
+			if (!clear) {
+				setTimeout(function() {
+					prepareNodesMontosGroup();
+					renderBubbles();
+				}, 2000);
+			}
+		}
+
+		function clickedMontos(d) {
+			if (!$scope.isSmallDevice) {
+				$scope.closeTooltip();
+				if (activeMonto.node() === this) {
+					return resetMontos();
+				}
+				activeMonto.classed("active", false);
+				activeMonto = d3.select(this).classed("active", true);
+
+				var selectedG = activeMonto.node().parentNode;
+
+				d3
+					.selectAll("g.montos-item")
+					.transition()
+					.style("opacity", function() {
+						return this === selectedG ? 1.0 : 0;
+					})
+					.each("end", function() {
+						if (this !== selectedG) {
+							d3.select(this).style("display", "none");
+						}
+					});
+
+				activeMonto
+					.transition()
+					.duration(750)
+					.attr("height", chart.h - chart.margin * 2)
+					.attr("width", chart.w - chart.margin * 2);
+
+				d3
+					.select(selectedG)
+					.transition()
+					.duration(750)
+					.attr("transform", "translate(0,0)")
+					.each("end", function() {
+						prepareNodesMontosGroup(
+							d3.select(selectedG).attr("id")
+						);
+						renderBubbles();
+					});
+			}
+		}
+
 		/* Bubble functions ====================================================== */
 
 		function renderBubbles() {
@@ -1475,7 +1713,9 @@ angular
 					return "obra " + d.data.tipo_slug;
 				})
 				.on("click", function(d) {
+					d.color_tipo_obra = tipo_colors(d.data.tipo);
 					$scope.selectedObra = d;
+
 					$scope.$apply();
 					if ($scope.isSmallDevice) {
 						$scope.tooltip
@@ -1503,7 +1743,6 @@ angular
 				.style("fill", function(d) {
 					return tipo_colors(d.data.tipo);
 				});
-			//.call(bubbles.force.drag);
 
 			bubbles.circles
 				.transition()
@@ -1514,67 +1753,6 @@ angular
 
 			bubbles.circles.exit().remove();
 
-			/*if(bubbles.nodesComuna.length){
-
-			bubbles.lines = bubbles.group.selectAll('line.obra-comuna')
-				.data(bubbles.nodesComuna);
-
-			bubbles.lines
-				.enter()
-				.append('line')
-				.classed('obra-comuna',true);
-
-			bubbles.lines
-				.attr('id',function(d){ return 'obra-'+d.data.id+'-comuna-'+d.comuna;})
-				.style('stroke', function(d) {
-				  return tipo_colors(d.data.tipo);
-				})
-				.attr('x1',function(d){
-					var center = chart.mapCentroids['mapa-comuna-'+d.comuna];
-					return center[0];
-				})
-				.attr('y1',function(d){
-					var center = chart.mapCentroids['mapa-comuna-'+d.comuna];
-					return center[1];
-				})
-				.attr('x2',100)
-				.attr('y2',100);
-
-			 bubbles.lines
-				.transition()
-				.style('opacity',1);
-
-			bubbles.lines.exit().remove();
-
-
-		} else {
-			if(bubbles.lines){
-				bubbles.lines.style('opacity',0);
-			}
-		}*/
-
-			bubbles.circles.each(function(d) {
-				/*if(d.data.comuna.length>1 && $scope.selectedGroup=='mapa'){
-					_.each(d.data.comuna,function(c){
-						var id = 'obra-'+d.data.id+'-comuna-'+c;
-
-						var center = chart.mapCentroids['mapa-comuna-'+c];
-
-						bubbles.group.append('line')
-							.attr('id',id)
-							.attr('x1',center[0])
-							.attr('y1',center[1])
-							.attr('x2',0)
-							.attr('y2',0)
-							.style('stroke', function() {
-							  return tipo_colors(d.data.tipo);
-							});
-
-					})
-
-
-				}*/
-			});
 		}
 
 		function tick(e) {
@@ -1587,26 +1765,7 @@ angular
 				.attr("cy", function(d) {
 					return d.y;
 				});
-			/*.each(function(d){
-			if(d.data.comuna.length>1 && $scope.selectedGroup=='mapa'){
-					_.each(d.data.comuna,function(c){
-						var id = 'obra-'+d.data.id+'-comuna-'+c;
 
-						bubbles.group.select('#'+id)
-							.attr('x2',d.x)
-							.attr('y2',d.y);
-
-					});
-			}
-		  })*/
-
-			/*if(bubbles.lines && $scope.selectedGroup=='mapa'){
-			bubbles.lines
-			  .each(cluster(10 * e.alpha * e.alpha))
-			  .each(collide(0.5))
-			  .attr('x2', function(d) { return d.x; })
-			  .attr('y2', function(d) { return d.y; });
-		}*/
 		}
 
 		// Move d to be adjacent to the cluster node.
@@ -1620,6 +1779,7 @@ angular
 					if (cluster === d) {
 						if (bubbles.clusterPoints) {
 							cluster = bubbles.clusterPoints[d.cluster];
+
 							cluster = {
 								x: cluster.x,
 								y: cluster.y,

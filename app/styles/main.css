@@ -55,6 +55,11 @@ body {
   margin-bottom: 5px;
 }
 
+#tooltip-home-chart .progress i{
+  color: white;
+}
+
+
 #tooltip-home-chart img.obra-pic {
   margin-bottom: 5px;
 }
@@ -125,6 +130,7 @@ label.label-nav {
 }
 
 rect.comunas-item-frame,
+rect.montos-item-frame,
 rect.etapas-item-frame {
   fill: #eee;
   cursor: -moz-zoom-in;
@@ -133,11 +139,13 @@ rect.etapas-item-frame {
 }
 
 rect.comunas-item-frame:hover,
+rect.montos-item-frame:hover,
 rect.etapas-item-frame:hover {
   fill: #e3e3e3;
 }
 
 rect.comunas-item-frame.active,
+rect.montos-item-frame.active,
 rect.etapas-item-frame.active {
   fill: #e3e3e3;
   cursor: -moz-zoom-out;

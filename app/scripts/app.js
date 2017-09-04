@@ -109,6 +109,28 @@ angular
   .service("DataService", function($http, $q, Slug, $sce) {
     var data, dataMapas;
 
+    var getMontoRange = function(n){
+      var cincuentaM = 50000000;
+      /*
+        0 a 50 millones
+        50 millones a 100 millones
+        100 millones a 150 millones
+        150 millones para adelante
+      */
+      var range = "monto_mas_50";
+      if(_.inRange(n, 0, cincuentaM)){
+        range = "monto_0_50";
+      }else if(_.inRange(n, cincuentaM, cincuentaM*2)){
+        range = "monto_50_100";
+      }else if(_.inRange(n, cincuentaM*2, cincuentaM*3)){
+        range = "monto_100_150";
+      }else{
+        //más de 150 millones
+        range = "monto_mas_50";
+      }
+      return range;
+    }
+
     var cleanData = function(oldReg) {
       var reg = {};
       for (var key in oldReg) {
@@ -116,13 +138,6 @@ angular
           reg[key.toLowerCase()] = oldReg[key];
         }
       }
-
-      //slug
-      reg.entorno_slug = reg.entorno ? Slug.slugify(reg.entorno) : null;
-
-      reg.etapa_slug = reg.etapa ? Slug.slugify(reg.etapa) : null;
-
-      reg.tipo_slug = reg.tipo ? Slug.slugify(reg.tipo) : null;
 
       //arrays
       //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
@@ -171,6 +186,15 @@ angular
           reg.fotos[i - 1] = reg[key];
         }
       }
+
+      //slug
+      reg.entorno_slug = reg.entorno ? Slug.slugify(reg.entorno.trim()) : null;
+
+      reg.etapa_slug = reg.etapa ? Slug.slugify(reg.etapa.trim()) : null;
+
+      reg.tipo_slug = reg.tipo ? Slug.slugify(reg.tipo.trim()) : null;
+
+      reg.monto_slug = reg.monto_contrato ? getMontoRange(reg.monto_contrato) : null;
 
       return reg;
     };
