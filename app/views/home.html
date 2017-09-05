@@ -62,11 +62,11 @@
 <!-- Tooltip OBRAS -->
 <div id="tooltip-home-chart">
   <button type="button" class="close pull-right" ng-click="closeTooltip()">&times;</button>
-  
+
   <span class="main-title"><strong>{{selectedObra.data.nombre}}</strong></span>
-  
+
   <img class="obra-pic img-responsive" ng-show="selectedObra.data.fotos.length>0" ng-src="{{selectedObra.data.fotos[0]}}"/>
-  
+
   <span class="desc">{{selectedObra.data.etapa}} <span ng-show="selectedObra.data.porcentaje_avance">:{{selectedObra.data.porcentaje_avance}}%</span></span>
   <div ng-show="selectedObra.data.porcentaje_avance" class="progress">
     <div class="progress-bar"
@@ -79,7 +79,7 @@
 
   <span class="title">Responsable:</span>
   <span class="desc">{{selectedObra.data.area_responsable}}</span>
-  
+
   <div class="row">
     <div class="col-xs-10">
       <span class="title">Tipo:</span>
@@ -95,6 +95,11 @@
       <a ng-show="selectedObra.data.link_interno" target="_parent" ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
     </div>
   </div>
-  
-  
+
+  <!-- <div class="row">
+    <div class="col-xs-12">
+      {{selectedObra.data.compromiso ? selectedObra.data.compromiso : 'NO'}}
+    </div>
+  </div> -->
+
 </div>
