@@ -6,6 +6,39 @@ body {
   background-color: #fff;
 }
 
+#selector-home{
+}
+
+#selector-home .selector{
+  
+}
+
+#selector-home .selector img {
+  filter: grayscale(100%);
+  width: 50%;
+}
+
+#selector-home .selector a{
+   border: 2px solid #ffffff;
+   display: block;
+   cursor: pointer;
+   text-align: center;
+}
+
+#selector-home .selector a span{
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+#selector-home .selectorSelected a{
+  border: 2px solid #ffbc00;
+}
+
+#selector-home .selectorSelected img{
+  filter:none;
+}
+
 #home-chart-container path {
   fill: #eee;
   stroke: #fff;
@@ -22,6 +55,11 @@ body {
   opacity: 0;
   padding: 10px;
   margin: 10px;
+  pointer-events: none;
+}
+
+#tooltip-home-chart .btn{
+  pointer-events: default;
 }
 
 #buscador-table .lupita .ng-table-header {

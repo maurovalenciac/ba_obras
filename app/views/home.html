@@ -4,22 +4,9 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="agrupar" class="pull-left label-nav">Probá diferentes formas de agrupar las obras:</label>
-        <p>
-        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='mapa'}" ng-click="selectedGroup='mapa';showGroup();">Mapa</a>
-        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='comunas'}" ng-click="selectedGroup='comunas';showGroup();">Comunas</a>
-        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='etapas'}" ng-click="selectedGroup='etapas';showGroup();">Etapa</a>
-        <a class="btn btn-default" ng-class="{'btn-primary':selectedGroup=='montos'}" ng-click="selectedGroup='montos';showGroup();">Inversión</a>
-        </p>
-      </div>
-    </form>
-  </div>
+<selector-home list="availableGroups" selected-group="selectedGroup" update-fn="changeGroup(group)"></selector-home>
 
-</div>
+<hr/>
 
 <div id="main-chart-container" class="row">
   <div class="col-sm-12">

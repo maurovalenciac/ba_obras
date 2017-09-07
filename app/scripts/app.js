@@ -194,6 +194,8 @@ angular
 
       reg.tipo_slug = reg.tipo ? Slug.slugify(reg.tipo.trim()) : null;
 
+      reg.area_slug = reg.area_responsable ? Slug.slugify(reg.area_responsable.trim()) : null;
+
       reg.monto_slug = reg.monto_contrato ? getMontoRange(reg.monto_contrato) : null;
 
       return reg;
