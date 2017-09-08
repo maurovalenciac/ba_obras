@@ -15,9 +15,13 @@
 </div>
 
 <div class="row">
-  <div id="side-chart-col" class="col-sm-12">
-      <h4>Tipos de obra</h4>
-      <div id="side-chart-container"></div>
+  <div id="side-chart-col" class="chart-container col-sm-6">
+      <h4>Filtrar por tipo de obra</h4>
+      <tipo-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors" finish-fn="tipoChartFinished()"></tipo-chart>
+  </div>
+  <div class="chart-container col-sm-6">
+      <h4>Filtrar por área responsable</h4>
+      <area-responsable-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)"></area-responsable-chart>
   </div>
 </div>
 

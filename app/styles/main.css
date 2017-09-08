@@ -55,7 +55,7 @@ body {
   opacity: 0;
   padding: 10px;
   margin: 10px;
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 #tooltip-home-chart .btn{
@@ -170,6 +170,10 @@ label.label-nav {
   margin-top: 6px;
 }
 
+circle.selection-cicle{
+  pointer-events: none;
+}
+
 rect.comunas-item-frame,
 rect.montos-item-frame,
 rect.etapas-item-frame {
@@ -195,11 +199,12 @@ rect.etapas-item-frame.active {
 }
 
 #home-chart-container,
-#side-chart-container {
+#tipo-chart,
+#area-responsable-chart {
   width: 100%;
 }
 
-#side-chart-container rect.click-rect {
+rect.click-rect {
   cursor: pointer;
 }
 

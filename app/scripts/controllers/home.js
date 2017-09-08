@@ -7,11 +7,11 @@ angular
 
 		$scope.pymChild = new window.pym.Child({ polling: 1000 });
 		var chart = {};
-		var sidechart = {};
 		var scalechart = {};
 		var sankeychart = {};
 		var bubbles = {};
-		var tipo_colors = d3.scale
+		
+    $scope.tipo_colors = d3.scale
 			.ordinal()
 			.range([
 				"#036633",
@@ -28,10 +28,12 @@ angular
 		$scope.oldGroup = "mapa";
 		$scope.selectedObra = false;
 
+    $scope.selectedFilter = false;
+
     $scope.availableGroups = [
-      {id:"mapa",name:"Ver en el mapa"},
-      {id:"comunas",name:"Ver por comunas"},
-      {id:"montos",name:"Ver por inversión"}
+      {id:"mapa",name:"Mapa"},
+      {id:"comunas",name:"Comunas"},
+      {id:"montos",name:"Inversión"}
     ];
 
 		$scope.selectedRadioDimension = "monto_contrato";
@@ -75,35 +77,10 @@ angular
 		});
 
 		DataService.getAll().then(function(data) {
-			$scope.obras = data;
 
-			$scope.obras_by_tipo = _.groupBy(
-				data.filter(function(o) {
-					return typeof o.tipo != "undefined";
-				}),
-				"tipo"
-			);
-			$scope.tipo_keys = _.keys($scope.obras_by_tipo);
+      $scope.obras = data;
 
-			$scope.total_obras_by_tipo = _.orderBy(
-				_.reduce(
-					$scope.obras_by_tipo,
-					function(result, value, key) {
-						result.push({
-							tipo: key,
-							slug: value[0].tipo_slug,
-							cantidad: value.length
-						});
-						return result;
-					},
-					[]
-				),
-				"cantidad",
-				"desc"
-			);
-
-			renderSideChart();
-			renderSankeyChart();
+		  renderSankeyChart();	
 			renderChart();
 			window.$(window).resize(function() {
 				if (w != $(window).width()) {
@@ -115,7 +92,6 @@ angular
 							montos: false,
 							mapa: false
 						};
-						renderSideChart();
 						renderSankeyChart();
 						renderChart();
 					}, 1000);
@@ -126,7 +102,6 @@ angular
 		/** Generic Functions ====================================================== **/
 
 		function renderChart() {
-			//chart.w = $('#home-chart-container').width();
 			chart.w = d3
 				.select("#home-chart-container")
 				.node()
@@ -157,9 +132,19 @@ angular
 				chart.svg.append("g").attr("id", "etapas-group");
 				chart.svg.append("g").attr("id", "montos-group");
 
-				bubbles.group = chart.svg
-					.append("g")
-					.attr("id", "bubbles-group");
+
+        bubbles.group = chart.svg
+          .append("g")
+          .attr("id", "bubbles-group");
+
+        chart.selection = chart.svg.append('circle')
+          .attr("class", "selection-cicle")
+          .attr('cx',0)
+          .attr('cy',0)
+          .attr('r',0)
+          .style('fill','none')
+          .style('stroke','black')
+          .style('stroke-width',2);
 			}
 
 			//Update
@@ -172,162 +157,6 @@ angular
 
 			//default, comunas
 			$scope.showGroup();
-		}
-
-		function renderSideChart() {
-			sidechart.w = d3
-				.select("#side-chart-container")
-				.node()
-				.getBoundingClientRect().width;
-
-			sidechart.margin = sidechart.w / 100;
-			sidechart.barh = 30;
-			sidechart.h = $scope.total_obras_by_tipo.length * sidechart.barh;
-
-			sidechart.gap = 10;
-
-			if (!sidechart.svg) {
-				//Create
-				sidechart.svg = d3
-					.select("#side-chart-container")
-					.append("svg");
-				sidechart.mainGroup = sidechart.svg
-					.append("g")
-					.classed("main-group", true);
-				sidechart.mainGroup.append("rect").attr("fill", "white");
-			}
-
-			sidechart.scale = d3.scale
-				.linear()
-				//.domain([0, $scope.obras.length])
-				.domain([
-					0,
-					d3.max($scope.total_obras_by_tipo, function(to) {
-						return to.cantidad;
-					})
-				])
-				.range([0, sidechart.w - 180]);
-
-			//Update
-			sidechart.svg
-				.attr("width", sidechart.w)
-				.attr("height", sidechart.h);
-
-			sidechart.mainGroup
-				.select("rect")
-				.attr("width", sidechart.w)
-				.attr("height", sidechart.h);
-
-			sidechart.groups = sidechart.mainGroup
-				.selectAll("g.tipo-group")
-				.data($scope.total_obras_by_tipo);
-
-			sidechart.groups
-				.enter()
-				.append("g")
-				.attr("id", function(d) {
-					return "tipo-group-" + d.slug;
-				})
-				.classed("tipo-group", true)
-				.each(function(d) {
-					var group = d3.select(this);
-
-					group
-						.append("rect")
-						.datum(d)
-						.classed("tipo-rect", true)
-						.attr("x", 150)
-						.attr("fill", function(d) {
-							return tipo_colors(d.tipo);
-						});
-
-					group
-						.append("text")
-						.datum(d)
-						.classed("tipo-text", true)
-						.attr("fill", "#000")
-						.attr("x", sidechart.barh)
-						.text(function() {
-							return d.tipo;
-						});
-
-					group
-						.append("image")
-						.datum(d)
-						.classed("tipo-icon", true)
-						.attr("x", -5)
-						.attr("y", 0)
-						.attr("height", "30px")
-						.attr("width", "30px")
-						.attr("xlink:href", function() {
-							return "images/iconos/" + d.slug + ".svg";
-						});
-
-					group
-						.append("rect")
-						.datum(d)
-						.classed("click-rect", true)
-						.attr("fill", "white")
-						.attr("fill-opacity", 0)
-						.on("click", function(d) {
-							if ($scope.selectedType == d.slug) {
-								d3.selectAll("circle.obra").style("opacity", 1);
-								d3
-									.selectAll(".tipo-group text.tipo-text")
-									.style("font-size", "14px");
-
-								$scope.selectedType = null;
-							} else {
-								d3
-									.selectAll("circle.obra")
-									.style("opacity", 0.3);
-								d3
-									.selectAll("circle.obra." + d.slug)
-									.style("opacity", 1);
-
-								d3
-									.selectAll(".tipo-group text.tipo-text")
-									.style("font-size", "14px");
-								d3
-									.select(
-										"#tipo-group-" + d.slug + " .tipo-text"
-									)
-									.transition()
-									.style("font-size", "16px");
-
-								$scope.selectedType = d.slug;
-							}
-						});
-				});
-
-			sidechart.groups
-				.selectAll("rect.tipo-rect")
-				.attr("height", sidechart.barh)
-				.attr("width", function(d) {
-					return sidechart.scale(d.cantidad);
-				});
-
-			sidechart.groups.selectAll("text.tipo-text").attr("y", function(d) {
-				return sidechart.barh - 10;
-			});
-
-			sidechart.groups
-				.selectAll("image.tipo-icon")
-				.attr("y", function(d) {
-					return 0;
-				});
-
-			sidechart.groups
-				.selectAll("rect.click-rect")
-				.attr("width", sidechart.w)
-				.attr("height", sidechart.barh);
-
-			var acum = 0;
-			sidechart.groups.transition().attr("transform", function(d) {
-				var y = acum;
-				acum = acum + sidechart.gap + sidechart.barh;
-				return "translate(0," + y + ")";
-			});
 		}
 
 		function renderScaleChart() {
@@ -514,6 +343,34 @@ angular
 				return "translate(" + x + "," + y + ")";
 			});
 		}
+
+    $scope.tipoChartFinished = function(){
+      console.log('$scope.tipoChartFinished');
+      //renderSankeyChart();
+      //renderChart();
+      /*bubbles.circles
+        .style("fill", function(d) {
+          return $scope.tipo_colors(d.data.tipo);
+        });*/
+    }
+
+    $scope.filterBubbles = function(filterSlug) {
+
+      if($scope.selectedFilter == filterSlug){
+        d3.selectAll("circle.obra").style("opacity", 1);
+        filterSlug = false;
+      } else {
+        d3
+          .selectAll("circle.obra")
+          .style("opacity", 0.3);
+        d3
+          .selectAll("circle.obra." + filterSlug)
+          .style("opacity", 1);
+      }
+      $scope.selectedFilter = filterSlug;
+      $scope.closeTooltip();
+      $scope.$apply();
+    }
 
     $scope.changeGroup = function(group) {
       $scope.selectedGroup=group;
@@ -757,9 +614,9 @@ angular
 					return Math.max(1, d.dy);
 				})
 				.style("stroke", function(d) {
-					return tipo_colors.domain().indexOf(d.source.name) > -1
-						? tipo_colors(d.source.name)
-						: tipo_colors(d.target.name);
+					return $scope.tipo_colors.domain().indexOf(d.source.name) > -1
+						? $scope.tipo_colors(d.source.name)
+						: $scope.tipo_colors(d.target.name);
 				})
 				.sort(function(a, b) {
 					return b.dy - a.dy;
@@ -792,8 +649,8 @@ angular
 				})
 				.attr("width", sankeychart.sankey.nodeWidth())
 				.style("fill", function(d) {
-					return tipo_colors.domain().indexOf(d.name) > -1
-						? tipo_colors(d.name)
+					return $scope.tipo_colors.domain().indexOf(d.name) > -1
+						? $scope.tipo_colors(d.name)
 						: "#000";
 				})
 				.append("title")
@@ -1708,24 +1565,33 @@ angular
 					.enter()
 					.append("circle")
 					.attr("class", function(d) {
-						return "obra " + d.data.tipo_slug;
+						return "obra " + d.data.tipo_slug + " " + d.data.area_slug;
 					})
-					.on("mouseover", function(d) {
-						d.color_tipo_obra = tipo_colors(d.data.tipo);
+					.on("mouseenter", function(d) {
+						d.color_tipo_obra = $scope.tipo_colors(d.data.tipo);
 						$scope.selectedObra = d;
-            d3.selectAll('circle.obra').style('opacity',0.3);
-            d3.select(this).style('opacity',1);
 						$scope.$apply();
-							$scope.tooltip
-								.style("width", "250px")
-								.transition()
-								.duration(200)
-								.style("left", d3.event.pageX + "px")
-								.style("top", d3.event.pageY + "px")
-								.style("opacity", 1);
+            var current = d3.select(this);
+            chart.selection
+              .attr('cx',current.attr('cx'))
+              .attr('cy',current.attr('cy'))
+              .attr('r',0)
+              .style('stroke',d.color_tipo_obra)
+              .transition()
+              .duration(500)
+              .attr('r',13)
+              .style('opacity',1);
+
+						$scope.tooltip
+							.style("width", "250px")
+							.transition()
+							.duration(200)
+							.style("left", d3.event.pageX + "px")
+							.style("top", d3.event.pageY + "px")
+							.style("opacity", 1);
 					})
 					.on("mouseout", function(d) {
-						$scope.closeTooltip();
+						
 					})
 			}
 			if($scope.isSmallDevice){
@@ -1736,7 +1602,7 @@ angular
 						return "obra " + d.data.tipo_slug;
 					})
 					.on("click", function(d) {
-								d.color_tipo_obra = tipo_colors(d.data.tipo);
+								d.color_tipo_obra = $scope.tipo_colors(d.data.tipo);
 								$scope.selectedObra = d;
                 d3.selectAll('circle.obra').style('opacity',0.3);
                 d3.select(this).style('opacity',1);
@@ -1755,9 +1621,9 @@ angular
 				.attr("id", function(d) {
 					return "e" + d.data.id;
 				})
-				.style("fill", function(d) {
-					return tipo_colors(d.data.tipo);
-				});
+        .style("fill", function(d) {
+          return $scope.tipo_colors(d.data.tipo);
+        });
 
 			bubbles.circles
 				.transition()
@@ -1767,6 +1633,8 @@ angular
 				});
 
 			bubbles.circles.exit().remove();
+
+      $scope.filterBubbles($scope.selectedFilter);
 
 		}
 
@@ -1856,10 +1724,15 @@ angular
 		}
 
 		$scope.closeTooltip = function() {
-			d3.selectAll('circle.obra').style('opacity',1);
+      chart.selection
+        .transition()
+        .duration(200)
+        .attr('r',0)
+        .style('opacity',0);
 			$scope.tooltip
         .transition()
         .duration(200)
+        .style("top", "-100px")
         .style("opacity", 0);
 		};
 	});
