@@ -147,17 +147,37 @@ angular.module('obrasMduytApp')
 									return d.tipo;
 								});
 
-							group
-								.append("image")
-								.datum(d)
-								.classed("tipo-icon", true)
-								.attr("x", chart.barh*4+chart.gap/2)
-								.attr("y", 0)
-								.attr("height", chart.barh)
-								.attr("width", chart.barh)
-								.attr("xlink:href", function() {
-									return "images/iconos/" + d.slug + ".svg";
-								});
+							var imgGroup = group
+								.append('g')
+								.classed('image-container',true);
+
+
+							//Load svg inline to change its color
+							d3.xml("images/iconos/" + d.slug + ".svg", 
+							        function(error, documentFragment) {
+
+									    if (error) {console.log(error); return;}
+
+									    var svgNode = documentFragment
+									                .getElementsByTagName("svg")[0];
+									    //use plain Javascript to extract the node
+
+										imgGroup.node().appendChild(svgNode);
+									    //d3's selection.node() returns the DOM node, so we
+									    //can use plain Javascript to append content
+
+									    var color = $scope.tipoColors(d.tipo);
+
+									    var innerSVG = imgGroup.select("svg")
+									    	.attr("height", chart.barh)
+											.attr("width", chart.barh)
+											.attr("x", chart.barh*4+chart.gap/2)
+											.attr("y", 0);
+
+										innerSVG.selectAll("path,rect")
+											.attr("fill",color);
+    
+									});
 
 							group
 								.append("rect")
