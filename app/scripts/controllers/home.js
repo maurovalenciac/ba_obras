@@ -42,28 +42,24 @@ angular
 
 		var renderFunctions = {
 			comunas: renderComunasGroup,
-			etapas: renderEtapasGroup,
 			montos: renderMontosGroup,
 			mapa: renderMapGroup
 		};
 
 		var prepareNodesFunctions = {
 			comunas: prepareNodesComunasGroup,
-			etapas: prepareNodesEtapasGroup,
 			montos: prepareNodesMontosGroup,
 			mapa: prepareNodesMapGroup
 		};
 
 		var resetFunctions = {
 			comunas: resetComunas,
-			etapas: resetEtapas,
 			montos: resetMontos,
 			mapa: resetMap
 		};
 
 		var initialized = {
 			comunas: false,
-			etapas: false,
 			montos: false,
 			mapa: false
 		};
@@ -88,7 +84,6 @@ angular
 					$scope.timeoutId = setTimeout(function() {
 						initialized = {
 							comunas: false,
-							etapas: false,
 							montos: false,
 							mapa: false
 						};
@@ -129,7 +124,6 @@ angular
 
 				chart.svg.append("g").attr("id", "comunas-group");
 				chart.svg.append("g").attr("id", "map-group");
-				chart.svg.append("g").attr("id", "etapas-group");
 				chart.svg.append("g").attr("id", "montos-group");
 
 
@@ -1072,244 +1066,6 @@ angular
 			}
 		}
 
-		/* ETAPAS Functions ====================================================== */
-
-		function renderEtapasGroup(clear) {
-			var etapas = [
-				"en-proyecto",
-				"en-licitacion",
-				"en-ejecucion",
-				"finalizada"
-			];
-			var etapas_string = {
-				"en-proyecto": "En Proyecto",
-				"en-licitacion": "En Licitación",
-				"en-ejecucion": "En Ejecución",
-				finalizada: "Finalizada"
-			};
-
-			var itemH, itemW;
-			if ($scope.isSmallDevice) {
-				itemH = chart.w;
-				itemW = chart.w;
-				chart.svg.attr("height", etapas.length * chart.w);
-				chart.mainGroup
-					.select("rect")
-					.attr("height", etapas.length * chart.w);
-			} else {
-				itemH = chart.h / 2;
-				itemW = chart.w / 2;
-			}
-
-			if (!chart.etapasGroup) {
-				chart.etapasGroup = chart.svg.select("#etapas-group");
-
-				chart.etapasGroup
-					.selectAll("g.etapas-item")
-					.data(etapas)
-					.enter()
-					.append("g")
-					.classed("child", true)
-					.classed("etapas-item", true)
-					.style("opacity", 0)
-					.attr("transform", function(d, i) {
-						return (
-							"translate(" +
-							(chart.w / 2 - itemW / 2) +
-							"," +
-							(chart.h / 2 - itemH / 2) +
-							")"
-						);
-					})
-					.attr("id", function(d) {
-						return "etapas-item-" + d;
-					})
-					.each(function() {
-						var group = d3.select(this);
-
-						group
-							.append("rect")
-							.classed("etapas-item-frame", true)
-							.on("click", clickedEtapas);
-
-						group
-							.append("text")
-							.classed("etapas-item-text", true)
-							.attr("fill", "#000")
-							.text(function(d) {
-								return etapas_string[d];
-							});
-					});
-			}
-
-			if (!clear) {
-				chart.etapasGroup
-					.selectAll("g.etapas-item")
-					.style("display", "block");
-			}
-
-			//update
-			chart.etapasGroup
-				.selectAll("rect.etapas-item-frame")
-				.transition()
-				.duration(700)
-				.attr("x", chart.margin)
-				.attr("y", chart.margin)
-				.attr("height", itemH - chart.margin * 2)
-				.attr("width", itemW - chart.margin * 2);
-
-			chart.etapasGroup
-				.selectAll("text.etapas-item-text")
-				.transition()
-				.duration(700)
-				.attr("x", 15)
-				.attr("y", 25);
-
-			sortItems(
-				chart.etapasGroup
-					.selectAll("g.etapas-item")
-					.transition()
-					.duration(1000)
-					.style("opacity", 1),
-				itemW,
-				itemH
-			);
-		}
-
-		function prepareNodesEtapasGroup(etapaID) {
-			bubbles.clusters = {};
-			bubbles.clusterPoints = {};
-
-			bubbles.nodesEtapas = [];
-
-			var filterId = etapaID
-				? etapaID.replace("etapas-item-", "")
-				: false;
-
-			var filtered = $scope.obras.filter(function(d) {
-				return (
-					d.etapa &&
-					d.etapa != "" &&
-					(!filterId || (filterId && d.etapa_slug === filterId))
-				);
-			});
-
-			var max = Math.ceil(
-				d3.max(filtered, function(d) {
-					return d[$scope.selectedRadioDimension];
-				})
-			);
-			var min = Math.floor(
-				d3.min(filtered, function(d) {
-					return d[$scope.selectedRadioDimension];
-				})
-			);
-
-			bubbles.scale = d3.scale
-				.linear()
-				.domain([parseInt(min), parseInt(max)])
-				.range([10, filterId ? 100 : 50]);
-
-			//renderScaleChart();
-
-			bubbles.nodes = filtered.map(function(d) {
-				var i = "e-" + d.etapa_slug,
-					r = filterId ? 10 : 5,
-					/*r = bubbles.scale(
-						d[$scope.selectedRadioDimension]
-							? d[$scope.selectedRadioDimension]
-							: 10
-					),*/
-					c = { cluster: i, radius: r ? r : 10, data: d };
-
-				if (!bubbles.clusters[i] || r > bubbles.clusters[i].radius) {
-					bubbles.clusters[i] = c;
-				}
-
-				return c;
-			});
-
-			if (!filterId) {
-				d3.selectAll("g.etapas-item").each(function(d) {
-					var g = d3.select(this);
-					var rect = g.select("rect");
-
-					bubbles.clusterPoints["e-" + d] = {
-						x:
-							d3.transform(g.attr("transform")).translate[0] +
-							rect.attr("width") / 2,
-						y:
-							d3.transform(g.attr("transform")).translate[1] +
-							rect.attr("height") / 2,
-						radius: 10
-					};
-				});
-			} else {
-				bubbles.clusterPoints = false;
-			}
-		}
-
-		var activeEtapa = d3.select(null);
-		function resetEtapas(clear) {
-			activeEtapa.classed("active", false);
-
-			activeEtapa = d3.select(null);
-
-			d3.selectAll("g.etapas-item").style("display", "block");
-
-			renderEtapasGroup(clear);
-
-			if (!clear) {
-				setTimeout(function() {
-					prepareNodesEtapasGroup();
-					renderBubbles();
-				}, 2000);
-			}
-		}
-
-		function clickedEtapas(d) {
-			if (!$scope.isSmallDevice) {
-				$scope.closeTooltip();
-				if (activeEtapa.node() === this) {
-					return resetEtapas();
-				}
-				activeEtapa.classed("active", false);
-				activeEtapa = d3.select(this).classed("active", true);
-
-				var selectedG = activeEtapa.node().parentNode;
-
-				d3
-					.selectAll("g.etapas-item")
-					.transition()
-					.style("opacity", function() {
-						return this === selectedG ? 1.0 : 0;
-					})
-					.each("end", function() {
-						if (this !== selectedG) {
-							d3.select(this).style("display", "none");
-						}
-					});
-
-				activeEtapa
-					.transition()
-					.duration(750)
-					.attr("height", chart.h - chart.margin * 2)
-					.attr("width", chart.w - chart.margin * 2);
-
-				d3
-					.select(selectedG)
-					.transition()
-					.duration(750)
-					.attr("transform", "translate(0,0)")
-					.each("end", function() {
-						prepareNodesEtapasGroup(
-							d3.select(selectedG).attr("id")
-						);
-						renderBubbles();
-					});
-			}
-		}
-
 		/* MONTOS Functions ====================================================== */
 
 		function renderMontosGroup(clear) {
@@ -1331,10 +1087,10 @@ angular
 			if ($scope.isSmallDevice) {
 				itemH = chart.w;
 				itemW = chart.w;
-				chart.svg.attr("height", etapas.length * chart.w);
+				chart.svg.attr("height", montos.length * chart.w);
 				chart.mainGroup
 					.select("rect")
-					.attr("height", etapas.length * chart.w);
+					.attr("height", montos.length * chart.w);
 			} else {
 				itemH = chart.h / 2;
 				itemW = chart.w / 2;
