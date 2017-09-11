@@ -24,7 +24,7 @@ angular
 				"#E31F20"
 			]);
 
-		$scope.selectedGroup = "mapa";
+		$scope.selectedGroup = false;
 		$scope.oldGroup = "mapa";
 		$scope.selectedObra = false;
 
@@ -74,9 +74,10 @@ angular
 
 		DataService.getAll().then(function(data) {
 
-      $scope.obras = data;
+      		$scope.obras = data;
+      		$scope.selectedGroup = "mapa";
 
-		  renderSankeyChart();	
+		  	renderSankeyChart();	
 			renderChart();
 			window.$(window).resize(function() {
 				if (w != $(window).width()) {
@@ -1321,7 +1322,7 @@ angular
 					.enter()
 					.append("circle")
 					.attr("class", function(d) {
-						return "obra " + d.data.tipo_slug + " " + d.data.area_slug;
+						return "obra " + d.data.tipo_slug + " " + d.data.area_slug + " " + d.data.etapa_slug;
 					})
 					.on("mouseenter", function(d) {
 						d.color_tipo_obra = $scope.tipo_colors(d.data.tipo);

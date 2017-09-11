@@ -70,7 +70,7 @@ angular.module('obrasMduytApp')
 						.getBoundingClientRect().width;
 
 					chart.margin = chart.w / 100;
-					chart.barh = 20;
+					chart.barh = 27;
 					chart.gap = 10;
 
 					chart.h = $scope.total_obras_by_area.length * (chart.barh+chart.gap) + chart.gap*2;

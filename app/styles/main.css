@@ -54,6 +54,17 @@ body {
   cursor: pointer;
 }
 
+.chart-container .chart-item{
+  background-color: #efefef;
+  padding: 30px 20px 10px 20px;
+  margin-bottom: 30px;
+}
+.chart-container .chart-item h4 {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
 #tooltip-home-chart {
   position: absolute;
   background-color: white;
