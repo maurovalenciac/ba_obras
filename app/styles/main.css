@@ -6,6 +6,24 @@ body {
   background-color: #fff;
 }
 
+#stats-home{
+
+}
+
+#stats-home h5{
+  text-align: center;
+  font-family: "Gotham", Helvetica, Arial, sans-serif;
+}
+
+#stats-home span{
+  display: block;
+  text-align: center;
+  font-family: "OpenSans", Helvetica, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: normal;
+  margin-bottom: 30px;
+}
+
 #selector-home{
 }
 
@@ -54,12 +72,12 @@ body {
   cursor: pointer;
 }
 
-.chart-container .chart-item{
+.chart-item{
   background-color: #efefef;
   padding: 30px 20px 10px 20px;
   margin-bottom: 30px;
 }
-.chart-container .chart-item h4 {
+.chart-item h4 {
   text-align: center;
   text-transform: uppercase;
   margin-bottom: 20px;

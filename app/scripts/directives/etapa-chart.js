@@ -220,7 +220,6 @@ angular.module('obrasMduytApp')
 							var dato = d.cantidad;
 							var resp = (d.index==0)?Math.abs(chart.scale(dato)-acum['g'+d.index]):chart.scale(0)+acum['g'+d.index];
 							acum['g'+d.index] = (d.index==0)?acum['g'+d.index]-chart.scale(dato):acum['g'+d.index]+chart.scale(dato);
-							console.log(acum);
 							return resp;
 						});
 

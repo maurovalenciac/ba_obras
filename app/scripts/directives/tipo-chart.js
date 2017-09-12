@@ -25,7 +25,7 @@ angular.module('obrasMduytApp')
 	        	var chart = {};
 
 	        	$scope.$watch(attrs.obras, function(value) {
-	        		if(value){
+	        		if(value && typeof value =="object"){
 	        			data = value;
 			      		parseData();
 	        		}

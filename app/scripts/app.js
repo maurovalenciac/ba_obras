@@ -67,7 +67,8 @@ angular
     $routeProvider,
     $logProvider,
     $httpProvider,
-    $locationProvider
+    $locationProvider,
+    $provide
   ) {
     $routeProvider
       .when("/home", {
@@ -105,6 +106,13 @@ angular
       });
     $logProvider.debugEnabled(false);
     $locationProvider.hashPrefix("");
+
+    $provide.decorator('$locale', ['$delegate', function ($delegate) {
+        console.log($delegate.NUMBER_FORMATS);
+        $delegate.NUMBER_FORMATS.DECIMAL_SEP = ',';
+        $delegate.NUMBER_FORMATS.GROUP_SEP = '.';
+        return $delegate;
+    }]);
   })
   .service("DataService", function($http, $q, Slug, $sce) {
     var data, dataMapas;
