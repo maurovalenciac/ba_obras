@@ -131,7 +131,8 @@ angular.module('obrasMduytApp')
 								.append("rect")
 								.datum(d)
 								.classed("tipo-rect", true)
-								.attr("x",chart.barh*5+chart.gap)
+								//.attr("x",chart.barh*5+chart.gap)
+								.attr("x",chart.gap)
 								.attr("fill", function(d) {
 									return $scope.tipoColors(d.tipo);
 								});
@@ -140,9 +141,11 @@ angular.module('obrasMduytApp')
 								.append("text")
 								.datum(d)
 								.classed("tipo-text", true)
-								.attr("text-anchor", "end")
-								.attr("fill", "#000")
-								.attr("x", chart.barh*4)
+								//.attr("text-anchor", "end")
+								.attr("text-anchor", "start")
+								.attr("fill", "#fff")
+								//.attr("x", chart.barh*4)
+								.attr("x", chart.barh/2)
 								.text(function() {
 									return d.tipo;
 								});
@@ -171,7 +174,8 @@ angular.module('obrasMduytApp')
 									    var innerSVG = imgGroup.select("svg")
 									    	.attr("height", chart.barh)
 											.attr("width", chart.barh)
-											.attr("x", chart.barh*4+chart.gap/2)
+											//.attr("x", chart.barh*4+chart.gap/2)
+											.attr("x", chart.w-chart.barh-chart.gap-3)
 											.attr("y", 0);
 
 										innerSVG.selectAll("path,rect")
@@ -194,7 +198,8 @@ angular.module('obrasMduytApp')
 						.selectAll("rect.tipo-rect")
 						.attr("height", chart.barh)
 						.attr("width", function(d) {
-							return chart.scale(d.cantidad);
+							return chart.w - chart.barh - chart.gap*3
+							//return chart.scale(d.cantidad);
 						});
 
 					chart.groups.selectAll("text.tipo-text")
