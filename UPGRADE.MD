@@ -3,7 +3,7 @@
 ## Web
 Cuando la actualización solicitada es para implementar nuevas versiones del código fuente de al app:
 
-1. Ubicarse en la carpeta raíz del proyecto, dentro del servidor y ejecutar el pull al tag de la versión indicada.
+1. Ubicarse en la carpeta raíz del proyecto, dentro del servidor y ejecutar el pull al tag de la versión indicada.`git fetch --tags` y luego `git checkout (nombre de tag)`
 2. Testear el correcto funcionamiento de todo ingresando a la URL creada, deberían verse unos botones amarillos y poder renderizar las páginas de ejemplo para ser luego embebidas.
 3. Con esto se considera concluída la actualización del código fuente.
 

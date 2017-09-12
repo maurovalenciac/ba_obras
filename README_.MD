@@ -129,3 +129,4 @@ Es obligatorio que contemplen que  el sistema operativo que deben utilizar es **
 
 Recuerden que **ninguno** de los ambientes productivos cuentan con acceso a internet. Si para el correcto funcionamiento de la aplicación es necesario comunicarse con servidores externos los mismos debe enumerarse en el manual de instalación indicando dominio/puerto que debe estar habilitado justificando su uso en cada caso. 
 
+

@@ -34,3 +34,4 @@ Sólo requiere un servidor web que pueda servir los contenidos. La aplicación c
 
 5. Con esto se considera concluída la instalación.
 
+
