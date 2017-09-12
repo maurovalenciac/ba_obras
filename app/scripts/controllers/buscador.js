@@ -6,6 +6,13 @@ angular.module('obrasMduytApp')
   	$scope.pymChild = new window.pym.Child({ polling: 1000 });
     $scope.pymChild.sendHeight();
 
+    $scope.montos_string = {
+      "monto_0_50":"Hasta 50 millones",
+      "monto_50_100": "50  a 100 millones",
+      "monto_100_150": "100 a 150 millones",
+      "monto_mas_50": "Más de 150 millones"
+    };
+
     DataService.getAll()
       .then(function(data){
         //console.log(data);
@@ -35,12 +42,32 @@ angular.module('obrasMduytApp')
                       .map(data)
                   ).map(function(e){
                     return {id:e,title:e};
+                  }),
+          montos: d3.keys(
+                    d3.nest()
+                      .key(function(d){return d.monto_slug;})
+                      .map(data.filter(function(d){
+                        return d.monto_slug;
+                      }))
+                  ).map(function(e){
+                    return {id:e,title:$scope.montos_string[e]};
+                  }),
+          areas: d3.keys(
+                    d3.nest()
+                      .key(function(d){return d.area_responsable;})
+                      .map(data.filter(function(d){
+                        return d.area_responsable;
+                      }))
+                  ).map(function(e){
+                    return {id:e,title:e};
                   })
         };
 
         selects.comunas.unshift({id:'',title:'TODAS'});
         selects.etapas.unshift({id:'',title:'TODAS'});
+        selects.areas.unshift({id:'',title:'TODAS'});
         selects.tipos.unshift({id:'',title:'TODOS'});
+        selects.montos.unshift({id:'',title:'TODOS'});
 
         function renderNormalValue($scope, row) {
           return row[this.field];
@@ -84,20 +111,11 @@ angular.module('obrasMduytApp')
           },
           { 
             field: "area_responsable",
-            title: "Área", 
-            filter: { area_responsable: "text" }, 
+            title: "Área Responsable", 
+            filter: { area_responsable: "select" },
+            filterData: selects.areas, 
             show: true, 
-            class: 'lupita',
             /*sortable: "area_responsable",*/
-            getValue: renderNormalValue
-          },
-          { 
-            field: "licitacion_oferta_empresa",
-            title: "Empresa", 
-            filter: { licitacion_oferta_empresa: "text" }, 
-            show: true, 
-            class: 'lupita',
-            /*sortable: "licitacion_empresa",*/
             getValue: renderNormalValue
           },
           { 
@@ -119,12 +137,30 @@ angular.module('obrasMduytApp')
             getValue: renderNormalValue
           },
           { 
+            field: "monto_slug", 
+            title: "Monto Inversión", 
+            filter: { monto_slug: "select" },
+            filterData: selects.montos, 
+            show: true, 
+            /*sortable: "monto_contrato",*/
+            getValue: renderNormalValue
+          },
+          { 
             field: "link_interno", 
             title: "", 
             filter: false, 
             show: true, 
             /*sortable: false,*/
             getValue: renderLinkValue
+          },
+          { 
+            field: "licitacion_oferta_empresa",
+            title: "Empresa", 
+            filter: { licitacion_oferta_empresa: "text" }, 
+            show: true, 
+            class: 'lupita',
+            /*sortable: "licitacion_empresa",*/
+            getValue: renderNormalValue
           }
         ];
 
@@ -156,7 +192,7 @@ angular.module('obrasMduytApp')
 
         $scope.tableParams = new NgTableParams({
           sorting: { comuna: "asc" },
-          filter: { comuna: "", etapa: "", tipo: "" },
+          filter: { comuna: "", etapa: "", tipo: "", monto_slug: "" , area_responsable: "" },
           page:1,
           count:10
         }, {
@@ -168,7 +204,7 @@ angular.module('obrasMduytApp')
 
         var showCols = {
           lg:["comuna","nombre","area_responsable","licitacion_empresa","etapa","monto_contrato","link_interno"],
-          md:["comuna","nombre","licitacion_empresa","etapa","monto_contrato","link_interno"],
+          md:["comuna","nombre","area_responsable","licitacion_empresa","etapa","monto_contrato","link_interno"],
           sm:["comuna","nombre","etapa","monto_contrato","link_interno"],
           xs:["nombre","etapa","monto_contrato","link_interno"]
         }
@@ -204,7 +240,7 @@ angular.module('obrasMduytApp')
           clearTimeout($scope.timeoutId);
           $scope.timeoutId = setTimeout(function(){
 
-              checkColumns()
+              //checkColumns()
 
           }, 1000);
         });

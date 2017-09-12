@@ -20,9 +20,13 @@
 						<span class="title">Obra:</span>
 						<span class="desc">{{o.nombre}}</span>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-3">
 						<span class="title">Empresa:</span>
 						<span class="desc">{{o.licitacion_oferta_empresa}}</span>
+					</div>
+					<div class="col-sm-3">
+						<span class="title">Monto inversión:</span>
+						<span class="desc">{{o.monto_contrato | currency}}</span>
 					</div>
 				</div>
 				<div class="row">
@@ -33,7 +37,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-2">
-						<span class="title">Área:</span>
+						<span class="title">Área Responsable:</span>
 						<span class="desc">{{o.area_responsable}}</span>
 					</div>
 					<div class="col-sm-2">

@@ -108,7 +108,6 @@ angular
     $locationProvider.hashPrefix("");
 
     $provide.decorator('$locale', ['$delegate', function ($delegate) {
-        console.log($delegate.NUMBER_FORMATS);
         $delegate.NUMBER_FORMATS.DECIMAL_SEP = ',';
         $delegate.NUMBER_FORMATS.GROUP_SEP = '.';
         return $delegate;
