@@ -147,6 +147,10 @@ angular
         }
       }
 
+      reg.compromiso = reg.compromiso == 'SI'
+        ? true
+        : false;
+
       //arrays
       //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
       var comunas = reg.comuna ? reg.comuna.split("|") : [null];

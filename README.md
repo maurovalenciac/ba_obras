@@ -1,4 +1,56 @@
-#Obras MDUYT
+# Obras
+
+## Observatorio de obras 
+
+Proyecto de visualización y análisis de la información de las obras del Gobierno de la Ciudad.
+
+El proyecto es exclusivamente frontend. Toma la información de unos CSV estáticos y los representa. 
+
+Se trata de una aplicación enteramente de frontend (todos archivos estáticos), con diferentes vistas. Los datos se toman desde los archivos almacenados en el Portal de Datos a través de la API [csv-to api](http://git-asi.buenosaires.gob.ar/usuarioQA/ssdeciudadinteligentedggedi-15-compromisos-csv-to-api)
+
+No tiene formularios, submits a backend con información ni acceso a base de datos.
+
+Las páginas y los charts que aquí se generan, serán embebidos en un iframe dentro de BuenosAires.gob.ar.
+
+Tomar como referencia ante dudas, la configuración de: [Compromisos de gobierno](https://compromisos-site.buenosaires.gob.ar/) dado que la aplicación presenta iguales características.
+
+Está construído como Single Page Application basado en Angular JS.
+
+## Documentación
+
+* Deploy: ver INSTALL.MD y UPGRADE.MD
+* Changelog: ver CHANGELOG.MD 
+
+=======
+
+## Probar el proyecto de manera standalone para desarrollo
+* Clonar el proyecto
+* Archivo de configuración: En /dist duplicar el archivo config.js.example con el nombre config.js.
+* Instalar NodeJS: [Node Js Oficial](http://nodejs.org)
+* Instalar http-server
+`npm install http-server -g`
+* Ir a Directorio /dist y ejecutar servidor
+`cd dist`
+`http-server ./`
+* Abrir navegador 
+Dirección: `http://localhost:8080`
+
+## Para desarrolladores
+* Archivo de configuración: En /app duplicar el archivo config.js.example con el nombre config.js.
+* Correr la aplicación desde /app -> Hacer los cambios en /app y con live reloading se actualizará en http://localhost:10000
+`grunt server`
+* Compilar
+`grunt build`
+
+## Probar los compilados. 
+* Levanta la aplicación en http://localhost:10000 desde /dist
+`grunt server:dist`
+
+## Instalar en producción
+* Hacer clone y/o pull del proyecto 
+* Apuntar la configuración del web server a la carpera /dist
+* En /dist duplicar el archivo config.js.example con el nombre config.js.
+* Navegar hacia la url
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.15.1.
@@ -11,7 +63,10 @@ Run `grunt` for building and `grunt serve` for preview.
 
 Running `grunt test` will run the unit tests with karma.
 
-##Notas sobre documentación de USIG
+=======
+
+## Notas sobre documentación de USIG
+
 [Documentación de USIG-JS](http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/doc/)
 
 [Tenes demos acá](http://servicios.usig.buenosaires.gob.ar/usig-js/3.1/demos/)
@@ -63,39 +118,6 @@ usig.Layers = {
     });  
 
 ```  
-
-# Obras
-
-Observatorio de obras 
-
-## Probar el proyecto de manera standalone
-* Clonar el proyecto
-* Archivo de configuración: En /dist duplicar el archivo config.js.example con el nombre config.js.
-* Instalar NodeJS: [Node Js Oficial](http://nodejs.org)
-* Instalar http-server
-`npm install http-server -g`
-* Ir a Directorio /dist y ejecutar servidor
-`cd dist`
-`http-server ./`
-* Abrir navegador 
-Dirección: `http://localhost:8080`
-
-## Para desarrolladores
-* Archivo de configuración: En /app duplicar el archivo config.js.example con el nombre config.js.
-* Correr la aplicación desde /app -> Hacer los cambios en /app y con live reloading se actualizará en http://localhost:10000
-`grunt server`
-* Compilar
-`grunt build`
-
-## Probar los compilados. 
-* Levanta la aplicación en http://localhost:10000 desde /dist
-`grunt server:dist`
-
-## Instalar en producción
-* Hacer clone y/o pull del proyecto 
-* Apuntar la configuración del web server a la carpera /dist
-* En /dist duplicar el archivo config.js.example con el nombre config.js.
-* Navegar hacia la url
 
 =======
 

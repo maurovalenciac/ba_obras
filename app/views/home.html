@@ -25,10 +25,10 @@
 
 <div class="row">
   <div id="side-chart-col" class="chart-container col-sm-6">
-      <div class="chart-item">
+      <!--div class="chart-item">
         <h4>Filtrar por tipo de obra</h4>
         <tipo-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors" finish-fn="tipoChartFinished()"></tipo-chart>
-      </div>
+      </div-->
       <div class="chart-item">
         <h4>Filtrar por etapa</h4>
         <etapa-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors"></etapa-chart>
@@ -73,6 +73,12 @@
 
   <span class="main-title"><strong>{{selectedObra.data.nombre}}</strong></span>
 
+  <div class="row compromiso-row" ng-show="selectedObra.data.compromiso">
+    <div class="col-xs-12">
+      <span class="label label-primary">Compromiso de Gobierno</span>
+    </div>
+  </div>
+
   <img class="obra-pic img-responsive" ng-show="selectedObra.data.fotos.length>0" ng-src="{{selectedObra.data.fotos[0]}}"/>
 
   <span class="desc">{{selectedObra.data.etapa}} <span ng-show="selectedObra.data.porcentaje_avance">:{{selectedObra.data.porcentaje_avance}}%</span></span>
@@ -103,11 +109,5 @@
       <a ng-show="selectedObra.data.link_interno" target="_parent" ng-href="{{selectedObra.data.link_interno}}" class="btn btn-default btn-xs btn-block">Más información</a>
     </div>
   </div>
-
-  <!-- <div class="row">
-    <div class="col-xs-12">
-      {{selectedObra.data.compromiso ? selectedObra.data.compromiso : 'NO'}}
-    </div>
-  </div> -->
 
 </div>

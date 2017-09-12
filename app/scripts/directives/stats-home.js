@@ -9,15 +9,15 @@ angular.module('obrasMduytApp')
 	        },
 	        template: "<div id='stats-home' class='row' ng-show='obras'>"+
 		        		  "<div class='col-md-6'>"+
-		        		  	"<h5>Total de inversión:</h5>"+
+		        		  	"<h5>Total de inversión</h5>"+
 		        		  	"<span>{{total.inversion | currency:$ :0}}</span>"+
 		        		  "</div>"+
 		        		  "<div class='col-md-3'>"+
-		        		 	"<h5>Total de obras:</h5>"+
+		        		 	"<h5>Total de obras</h5>"+
 		        		  	"<span>{{total.obras}}</span>"+
 		        		  "</div>"+
 		        		  "<div class='col-md-3'>"+
-		        		  	"<h5>Finalizadas:</h5>"+
+		        		  	"<h5>Finalizadas</h5>"+
 		        		  	"<span>{{total.porcentaje_finalizadas}}%</span>"+
 		        		  "</div>"+
 	        		  "</div>"

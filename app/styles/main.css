@@ -95,6 +95,10 @@ body {
   /*pointer-events: none;*/
 }
 
+#tooltip-home-chart .compromiso-row{
+  margin-bottom: 10px;
+}
+
 #tooltip-home-chart .btn{
   pointer-events: default;
 }
