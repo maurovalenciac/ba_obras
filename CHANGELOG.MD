@@ -1,7 +1,7 @@
-# CHANGELOG
+# CHANGELOG
 
 * 2017-09-13 - v2.0
-  * Agregado de cerca de 1000 obras de distintos Ministerios.
+  * Adaptación para visualizar cerca de 1000 obras de distintos Ministerios.
   * Nuevos filtros.
   * Nuevos charts.
   * Mejoras en el tooltip.
