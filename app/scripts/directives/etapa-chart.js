@@ -80,9 +80,6 @@ angular.module('obrasMduytApp')
 						return resp
 					});
 
-					console.log('Uso las dos primeras etapas');
-			    	$scope.obras_by_etapa = _.slice($scope.obras_by_etapa,0,2);
-
 					renderChart();
 			    }
 
@@ -134,7 +131,7 @@ angular.module('obrasMduytApp')
 							0,
 							chart.max
 						])
-						.range([chart.gap, chart.w/2-chart.gap]);
+						.range([0, chart.w/2-chart.gap*2]);
 
 					//Update
 					chart.svg
@@ -207,8 +204,8 @@ angular.module('obrasMduytApp')
 						});
 
 					var acum = {
-						g0:chart.scale(chart.max),
-						g1:0
+						g0:chart.scale(chart.max)+chart.gap,
+						g1:chart.gap
 					};
 
 					chart.groups

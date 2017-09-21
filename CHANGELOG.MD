@@ -1,11 +1,15 @@
 # CHANGELOG
 
+* 2017-09-20 - v2.1
+  * Fixes chart de totales.
+  * Validación espacios en blanco nuevo dataset para comunas.
+
 * 2017-09-13 - v2.0
   * Adaptación para visualizar cerca de 1000 obras de distintos Ministerios.
   * Nuevos filtros.
   * Nuevos charts.
   * Mejoras en el tooltip.
-  * Nuevo diseño más amplio
+  * Nuevo diseño más amplio.
 
 * 2017-08-16 - v1.2
   * Nueva vista de mapas.
@@ -17,7 +21,7 @@
   * Nueva vista por entorno.
 
 * 2016-10-30 - v1.0
-  * Versión inicial MDUYT
-  * Home: sankey
+  * Versión inicial MDUYT.
+  * Home: sankey.
   * Vista individual de obra.
 

@@ -154,6 +154,7 @@ angular
       //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
       var comunas = reg.comuna ? reg.comuna.split("|") : [null];
       reg.comuna = comunas[0];
+      reg.comuna = reg.comuna ? parseInt(reg.comuna.trim()): reg.comuna;
       reg.barrio = reg.barrio ? reg.barrio.split("|") : [];
       reg.licitacion_oferta_empresa = reg.licitacion_oferta_empresa
         ? reg.licitacion_oferta_empresa

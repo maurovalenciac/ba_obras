@@ -340,7 +340,7 @@ angular
 		}
 
     $scope.tipoChartFinished = function(){
-      console.log('$scope.tipoChartFinished');
+      //console.log('$scope.tipoChartFinished');
       //renderSankeyChart();
       //renderChart();
       /*bubbles.circles
