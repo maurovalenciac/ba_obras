@@ -163,7 +163,6 @@ angular.module('obrasMduytApp')
 								.append('g')
 								.classed('image-container',true);
 
-
 							//Load svg inline to change its color
 							d3.xml("images/iconos/" + d.slug + ".svg", 
 							        function(error, documentFragment) {
@@ -202,6 +201,11 @@ angular.module('obrasMduytApp')
 									$scope.filterFn({filter:d.slug});
 								});
 						});
+
+					chart.groups
+						.selectAll(".image-container svg")
+						.attr("x", chart.w-chart.barh-chart.gap-3);
+
 
 					chart.groups
 						.selectAll("rect.tipo-rect")
