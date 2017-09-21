@@ -63,6 +63,15 @@ angular.module('obrasMduytApp')
 						"desc"
 					);
 					renderChart();
+
+					window.$(window).resize(function() {
+						if (w != $(window).width()) {
+							clearTimeout($scope.timeoutId);
+							$scope.timeoutId = setTimeout(function() {
+								renderChart();
+							}, 1000);
+						}
+					});
 			    }
 
 			    function renderChart(){
@@ -250,15 +259,6 @@ angular.module('obrasMduytApp')
 				    			.attr('x',-chart.w);
 			    	}
 			    }
-
-			    window.$(window).resize(function() {
-				if (w != $(window).width()) {
-					clearTimeout($scope.timeoutId);
-					$scope.timeoutId = setTimeout(function() {
-						renderChart();
-					}, 1000);
-				}
-			});
 
 	        }
 	    };

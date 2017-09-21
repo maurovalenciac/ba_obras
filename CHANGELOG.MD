@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* 2017-09-21 - v2.2
+  * Especificar el pull en el UPGRADE.md
+
 * 2017-09-20 - v2.1
   * Fixes chart de totales.
   * Validación espacios en blanco nuevo dataset para comunas.

@@ -1,57 +1,4 @@
 "use strict";
-/**
- * @ngdoc overview
- * @name obrasMduytApp
- * @description
- * # obrasMduytApp
- *
- * Main module of the application.
- */
-/*angular.module('$jsonpCallbacks+createCallback', ['ng'])
-  .decorator('$jsonpCallbacks',function($delegate,$window){
-    console.log('dale');
-
-    var callbackMap = {};
-
-    $delegate.createCallback = function(url) {
-        console.log($delegate);
-        function createCallback(callbackId) {
-          var callback = function(data) {
-            callback.data = data;
-            callback.called = true;
-          };
-          callback.id = callbackId;
-          return callback;
-        }
-
-        var callbackId = '_' + ($window.angular.callbacks.$$counter++).toString(36);
-        var callbackPath = 'angular.callbacks.' + callbackId;
-        var callback = createCallback(callbackId);
-        callbackMap[callbackPath] = $window.angular.callbacks[callbackId] = callback;
-        console.log('path creado ',url);
-        return callbackPath;
-      };
-
-    $delegate.wasCalled = function(callbackPath) {
-        console.log('wasCalled ', callbackPath);
-        return callbackMap[callbackPath].called;
-      };
-
-    $delegate.getResponse = function(callbackPath) {
-        console.log('getResponse ',callbackPath);
-        return callbackMap[callbackPath].data;
-      };
-
-    $delegate.removeCallback = function(callbackPath) {
-        console.log('removeCallback ', callbackPath);
-
-        var callback = callbackMap[callbackPath];
-        delete $window.angular.callbacks[callback.id];
-        delete callbackMap[callbackPath];
-      };
-    return $delegate;
-  });
-*/
 
 angular
   .module("obrasMduytApp", [
@@ -61,7 +8,6 @@ angular
     "angular-flexslider",
     "leaflet-directive",
     "ngTable"
-    /*    '$jsonpCallbacks+createCallback'*/
   ])
   .config(function(
     $routeProvider,
@@ -255,10 +201,13 @@ angular
 
     var getUrlMapas = function() {
       verifyConfig();
-      var url =
-        window.MDUYT_CONFIG.BASE_URL +
-        "?source_format=csv&source=" +
-        window.MDUYT_CONFIG.MAPAS_CSV;
+      var url = "";
+      if(window.MDUYT_CONFIG.MAPAS_CSV){
+        url =
+          window.MDUYT_CONFIG.BASE_URL +
+          "?source_format=csv&source=" +
+          window.MDUYT_CONFIG.MAPAS_CSV;
+      }
       return $sce.trustAsResourceUrl(url);
     };
 
@@ -309,9 +258,16 @@ angular
     };
 
     this.retrieveMapas = function() {
+      var urlMapas = getUrlMapas();
+      
+      var deferred = $q.defer();
+      
+      if(urlMapas==""){
+        dataMapas = [];
+      }
+
       if (!dataMapas) {
-        var deferred = $q.defer();
-        $http.jsonp(getUrlMapas()).then(
+        $http.jsonp(urlMapas).then(
           function(result) {
             dataMapas = result.data;
             deferred.resolve(dataMapas);
@@ -325,6 +281,7 @@ angular
 
         dataMapas = deferred.promise;
       }
+
 
       return $q.when(dataMapas);
     };
