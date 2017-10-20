@@ -1,8 +1,8 @@
 <div id='stats-home' class='row' ng-show='obras'>
-  <div class='col-md-3 col-sm-6'>
+  <div class='col-custom-2-5 col-sm-6'>
     <div class="row">
       <div class='col-xs-4 icon-container'>
-        <img class="image-responsive" src="images/indicadores/inversion.svg"/>
+        <img class="" src="images/indicadores/inversion.svg"/>
       </div>
       <div class='col-xs-8 value-container'>
         <h5>Total de inversión:</h5>
@@ -10,21 +10,21 @@
       </div>
     </div>
   </div>
-  <div class='col-md-3 col-sm-6'>
+  <div class='col-custom-1-5 col-sm-6'>
     <div class="row">
       <div class='col-xs-4 icon-container'>
-        <img class="image-responsive" src="images/indicadores/obras.svg"/>
+        <img class="" src="images/indicadores/obras.svg"/>
       </div>
       <div class='col-xs-8 value-container'>
         <h5>Total de obras:</h5>
-        <span class="value">{{total.obras}}</span>
+        <span class="value">{{total.obras | number}}</span>
       </div>
     </div>
   </div>
-  <div class='col-md-3 col-sm-6'>
+  <div class='col-custom-1-5 col-sm-6'>
     <div class="row">
       <div class='col-xs-4 icon-container'>
-        <img class="image-responsive" src="images/indicadores/finalizadas.svg"/>
+        <img class="" src="images/indicadores/finalizadas.svg"/>
       </div>
       <div class='col-xs-8 value-container'>
         <h5>Finalizadas:</h5>
@@ -32,14 +32,14 @@
       </div>
     </div>
   </div>
-  <div class='col-md-3 col-sm-6'>
+  <div class='col-custom-1-5 col-sm-6'>
     <div class="row">
       <div class='col-xs-4 icon-container'>
-        <img class="image-responsive" src="images/indicadores/personas.svg"/>
+        <img class="" src="images/indicadores/personas.svg"/>
       </div>
       <div class='col-xs-8 value-container'>
-        <h5>Personas empleadas en las obras:</h5>
-        <span class="value">{{total.mano_obra}}</span>
+        <h5>Empleados:</h5>
+        <span class="value">{{total.mano_obra | number}}</span>
       </div>
     </div>
   </div>

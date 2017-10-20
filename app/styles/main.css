@@ -21,15 +21,33 @@ p {
   margin-bottom: 30px;
 }
 
+#stats-home .col-custom-1-5 {
+  padding: 0 15px;
+  width: 20%;
+  float: left;
+  position: relative;
+}
+
+#stats-home .col-custom-2-5 {
+  width: 40%;
+  padding: 0 15px;
+  float: left;
+  position: relative;
+}
+
 #stats-home h5 {
   font-size: 15px;
   font-family: "CHANEWEI", Helvetica, Arial, sans-serif !important;
   margin-bottom: 0;
-  margin-top: 10px;
 }
 
 #stats-home .icon-container {
   padding-right: 0px;
+  padding-left: 0px;
+  text-align: right;
+}
+#stats-home .icon-container img {
+  max-width: 75px;
 }
 
 #stats-home .value-container {
@@ -611,4 +629,30 @@ div.obra .ficha-tecnica .progress-bar {
 
 .bg-atractiva {
   background-color: #27c3b9;
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+  #stats-home .col-custom-1-5 {
+    width: 50%;
+  }
+
+  #stats-home .col-custom-2-5 {
+    width: 50%;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  #stats-home .col-custom-1-5 {
+    width: 100%;
+  }
+
+  #stats-home .col-custom-2-5 {
+    width: 100%;
+  }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 480px) {
 }
