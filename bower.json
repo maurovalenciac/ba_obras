@@ -24,7 +24,7 @@
       "main": ["dist/css/bootstrap.css", "dist/js/bootstrap.js"]
     },
     "BAstrap": {
-      "main": ["bastrap3/bastrap.css"]
+      "main": ["bastrap.css"]
     },
     "animejs": {
       "main": ["anime.min.js"]
