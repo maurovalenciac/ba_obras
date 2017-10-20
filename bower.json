@@ -7,7 +7,8 @@
     "bootstrap": "^3.2.0",
     "angular-route": "1.6.1",
     "angular-sanitize": "1.6.1",
-    "BAstrap": "https://github.com/gcba/BAstrap.git#b97e3c7d2d56c12c53864240514f8e87099a7c42",
+    "BAstrap":
+      "https://github.com/gcba/BAstrap.git#aee93cf71a4bbc6c731eed606f6cf620703f2579",
     "lodash": "^4.16.3",
     "d3": "3",
     "pym.js": "^1.1.1",
@@ -20,20 +21,13 @@
   "moduleName": "obrasMduytApp",
   "overrides": {
     "bootstrap": {
-      "main": [
-        "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js"
-      ]
+      "main": ["dist/css/bootstrap.css", "dist/js/bootstrap.js"]
     },
     "BAstrap": {
-      "main": [
-        "bastrap3/bastrap.css"
-      ]
+      "main": ["bastrap3/bastrap.css"]
     },
     "animejs": {
-      "main": [
-        "anime.min.js"
-      ]
+      "main": ["anime.min.js"]
     }
   }
 }

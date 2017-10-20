@@ -1,269 +1,262 @@
-'use strict';
+"use strict";
 
-angular.module('obrasMduytApp')
-.directive('tipoChart', function() {
+angular.module("obrasMduytApp").directive("tipoChart", function() {
 	return {
-	        restrict: 'E',
-	        scope: {
-	            obras: '=',
-	            filterFn: '&',
-	            finishFn: '&',
-	            selectedFilter: '=',
-	            tipoColors: '='
-	        },
-	        template: "<div id='tipo-chart'></div>",
-	        replace: true,        
-	        link: function($scope, elm, attrs) {
-	        	
-	        	var w = 0;
+		restrict: "E",
+		scope: {
+			obras: "=",
+			filterFn: "&",
+			finishFn: "&",
+			selectedFilter: "=",
+			tipoColors: "="
+		},
+		template: "<div id='tipo-chart'></div>",
+		replace: true,
+		link: function($scope, elm, attrs) {
+			var w = 0;
 
-				$(window).load(function() {
-					w = $(window).width();
-				});
-	        	
-	        	var data;
-	        	var chart = {};
+			$(window).load(function() {
+				w = $(window).width();
+			});
 
-	        	$scope.$watch(attrs.obras, function(value) {
-	        		if(value && typeof value =="object"){
-	        			data = value;
-			      		parseData();
-	        		}
-			    });
+			var data;
+			var chart = {};
 
-			    $scope.$watch(attrs.selectedFilter, function(value) {
-			    	if(chart.groups){
-	        			selectFilter();
-			    	}
-			    });
+			$scope.$watch(attrs.obras, function(value) {
+				if (value && typeof value == "object") {
+					data = value;
+					parseData();
+				}
+			});
 
-			    function parseData(){
+			$scope.$watch(attrs.selectedFilter, function(value) {
+				if (chart.groups) {
+					selectFilter();
+				}
+			});
 
-			    	var obras_by_tipo = _.groupBy(
-						data.filter(function(o) {
-							return typeof o.tipo != "undefined";
-						}),
-						"tipo"
-					);
+			function parseData() {
+				var obras_by_tipo = _.groupBy(
+					data.filter(function(o) {
+						return typeof o.tipo != "undefined";
+					}),
+					"tipo"
+				);
 
-					$scope.total_obras_by_tipo = _.orderBy(
-						_.reduce(
-							obras_by_tipo,
-							function(result, value, key) {
-								result.push({
-									tipo: key,
-									slug: value[0].tipo_slug,
-									cantidad: value.length
-								});
-								return result;
-							},
-							[]
-						),
-						"cantidad",
-						"desc"
-					);
-					renderChart();
+				$scope.total_obras_by_tipo = _.orderBy(
+					_.reduce(
+						obras_by_tipo,
+						function(result, value, key) {
+							result.push({
+								tipo: key,
+								slug: value[0].tipo_slug,
+								cantidad: value.length
+							});
+							return result;
+						},
+						[]
+					),
+					"cantidad",
+					"desc"
+				);
+				renderChart();
 
-					window.$(window).resize(function() {
-						if (w != $(window).width()) {
-							clearTimeout($scope.timeoutId);
-							$scope.timeoutId = setTimeout(function() {
-								renderChart();
-							}, 1000);
-						}
-					});
-			    }
-
-			    function renderChart(){
-			    	chart.w = d3
-						.select("#tipo-chart")
-						.node()
-						.getBoundingClientRect().width;
-
-					chart.margin = chart.w / 100;
-					chart.barh = 40;
-					chart.gap = 10;
-
-					chart.h = $scope.total_obras_by_tipo.length * (chart.barh+chart.gap) + chart.gap*2;
-
-
-					if (!chart.svg) {
-						//Create
-						chart.svg = d3
-							.select("#tipo-chart")
-							.append("svg");
-						chart.mainGroup = chart.svg
-							.append("g")
-							.classed("main-group", true);
-						chart.selection = chart.mainGroup
-							.append("rect")
-							.classed('selection',true)
-							.attr("height", chart.gap+chart.barh)
-							.attr('x',-chart.w)
-							.attr('y',-chart.gap)
-							.attr("fill", "#ffbc00");
+				window.$(window).resize(function() {
+					if (w != $(window).width()) {
+						clearTimeout($scope.timeoutId);
+						$scope.timeoutId = setTimeout(function() {
+							renderChart();
+						}, 1000);
 					}
+				});
+			}
 
-					chart.scale = d3.scale
-						.linear()
-						.domain([
-							0,
-							d3.max($scope.total_obras_by_tipo, function(to) {
-								return to.cantidad;
-							})
-						])
-						.range([0, chart.w - chart.barh*5 - chart.gap*2]);
+			function renderChart() {
+				chart.w = d3
+					.select("#tipo-chart")
+					.node()
+					.getBoundingClientRect().width;
 
-					//Update
-					chart.svg
-						.attr("width", chart.w)
-						.attr("height", chart.h);
+				chart.margin = chart.w / 100;
+				chart.barh = 40;
+				chart.gap = 10;
 
-					chart.selection
-						.attr("width", chart.w-chart.gap);
+				chart.h =
+					$scope.total_obras_by_tipo.length *
+						(chart.barh + chart.gap) +
+					chart.gap * 2;
 
-					chart.groups = chart.mainGroup
-						.selectAll("g.tipo-group")
-						.data($scope.total_obras_by_tipo);
-
-					chart.groups
-						.enter()
+				if (!chart.svg) {
+					//Create
+					chart.svg = d3.select("#tipo-chart").append("svg");
+					chart.mainGroup = chart.svg
 						.append("g")
-						.attr("id", function(d) {
-							return "tipo-group-" + d.slug;
+						.classed("main-group", true);
+					chart.selection = chart.mainGroup
+						.append("rect")
+						.classed("selection", true)
+						.attr("height", chart.gap + chart.barh)
+						.attr("x", -chart.w)
+						.attr("y", -chart.gap)
+						.attr("fill", "#ffbc00");
+				}
+
+				chart.scale = d3.scale
+					.linear()
+					.domain([
+						0,
+						d3.max($scope.total_obras_by_tipo, function(to) {
+							return to.cantidad;
 						})
-						.classed("tipo-group", true)
-						.each(function(d) {
-							var group = d3.select(this);
+					])
+					.range([0, chart.w - chart.barh * 5 - chart.gap * 2]);
 
-							group
-								.append("rect")
-								.datum(d)
-								.classed("tipo-rect", true)
-								//.attr("x",chart.barh*5+chart.gap)
-								.attr("x",chart.gap)
-								.attr("fill", function(d) {
-									return $scope.tipoColors(d.tipo);
-								});
+				//Update
+				chart.svg.attr("width", chart.w).attr("height", chart.h);
 
-							group
-								.append("text")
-								.datum(d)
-								.classed("tipo-text", true)
-								//.attr("text-anchor", "end")
-								.attr("text-anchor", "start")
-								.attr("fill", "#fff")
-								//.attr("x", chart.barh*4)
-								.attr("x", chart.barh/2)
-								.text(function() {
-									return d.tipo;
-								});
+				chart.selection.attr("width", chart.w - chart.gap);
 
-							var imgGroup = group
-								.append('g')
-								.classed('image-container',true);
+				chart.groups = chart.mainGroup
+					.selectAll("g.tipo-group")
+					.data($scope.total_obras_by_tipo);
 
-							//Load svg inline to change its color
-							d3.xml("images/iconos/" + d.slug + ".svg", 
-							        function(error, documentFragment) {
+				chart.groups
+					.enter()
+					.append("g")
+					.attr("id", function(d) {
+						return "tipo-group-" + d.slug;
+					})
+					.classed("tipo-group", true)
+					.each(function(d) {
+						var group = d3.select(this);
 
-									    if (error) {console.log(error); return;}
+						group
+							.append("rect")
+							.datum(d)
+							.classed("tipo-rect", true)
+							//.attr("x",chart.barh*5+chart.gap)
+							.attr("x", chart.gap)
+							.attr("fill", function(d) {
+								return $scope.tipoColors(d.tipo);
+							});
 
-									    var svgNode = documentFragment
-									                .getElementsByTagName("svg")[0];
-									    //use plain Javascript to extract the node
+						group
+							.append("text")
+							.datum(d)
+							.classed("tipo-text", true)
+							//.attr("text-anchor", "end")
+							.attr("text-anchor", "start")
+							.attr("fill", "#fff")
+							//.attr("x", chart.barh*4)
+							.attr("x", chart.barh / 2)
+							.text(function() {
+								return d.tipo;
+							});
 
-										imgGroup.node().appendChild(svgNode);
-									    //d3's selection.node() returns the DOM node, so we
-									    //can use plain Javascript to append content
+						var imgGroup = group
+							.append("g")
+							.classed("image-container", true);
 
-									    var color = $scope.tipoColors(d.tipo);
+						//Load svg inline to change its color
+						d3.xml("images/iconos/" + d.slug + ".svg", function(
+							error,
+							documentFragment
+						) {
+							if (error) {
+								console.error(error);
+								return;
+							}
 
-									    var innerSVG = imgGroup.select("svg")
-									    	.attr("height", chart.barh)
-											.attr("width", chart.barh)
-											//.attr("x", chart.barh*4+chart.gap/2)
-											.attr("x", chart.w-chart.barh-chart.gap-3)
-											.attr("y", 0);
+							var svgNode = documentFragment.getElementsByTagName(
+								"svg"
+							)[0];
+							//use plain Javascript to extract the node
 
-										innerSVG.selectAll("path,rect")
-											.attr("fill",color);
-    
-									});
+							imgGroup.node().appendChild(svgNode);
+							//d3's selection.node() returns the DOM node, so we
+							//can use plain Javascript to append content
 
-							group
-								.append("rect")
-								.datum(d)
-								.classed("click-rect", true)
-								.attr("fill", "white")
-								.attr("fill-opacity", 0)
-								.on("click", function(d) {
-									$scope.filterFn({filter:d.slug});
-								});
+							var color = $scope.tipoColors(d.tipo);
+
+							var innerSVG = imgGroup
+								.select("svg")
+								.attr("height", chart.barh)
+								.attr("width", chart.barh)
+								//.attr("x", chart.barh*4+chart.gap/2)
+								.attr("x", chart.w - chart.barh - chart.gap - 3)
+								.attr("y", 0);
+
+							innerSVG.selectAll("path,rect").attr("fill", color);
 						});
 
-					chart.groups
-						.selectAll(".image-container svg")
-						.attr("x", chart.w-chart.barh-chart.gap-3);
-
-
-					chart.groups
-						.selectAll("rect.tipo-rect")
-						.attr("height", chart.barh)
-						.attr("width", function(d) {
-							return chart.w - chart.barh - chart.gap*3
-							//return chart.scale(d.cantidad);
-						});
-
-					chart.groups.selectAll("text.tipo-text")
-						.attr("y", function(d) {
-							return chart.barh * (2/3);
-						});
-
-					chart.groups
-						.selectAll("image.tipo-icon")
-						.attr("y", function(d) {
-							return 0;
-						});
-
-					chart.groups
-						.selectAll("rect.click-rect")
-						.attr("width", chart.w)
-						.attr("height", chart.barh);
-
-					var acum = chart.gap;
-					chart.groups.transition().attr("transform", function(d) {
-						var y = acum;
-						acum = acum + chart.gap + chart.barh;
-						return "translate(0," + y + ")";
+						group
+							.append("rect")
+							.datum(d)
+							.classed("click-rect", true)
+							.attr("fill", "white")
+							.attr("fill-opacity", 0)
+							.on("click", function(d) {
+								$scope.filterFn({ filter: d.slug });
+							});
 					});
 
-					$scope.finishFn();
-			    }
+				chart.groups
+					.selectAll(".image-container svg")
+					.attr("x", chart.w - chart.barh - chart.gap - 3);
 
-			    function selectFilter(){
-			    	if($scope.selectedFilter){
-				    	var target = chart.mainGroup.select('#tipo-group-'+$scope.selectedFilter);
-				    	if(!target.empty()){
-				    		var t = d3.transform(target.attr("transform")),
-							    x = t.translate[0],
-							    y = t.translate[1];
-				    		chart.selection
-				    			.transition()
-				    			.attr('x',x+chart.gap/2)
-				    			.attr('y',y-chart.gap/2);
-				    	} else {
-				    		chart.selection
-				    			.transition()
-				    			.attr('x',-chart.w);
-				    	}
-			    	} else {
-			    		chart.selection
-				    			.transition()
-				    			.attr('x',-chart.w);
-			    	}
-			    }
+				chart.groups
+					.selectAll("rect.tipo-rect")
+					.attr("height", chart.barh)
+					.attr("width", function(d) {
+						return chart.w - chart.barh - chart.gap * 3;
+						//return chart.scale(d.cantidad);
+					});
 
-	        }
-	    };
-	});
+				chart.groups.selectAll("text.tipo-text").attr("y", function(d) {
+					return chart.barh * (2 / 3);
+				});
+
+				chart.groups
+					.selectAll("image.tipo-icon")
+					.attr("y", function(d) {
+						return 0;
+					});
+
+				chart.groups
+					.selectAll("rect.click-rect")
+					.attr("width", chart.w)
+					.attr("height", chart.barh);
+
+				var acum = chart.gap;
+				chart.groups.transition().attr("transform", function(d) {
+					var y = acum;
+					acum = acum + chart.gap + chart.barh;
+					return "translate(0," + y + ")";
+				});
+
+				$scope.finishFn();
+			}
+
+			function selectFilter() {
+				if ($scope.selectedFilter) {
+					var target = chart.mainGroup.select(
+						"#tipo-group-" + $scope.selectedFilter
+					);
+					if (!target.empty()) {
+						var t = d3.transform(target.attr("transform")),
+							x = t.translate[0],
+							y = t.translate[1];
+						chart.selection
+							.transition()
+							.attr("x", x + chart.gap / 2)
+							.attr("y", y - chart.gap / 2);
+					} else {
+						chart.selection.transition().attr("x", -chart.w);
+					}
+				} else {
+					chart.selection.transition().attr("x", -chart.w);
+				}
+			}
+		}
+	};
+});
