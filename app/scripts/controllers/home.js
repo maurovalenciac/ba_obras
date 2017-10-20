@@ -1415,7 +1415,7 @@ angular
 			bubbles.circles.exit().remove();
 
 			/*create redes*/
-			setTimeout(function() {
+			/*setTimeout(function() {
 				var red = d3.selectAll("circle.red")[0];
 				red = red.sort(function(a, b) {
 					a = d3.select(a);
@@ -1444,7 +1444,7 @@ angular
 					.attr("d", function(d) {
 						return line(red);
 					});
-			}, 2000);
+			}, 2000);*/
 
 			/*fin redes*/
 

@@ -1,0 +1,46 @@
+<div id='stats-home' class='row' ng-show='obras'>
+  <div class='col-md-3 col-sm-6'>
+    <div class="row">
+      <div class='col-xs-4 icon-container'>
+        <img class="image-responsive" src="images/indicadores/inversion.svg"/>
+      </div>
+      <div class='col-xs-8 value-container'>
+        <h5>Total de inversión:</h5>
+        <span class="value">{{total.inversion | currency:$ :0}}</span>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-3 col-sm-6'>
+    <div class="row">
+      <div class='col-xs-4 icon-container'>
+        <img class="image-responsive" src="images/indicadores/obras.svg"/>
+      </div>
+      <div class='col-xs-8 value-container'>
+        <h5>Total de obras:</h5>
+        <span class="value">{{total.obras}}</span>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-3 col-sm-6'>
+    <div class="row">
+      <div class='col-xs-4 icon-container'>
+        <img class="image-responsive" src="images/indicadores/finalizadas.svg"/>
+      </div>
+      <div class='col-xs-8 value-container'>
+        <h5>Finalizadas:</h5>
+        <span class="value">{{total.porcentaje_finalizadas}}%</span>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-3 col-sm-6'>
+    <div class="row">
+      <div class='col-xs-4 icon-container'>
+        <img class="image-responsive" src="images/indicadores/personas.svg"/>
+      </div>
+      <div class='col-xs-8 value-container'>
+        <h5>Personas empleadas en las obras:</h5>
+        <span class="value">{{total.mano_obra}}</span>
+      </div>
+    </div>
+  </div>
+</div>

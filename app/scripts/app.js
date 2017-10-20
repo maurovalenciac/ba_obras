@@ -107,6 +107,8 @@ angular
         ? reg.licitacion_oferta_empresa
         : null;
 
+      reg.mano_obra = reg.mano_obra ? parseInt(reg.mano_obra) : null;
+
       //numbers
       reg.id = parseInt(reg.id);
       reg.licitacion_anio = reg.licitacion_anio
