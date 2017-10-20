@@ -6,16 +6,15 @@ body {
   background-color: #fff;
 }
 
-#stats-home{
-
+#stats-home {
 }
 
-#stats-home h5{
+#stats-home h5 {
   text-align: center;
   font-family: "Gotham", Helvetica, Arial, sans-serif;
 }
 
-#stats-home span{
+#stats-home span {
   display: block;
   text-align: center;
   font-family: "OpenSans", Helvetica, Arial, sans-serif;
@@ -24,11 +23,10 @@ body {
   margin-bottom: 30px;
 }
 
-#selector-home{
+#selector-home {
 }
 
-#selector-home .selector{
-  
+#selector-home .selector {
 }
 
 #selector-home .selector img {
@@ -36,17 +34,16 @@ body {
   width: 50%;
 }
 
-#selector-home .selector a{
+#selector-home .selector a {
   border: 3px solid #ffffff;
   border-radius: 10px;
   display: block;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-
 }
 
-#selector-home .selector a span{
+#selector-home .selector a span {
   text-align: center;
   display: block;
   width: 100%;
@@ -57,22 +54,42 @@ body {
   margin-bottom: 20px;
 }
 
-#selector-home .selectorSelected a{
+#selector-home .selectorSelected a {
   border: 3px solid #ffbc00;
 }
 
-#selector-home .selectorSelected img{
-  filter:none;
+#selector-home .selectorSelected img {
+  filter: none;
 }
 
-#home-chart-container path {
+#home-chart-container path.map-item,
+#home-chart-container path.comunas-item,
+#home-chart-container path.montos-item {
   fill: #eee;
   stroke: #fff;
   stroke-width: 3px;
   cursor: pointer;
 }
 
-.chart-item{
+#home-chart-container path.map-item:hover,
+#home-chart-container path.comunas-item:hover,
+#home-chart-container path.montos-item:hover {
+  fill: #e3e3e3;
+  cursor: -moz-zoom-in;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}
+
+#home-chart-container path.map-item.active,
+#home-chart-container path.comunas-item.active,
+#home-chart-container path.montos-item.active {
+  fill: #e3e3e3;
+  cursor: -moz-zoom-out;
+  cursor: -webkit-zoom-out;
+  cursor: zoom-out;
+}
+
+.chart-item {
   background-color: #efefef;
   padding: 30px 20px 10px 20px;
   margin-bottom: 30px;
@@ -95,11 +112,11 @@ body {
   /*pointer-events: none;*/
 }
 
-#tooltip-home-chart .compromiso-row{
+#tooltip-home-chart .compromiso-row {
   margin-bottom: 10px;
 }
 
-#tooltip-home-chart .btn{
+#tooltip-home-chart .btn {
   pointer-events: default;
 }
 
@@ -109,7 +126,7 @@ body {
 
 #buscador-table .lupita .ng-table-header:after {
   display: inline-block;
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings";
   font-style: normal;
   font-weight: 400;
   line-height: 1;
@@ -134,13 +151,12 @@ body {
   margin-bottom: 5px;
 }
 
-#tooltip-home-chart .progress i{
+#tooltip-home-chart .progress i {
   color: white;
   float: right;
   margin-right: 5px;
-  margin-top:2px;
+  margin-top: 2px;
 }
-
 
 #tooltip-home-chart img.obra-pic {
   margin-bottom: 5px;
@@ -188,20 +204,6 @@ body {
   cursor: pointer;
 }
 
-#home-chart-container path:hover {
-  fill: #e3e3e3;
-  cursor: -moz-zoom-in;
-  cursor: -webkit-zoom-in;
-  cursor: zoom-in;
-}
-
-#home-chart-container path.active {
-  fill: #e3e3e3;
-  cursor: -moz-zoom-out;
-  cursor: -webkit-zoom-out;
-  cursor: zoom-out;
-}
-
 #home-chart-container line {
   stroke-width: 1px;
 }
@@ -211,7 +213,7 @@ label.label-nav {
   margin-top: 6px;
 }
 
-circle.selection-cicle{
+circle.selection-cicle {
   pointer-events: none;
 }
 
@@ -250,7 +252,7 @@ rect.click-rect {
 }
 
 #sankey-chart-container .node rect {
-  fill-opacity: .9;
+  fill-opacity: 0.9;
   shape-rendering: crispEdges;
 }
 
@@ -262,11 +264,11 @@ rect.click-rect {
 #sankey-chart-container .link {
   fill: none;
   stroke: #000;
-  stroke-opacity: .2;
+  stroke-opacity: 0.2;
 }
 
 #sankey-chart-container .link:hover {
-  stroke-opacity: .5;
+  stroke-opacity: 0.5;
 }
 
 slick.slider-nav img {
@@ -355,7 +357,7 @@ div.obra .axisHorizontal .tick line {
 
 div.obra .bar {
   fill: black;
-  fill-opacity: .9;
+  fill-opacity: 0.9;
 }
 div.obra .ficha-tecnica .progress-bar {
   background-color: #f1662f;
@@ -492,7 +494,7 @@ div.obra .ficha-tecnica .progress-bar {
 
 .buttons-container-categories .btn-group-header .btn-header {
   width: 20%;
-  transition: width .5s ease;
+  transition: width 0.5s ease;
   max-height: 32px;
   overflow: hidden;
 }
@@ -505,7 +507,9 @@ div.obra .ficha-tecnica .progress-bar {
   width: 52%;
 }
 
-.buttons-container-categories .btn-group-header.categorySelected .btn-header.unselected {
+.buttons-container-categories
+  .btn-group-header.categorySelected
+  .btn-header.unselected {
   width: 12%;
 }
 

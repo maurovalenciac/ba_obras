@@ -53,16 +53,19 @@ angular
     $logProvider.debugEnabled(false);
     $locationProvider.hashPrefix("");
 
-    $provide.decorator('$locale', ['$delegate', function ($delegate) {
-        $delegate.NUMBER_FORMATS.DECIMAL_SEP = ',';
-        $delegate.NUMBER_FORMATS.GROUP_SEP = '.';
+    $provide.decorator("$locale", [
+      "$delegate",
+      function($delegate) {
+        $delegate.NUMBER_FORMATS.DECIMAL_SEP = ",";
+        $delegate.NUMBER_FORMATS.GROUP_SEP = ".";
         return $delegate;
-    }]);
+      }
+    ]);
   })
   .service("DataService", function($http, $q, Slug, $sce) {
     var data, dataMapas;
 
-    var getMontoRange = function(n){
+    var getMontoRange = function(n) {
       var cincuentaM = 50000000;
       /*
         0 a 50 millones
@@ -71,18 +74,18 @@ angular
         150 millones para adelante
       */
       var range = "monto_mas_50";
-      if(_.inRange(n, 0, cincuentaM)){
+      if (_.inRange(n, 0, cincuentaM)) {
         range = "monto_0_50";
-      }else if(_.inRange(n, cincuentaM, cincuentaM*2)){
+      } else if (_.inRange(n, cincuentaM, cincuentaM * 2)) {
         range = "monto_50_100";
-      }else if(_.inRange(n, cincuentaM*2, cincuentaM*3)){
+      } else if (_.inRange(n, cincuentaM * 2, cincuentaM * 3)) {
         range = "monto_100_150";
-      }else{
+      } else {
         //más de 150 millones
         range = "monto_mas_50";
       }
       return range;
-    }
+    };
 
     var cleanData = function(oldReg) {
       var reg = {};
@@ -92,15 +95,13 @@ angular
         }
       }
 
-      reg.compromiso = reg.compromiso == 'SI'
-        ? true
-        : false;
+      reg.compromiso = reg.compromiso == "SI" ? true : false;
 
       //arrays
       //reg.tipo = (reg.tipo)?reg.tipo.split('|'):[];
       var comunas = reg.comuna ? reg.comuna.split("|") : [null];
       reg.comuna = comunas[0];
-      reg.comuna = reg.comuna ? parseInt(reg.comuna.trim()): reg.comuna;
+      reg.comuna = reg.comuna ? parseInt(reg.comuna.trim()) : reg.comuna;
       reg.barrio = reg.barrio ? reg.barrio.split("|") : [];
       reg.licitacion_oferta_empresa = reg.licitacion_oferta_empresa
         ? reg.licitacion_oferta_empresa
@@ -152,9 +153,15 @@ angular
 
       reg.tipo_slug = reg.tipo ? Slug.slugify(reg.tipo.trim()) : null;
 
-      reg.area_slug = reg.area_responsable ? Slug.slugify(reg.area_responsable.trim()) : null;
+      reg.area_slug = reg.area_responsable
+        ? Slug.slugify(reg.area_responsable.trim())
+        : null;
 
-      reg.monto_slug = reg.monto_contrato ? getMontoRange(reg.monto_contrato) : null;
+      reg.red_slug = reg.red ? Slug.slugify(reg.red.trim()) : null;
+
+      reg.monto_slug = reg.monto_contrato
+        ? getMontoRange(reg.monto_contrato)
+        : null;
 
       return reg;
     };
@@ -202,7 +209,7 @@ angular
     var getUrlMapas = function() {
       verifyConfig();
       var url = "";
-      if(window.MDUYT_CONFIG.MAPAS_CSV){
+      if (window.MDUYT_CONFIG.MAPAS_CSV) {
         url =
           window.MDUYT_CONFIG.BASE_URL +
           "?source_format=csv&source=" +
@@ -259,10 +266,10 @@ angular
 
     this.retrieveMapas = function() {
       var urlMapas = getUrlMapas();
-      
+
       var deferred = $q.defer();
-      
-      if(urlMapas==""){
+
+      if (urlMapas == "") {
         dataMapas = [];
       }
 
@@ -281,7 +288,6 @@ angular
 
         dataMapas = deferred.promise;
       }
-
 
       return $q.when(dataMapas);
     };
