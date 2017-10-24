@@ -1,5 +1,9 @@
 # CHANGELOG
 
+* 2017-10-23 - v2.3
+  * Nuevos estilos para indicadores
+  * Nuevo indicador de empleados
+
 * 2017-09-21 - v2.2
   * Especificar el pull en el UPGRADE.md
 
