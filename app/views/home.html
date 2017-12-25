@@ -6,34 +6,23 @@
 
 <selector-home list="availableGroups" selected-group="selectedGroup" update-fn="changeGroup(group)"></selector-home>
 
-<hr/>
+<div class="row">
+  <div class="col-sm-12">
+      <tipo-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors" finish-fn="tipoChartFinished()"></tipo-chart>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+      <area-responsable-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)"></area-responsable-chart>
+  </div>
+</div>
 
 <div id="main-chart-container" class="row">
   <div class="col-sm-12">
       <div id="home-chart-container"></div>
   </div>
 </div>
-
-<div class="row">
-  <div id="side-chart-col" class="chart-container col-sm-6">
-      <div class="chart-item">
-        <h4>Filtrar por tipo de obra</h4>
-        <tipo-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors" finish-fn="tipoChartFinished()"></tipo-chart>
-      </div>
-      <div class="chart-item">
-        <h4>Filtrar por etapa</h4>
-        <etapa-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)" tipo-colors="tipo_colors"></etapa-chart>
-      </div>
-  </div>
-  <div class="chart-container col-sm-6">
-      <div class="chart-item">
-        <h4>Filtrar por área responsable</h4>
-        <area-responsable-chart obras="obras" selected-filter="selectedFilter" filter-fn="filterBubbles(filter)"></area-responsable-chart>
-      </div>
-  </div>
-</div>
-
-<hr/>
 
 <div class="row">
   <div class="col-md-12">

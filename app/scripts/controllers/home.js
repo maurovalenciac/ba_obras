@@ -362,7 +362,9 @@ angular
 			}
 			$scope.selectedFilter = filterSlug;
 			$scope.closeTooltip();
+			//if (!$scope.$$phase) {
 			$scope.$apply();
+			//}
 		};
 
 		$scope.changeGroup = function(group) {

@@ -10,7 +10,8 @@ angular.module("obrasMduytApp").directive("tipoChart", function() {
 			selectedFilter: "=",
 			tipoColors: "="
 		},
-		template: "<div id='tipo-chart'></div>",
+		template:
+			"<div id='tipo-chart' class='row chart-item'><div class='col-md-2'><h4>Filtrar por tipo de obra</h4></div></div>",
 		replace: true,
 		link: function($scope, elm, attrs) {
 			var w = 0;
@@ -86,175 +87,105 @@ angular.module("obrasMduytApp").directive("tipoChart", function() {
 						(chart.barh + chart.gap) +
 					chart.gap * 2;
 
-				if (!chart.svg) {
+				if (!chart.tipo_chart_container) {
 					//Create
-					chart.svg = d3.select("#tipo-chart").append("svg");
-					chart.mainGroup = chart.svg
-						.append("g")
-						.classed("main-group", true);
-					chart.selection = chart.mainGroup
-						.append("rect")
-						.classed("selection", true)
-						.attr("height", chart.gap + chart.barh)
-						.attr("x", -chart.w)
-						.attr("y", -chart.gap)
-						.attr("fill", "#ffbc00");
+					chart.tipo_chart_container = d3
+						.select("#tipo-chart")
+						.append("div")
+						.attr("id", "tipo-chart-container")
+						.classed("col-md-10", true);
+					chart.groups = chart.tipo_chart_container
+						.selectAll("div.tipo-group")
+						.data($scope.total_obras_by_tipo);
+
+					chart.groups
+						.enter()
+						.append("div")
+						.attr("id", function(d) {
+							return "tipo-group-" + d.slug;
+						})
+						.classed("tipo-group", true)
+						.each(function(d) {
+							var group = d3.select(this);
+
+							var container = group
+								.append("a")
+								.datum(d)
+								.classed("tipo-container", true)
+								.on("click", function(d) {
+									$scope.filterFn({ filter: d.slug });
+								});
+
+							var imgGroup = container
+								.append("div")
+								.classed("image-container", true);
+
+							container
+								.append("span")
+								.datum(d)
+								.classed("tipo-text", true)
+								.attr("fill", "#fff")
+								.text(function() {
+									return d.tipo;
+								});
+
+							//Load svg inline to change its color
+							d3.xml("images/iconos/" + d.slug + ".svg", function(
+								error,
+								documentFragment
+							) {
+								if (error) {
+									console.error(error);
+									return;
+								}
+
+								var svgNode = documentFragment.getElementsByTagName(
+									"svg"
+								)[0];
+								//use plain Javascript to extract the node
+
+								imgGroup.node().appendChild(svgNode);
+								//d3's selection.node() returns the DOM node, so we
+								//can use plain Javascript to append content
+
+								var color = $scope.tipoColors(d.tipo);
+
+								var innerSVG = imgGroup
+									.select("svg")
+									.attr("height", 50)
+									.attr("width", 50);
+
+								innerSVG
+									.selectAll("path,rect")
+									.attr("fill", color);
+							});
+						});
 				}
 
-				chart.scale = d3.scale
-					.linear()
-					.domain([
-						0,
-						d3.max($scope.total_obras_by_tipo, function(to) {
-							return to.cantidad;
-						})
-					])
-					.range([0, chart.w - chart.barh * 5 - chart.gap * 2]);
-
 				//Update
-				chart.svg.attr("width", chart.w).attr("height", chart.h);
-
-				chart.selection.attr("width", chart.w - chart.gap);
-
-				chart.groups = chart.mainGroup
-					.selectAll("g.tipo-group")
-					.data($scope.total_obras_by_tipo);
-
-				chart.groups
-					.enter()
-					.append("g")
-					.attr("id", function(d) {
-						return "tipo-group-" + d.slug;
-					})
-					.classed("tipo-group", true)
-					.each(function(d) {
-						var group = d3.select(this);
-
-						group
-							.append("rect")
-							.datum(d)
-							.classed("tipo-rect", true)
-							//.attr("x",chart.barh*5+chart.gap)
-							.attr("x", chart.gap)
-							.attr("fill", function(d) {
-								return $scope.tipoColors(d.tipo);
-							});
-
-						group
-							.append("text")
-							.datum(d)
-							.classed("tipo-text", true)
-							//.attr("text-anchor", "end")
-							.attr("text-anchor", "start")
-							.attr("fill", "#fff")
-							//.attr("x", chart.barh*4)
-							.attr("x", chart.barh / 2)
-							.text(function() {
-								return d.tipo;
-							});
-
-						var imgGroup = group
-							.append("g")
-							.classed("image-container", true);
-
-						//Load svg inline to change its color
-						d3.xml("images/iconos/" + d.slug + ".svg", function(
-							error,
-							documentFragment
-						) {
-							if (error) {
-								console.error(error);
-								return;
-							}
-
-							var svgNode = documentFragment.getElementsByTagName(
-								"svg"
-							)[0];
-							//use plain Javascript to extract the node
-
-							imgGroup.node().appendChild(svgNode);
-							//d3's selection.node() returns the DOM node, so we
-							//can use plain Javascript to append content
-
-							var color = $scope.tipoColors(d.tipo);
-
-							var innerSVG = imgGroup
-								.select("svg")
-								.attr("height", chart.barh)
-								.attr("width", chart.barh)
-								//.attr("x", chart.barh*4+chart.gap/2)
-								.attr("x", chart.w - chart.barh - chart.gap - 3)
-								.attr("y", 0);
-
-							innerSVG.selectAll("path,rect").attr("fill", color);
-						});
-
-						group
-							.append("rect")
-							.datum(d)
-							.classed("click-rect", true)
-							.attr("fill", "white")
-							.attr("fill-opacity", 0)
-							.on("click", function(d) {
-								$scope.filterFn({ filter: d.slug });
-							});
-					});
-
-				chart.groups
-					.selectAll(".image-container svg")
-					.attr("x", chart.w - chart.barh - chart.gap - 3);
-
-				chart.groups
-					.selectAll("rect.tipo-rect")
-					.attr("height", chart.barh)
-					.attr("width", function(d) {
-						return chart.w - chart.barh - chart.gap * 3;
-						//return chart.scale(d.cantidad);
-					});
-
-				chart.groups.selectAll("text.tipo-text").attr("y", function(d) {
-					return chart.barh * (2 / 3);
-				});
-
-				chart.groups
-					.selectAll("image.tipo-icon")
-					.attr("y", function(d) {
-						return 0;
-					});
-
-				chart.groups
-					.selectAll("rect.click-rect")
-					.attr("width", chart.w)
-					.attr("height", chart.barh);
-
-				var acum = chart.gap;
-				chart.groups.transition().attr("transform", function(d) {
-					var y = acum;
-					acum = acum + chart.gap + chart.barh;
-					return "translate(0," + y + ")";
-				});
 
 				$scope.finishFn();
 			}
 
 			function selectFilter() {
 				if ($scope.selectedFilter) {
-					var target = chart.mainGroup.select(
+					var target = chart.tipo_chart_container.select(
 						"#tipo-group-" + $scope.selectedFilter
 					);
 					if (!target.empty()) {
-						var t = d3.transform(target.attr("transform")),
-							x = t.translate[0],
-							y = t.translate[1];
-						chart.selection
-							.transition()
-							.attr("x", x + chart.gap / 2)
-							.attr("y", y - chart.gap / 2);
+						chart.tipo_chart_container
+							.selectAll(".tipo-group")
+							.classed("selected", false);
+						target.classed("selected", true);
 					} else {
-						chart.selection.transition().attr("x", -chart.w);
+						chart.tipo_chart_container
+							.selectAll(".tipo-group")
+							.classed("selected", false);
 					}
 				} else {
-					chart.selection.transition().attr("x", -chart.w);
+					chart.tipo_chart_container
+						.selectAll(".tipo-group")
+						.classed("selected", false);
 				}
 			}
 		}
