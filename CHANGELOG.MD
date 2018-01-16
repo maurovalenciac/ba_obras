@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* 2018-01-15 - v3.0
+  * Refactor home
+
 * 2017-10-23 - v2.3
   * Nuevos estilos para indicadores
   * Nuevo indicador de empleados
