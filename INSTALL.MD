@@ -22,7 +22,7 @@ Sólo requiere un servidor web que pueda servir los contenidos. La aplicación c
 ## Instalación por primera vez
 ### Web
 1. Crear un subdominio o definir la url donde vivirá la aplicación, podría ser: `https://obras-site.buenosaires.gob.ar/`.
-2. Definir un servidor con nginx o apache y clonar el proyecto usando `git clone`.
+2. Definir un servidor con nginx o apache y clonar el proyecto usando `git clone http://git-asi.buenosaires.gob.ar/usuarioQA/ssdeciudadinteligentedggedi-28-obra-publica-mduyt.git`.
 3. Apuntar las configuraciones del web server y subdominio a la carpeta `dist`, donde se encuentran los archivos finales y compilados.
 
 ### Archivo de Configuración

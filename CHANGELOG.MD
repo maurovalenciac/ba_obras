@@ -1,7 +1,10 @@
 # CHANGELOG
 
+* 2018-01-31 - v3.1
+  * Actualización de archivos de documentación
+
 * 2018-01-15 - v3.0
-  * Refactor home
+  * Nuevos filtros y charts en la home
 
 * 2017-10-23 - v2.3
   * Nuevos estilos para indicadores
