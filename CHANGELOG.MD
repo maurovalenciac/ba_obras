@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* 2018-03-05 - v3.2
+  * Actualización de archivos de documentación en `documents`
+
 * 2018-01-31 - v3.1
   * Actualización de archivos de documentación
 
