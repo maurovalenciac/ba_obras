@@ -186,7 +186,7 @@ angular
           "Archivo de configuración inexistente, utilizando configuración default de desarrollo."
         );
         window.MDUYT_CONFIG = {
-          BASE_URL: "http://api.topranking.link/",
+          BASE_URL: "http://csv-to-api-compromisos.herokuapp.com/",
           HOME_CSV: "https://goo.gl/vcb6oX",
           MAPAS_CSV: "https://goo.gl/YYV2E7"
         };

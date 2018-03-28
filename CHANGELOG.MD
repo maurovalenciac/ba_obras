@@ -1,5 +1,10 @@
 # CHANGELOG
 
+* 2018-03-28 - v3.3
+  * Actualización de archivos de documentación en `documents` e `INSTALL.MD`
+  * Se quitaron funcionalidades no requeridas.
+  * Se actualizó la librería `pym.js` a su versión más estable.
+
 * 2018-03-05 - v3.2
   * Actualización de archivos de documentación en `documents`
 
