@@ -481,10 +481,6 @@ div.obra .ficha-tecnica .progress-bar {
 
 /* Historias */
 
-#historia-container {
-  min-height: 500px;
-}
-
 .btn-orange {
   color: #f7803b;
   text-transform: uppercase;
@@ -494,59 +490,6 @@ div.obra .ficha-tecnica .progress-bar {
 .btn-orange:visited,
 .btn-orange:visited {
   color: #f7803b;
-}
-
-#historia-container .carousel-inner {
-  border-radius: 0px;
-}
-
-#historia-container .btn-link:hover {
-  text-decoration: underline;
-  color: #f7803b;
-}
-
-#historia-container p a {
-  text-decoration: none;
-}
-
-#historia-container p a:hover {
-  text-decoration: underline;
-  color: white;
-}
-
-#historia-container p .resaltar {
-  background-color: #f7803b;
-  font-weight: bold;
-  padding: 0 3px;
-  color: white;
-}
-
-#historia-container .carousel-indicators {
-  display: inline-block;
-  position: static;
-  top: 0px;
-  margin: 0px 15px;
-  padding: 0px;
-  left: 0px;
-  width: auto;
-}
-
-#historia-container .carousel-indicators li {
-  background-color: #ccc;
-  margin-right: 10px;
-}
-
-#historia-container .carousel-indicators li.active {
-  background-color: #f7803b;
-}
-
-#historia-container .item {
-  z-index: 1;
-  max-height: 999px;
-}
-
-#historia-container .item.active {
-  z-index: 100;
 }
 
 .buttons-container-categories {
@@ -589,18 +532,6 @@ div.obra .ficha-tecnica .progress-bar {
   border-bottom-right-radius: 10px;
 }
 
-#historia-container .label-orange {
-  background-color: #f7803b;
-  margin: 0px 5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 10px;
-}
-#historia-container .label-orange:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
 .buttons-container-categories .btn-group-header {
   width: 100%;
 }
@@ -624,61 +555,6 @@ div.obra .ficha-tecnica .progress-bar {
   .btn-group-header.categorySelected
   .btn-header.unselected {
   width: 12%;
-}
-
-/* MAPAS */
-#explorador-mapas-container {
-}
-
-#explorador-mapas-container .map-item {
-  box-shadow: 0px 0px 5px #888888;
-  margin-bottom: 20px;
-  height: 100%;
-}
-
-.map-item-container-row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.map-item-container-row .map-item-container {
-  display: flex;
-  flex-direction: column;
-}
-
-#explorador-mapas-container .map-item-container {
-}
-
-#explorador-mapas-container .map-item-row {
-  display: flex;
-  align-items: stretch;
-  height: 100%;
-}
-
-#explorador-mapas-container .map-item-text {
-  padding: 30px 30px 15px 15px;
-}
-
-#explorador-mapas-container .map-item-preview {
-  height: 100%;
-  background-size: cover;
-}
-
-#explorador-mapas-container .map-item h3,
-#explorador-mapas-container .map-item h4 {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-#explorador-mapas-container .map-item p {
-  margin-bottom: 0px;
-}
-
-#explorador-mapas-container .map-item p.label-container {
-  margin: 5px 0px 7px 0px;
 }
 
 .bg-verde {

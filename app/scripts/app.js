@@ -37,16 +37,6 @@ angular
         controller: "EntornoCtrl",
         controllerAs: "entorno"
       })
-      .when("/historia", {
-        templateUrl: "views/historia.html",
-        controller: "HistoriaCtrl",
-        controllerAs: "historia"
-      })
-      .when("/mapas", {
-        templateUrl: "views/mapas.html",
-        controller: "MapasCtrl",
-        controllerAs: "mapas"
-      })
       .otherwise({
         redirectTo: "/home"
       });
