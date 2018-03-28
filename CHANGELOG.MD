@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* 2018-03-28 - v3.6
+  * Limpieza de código
+
 * 2018-03-28 - v3.5
   * Se removieron archivos y dependencias innecesarias.
 
